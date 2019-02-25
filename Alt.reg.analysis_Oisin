@@ -2,6 +2,7 @@ mydata <- read.csv("C:/Users/User/Desktop/Analysis Data/SepMutData_Oisin")
 
 library(glmnet)
 library(caret)
+
 #Subset the dataset
 elast.data <- mydata[,(18:181)]
 elast.data$genes.with.somatic.mutations.or.insdel <- NULL
