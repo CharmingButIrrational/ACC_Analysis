@@ -33,12 +33,12 @@ confusionMatrix(test.pred.progress, test.data$progress..yes.no.)
 
 
 library(ROCR)
-predictions=as.vector(rf_output$votes[,2])
-pred=prediction(predictions,target)
+predictions = as.vector(rf_output$votes[,2])
+pred = prediction(predictions,target)
 
-perf_AUC=performance(pred,"auc") #Calculate the AUC value
-AUC=perf_AUC@y.values[[1]]
+perf_AUC = performance(pred,"auc") #Calculate the AUC value
+AUC = perf_AUC@y.values[[1]]
 
-perf_ROC=performance(pred,"tpr","fpr") #plot the actual ROC curve
-plot(perf_ROC, main="ROC plot")
-text(0.5,0.5,paste("AUC = ",format(AUC, digits=5, scientific=FALSE)))
+perf_ROC = performance(pred,"tpr","fpr") #plot the actual ROC curve
+plot(perf_ROC, main = "ROC plot")
+text(0.5,0.5,paste("AUC = ",format(AUC, digits = 5, scientific = FALSE)))
