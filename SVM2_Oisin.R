@@ -81,10 +81,11 @@ confusionMatrix(svm_Linear_stepAIC_predict, test.data$progress..yes.no.)
 set.seed(106)
 
 #Error must change data to numeric, will fix 
-correlationMatrix <- cor(alt.data)
+alt.data.cor <- alt.data[,-1]
+correlationMatrix <- cor(progress..yes.no., alt.data.cor)
 print(correlationMatrix)
-#Consider lowering this if results are poor
-highlyCorrelated <- findCorrelation(correlationMatrix, cutoff=0.75)
+#May change cutoff if results are poor
+highlyCorrelated <- findCorrelation(correlationMatrix, cutoff=0.5)
 print(highlyCorrelated)
 
 #Feature selection 2
