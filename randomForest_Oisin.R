@@ -3,6 +3,7 @@ mydata <- read.csv("C:/Users/User/Desktop/Analysis Data/SepMutData_Oisin")
 mydata$X <- NULL
 
 library(randomForest)
+library(caret)
 
 smp_size <- floor(0.8 * nrow(mydata))
 set.seed(120)
@@ -33,8 +34,10 @@ confusionMatrix(test.pred.progress, test.data$progress..yes.no.)
 
 
 library(ROCR)
-predictions = as.vector(rf_output$votes[,2])
-pred = prediction(predictions,target)
+progress..yes.no.train <- train.data$progress..yes.no.
+
+predictions = as.vector(rf.progress$votes[,2])
+pred = prediction(predictions, progress..yes.no.train)
 
 perf_AUC = performance(pred,"auc") #Calculate the AUC value
 AUC = perf_AUC@y.values[[1]]
@@ -57,4 +60,4 @@ table(test$progress..yes.no)
 
 training <- alt.data[-test.index,]
 #This is not working. "all arguments must be the same length"
-training<- strata(training, stratanames = "progress..yes.no.", size = c(7,44))
+training<- strata(training, stratanames = "progress..yes.no.", size = c(146,146))
