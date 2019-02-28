@@ -2,7 +2,6 @@
 mydata <- read.csv("C:/Users/User/Desktop/Analysis Data/SepMutData_Oisin")
 mydata$X <- NULL
 
-library(randomForest)
 library(caret)
 
 smp_size <- floor(0.8 * nrow(mydata))
@@ -12,13 +11,19 @@ train_ind <- sample(seq_len(nrow(mydata)), size = smp_size)
 alt.data <- mydata[,c(34:180)]
 alt.data$gene.with.CN.gains..80..log..FC.0.5..1.5x..amplicons.min.5. <- NULL
 alt.data$gene.with.CN.losses..80..log..FC.0.25..amplicons.min.5. <- NULL
+alt.data2 <- alt.data
 progress..yes.no. <- mydata$progress..yes.no. 
 alt.data <- cbind(progress..yes.no., alt.data)
+PFS..months. <- mydata$PFS..months.
+alt.data2 <- cbind(PFS..months., alt.data2)
 
 alt.data[["progress..yes.no."]] = factor(alt.data[["progress..yes.no."]])
 
 train.data <- alt.data[train_ind,]
 test.data <- alt.data[-train_ind,]
+
+train.data2 <- alt.data2[train_ind,]
+test.data2 <- alt.data2[-train_ind,]
 
 glm.gamma.dist <- glm(PFS..months. ~ A_EGFR + A_ATM + A_FLCN + A_CDK4 + A_TERT + 
                         A_PBRM1 + A_MAP3K1 + A_ATRX + A_PPP2R1A + A_SMARCB1 + 
@@ -45,9 +50,9 @@ glm.gamma.dist <- glm(PFS..months. ~ A_EGFR + A_ATM + A_FLCN + A_CDK4 + A_TERT +
                         C_BRAF + C_RB1 + C_SMAD4 + C_MAP2K4 + C_SMARCB1 + C_DNMT3A + 
                         C_BRCA2 + C_JAK1 + C_EZH2 + C_FAS + C_NF1 + C_CHEK2 + 
                         C_PALB2 + C_CSF1R + C_TNFSRSF14 + C_CDK12 + C_FLCN + 
-                        C_FLNC + C_MAP4K3 + C_EPCAM + C_TNFRSF14 + C_VHL, family = "Gamma"(link=log), data = train.data)
+                        C_FLNC + C_MAP4K3 + C_EPCAM + C_TNFRSF14 + C_VHL, family = "Gamma"(link=log), data = train.data2)
 
-predict(glm.gamma.dist, )
+predict.glm.PFS <- predict(glm.gamma.dist, interval = "prediction")
 
 step.glm.gamma.both <- stepAIC(glm.gamma.dist, direction = "both", trace = FALSE)
 
