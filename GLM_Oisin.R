@@ -55,6 +55,8 @@ glm.gamma.dist <- glm(PFS..months. ~ A_EGFR + A_ATM + A_FLCN + A_CDK4 + A_TERT +
 predict.glm.PFS <- predict(glm.gamma.dist, interval = "prediction")
 
 step.glm.gamma.both <- stepAIC(glm.gamma.dist, direction = "both", trace = FALSE)
+# without scope argument the default for both is backward
+# scope=list(lower=formula(null_model), upper=formula(full_model))
 
 summary(test.data, step.glm.gamma.both)
                             
