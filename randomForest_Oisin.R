@@ -57,6 +57,7 @@ test.index <- createDataPartition(alt.data$progress..yes.no., p = .5, list = F)
 test <- alt.data[test.index,]
 
 table(test$progress..yes.no)
+# I got 12x '0' and 42x '1'
 
 training <- alt.data[-test.index,]
 #This is not working. "all arguments must be the same length"
