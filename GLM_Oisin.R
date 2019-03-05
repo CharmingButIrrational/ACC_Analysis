@@ -58,5 +58,7 @@ step.glm.gamma.both <- stepAIC(glm.gamma.dist, direction = "both", trace = FALSE
 # without scope argument the default for both is backward
 # scope=list(lower=formula(null_model), upper=formula(full_model))
 
+# warning message: glm.fit: algorithm did not converge
+
 summary(test.data, step.glm.gamma.both)
                             
