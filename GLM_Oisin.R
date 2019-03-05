@@ -50,7 +50,7 @@ glm.gamma.dist <- glm(PFS..months. ~ A_EGFR + A_ATM + A_FLCN + A_CDK4 + A_TERT +
                         C_BRAF + C_RB1 + C_SMAD4 + C_MAP2K4 + C_SMARCB1 + C_DNMT3A + 
                         C_BRCA2 + C_JAK1 + C_EZH2 + C_FAS + C_NF1 + C_CHEK2 + 
                         C_PALB2 + C_CSF1R + C_TNFSRSF14 + C_CDK12 + C_FLCN + 
-                        C_FLNC + C_MAP4K3 + C_EPCAM + C_TNFRSF14 + C_VHL, family = "Gamma"(link=log), data = train.data2)
+                        C_FLNC + C_MAP4K3 + C_EPCAM + C_TNFRSF14, family = "Gamma"(link=log), data = train.data2)
 
 predict.glm.PFS <- predict(glm.gamma.dist, interval = "prediction")
 
