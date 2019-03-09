@@ -184,6 +184,34 @@ bwplot(resultsDEF)
 
 dotplot(resultsDEF)
 
+#Comparison of different features selected
+LVQ.Pro <- importanceA$importance
+SVM.Pro <- importanceB$importance
+GBM.Pro <- importanceC$importance
+#SVM.Pro and LVQ.Pro have two columns X0 and X1 with the same values
+all(LVQ.Pro$X0 == LVQ.Pro$X1)
+all(SVM.Pro$X0 == SVM.Pro$X1)
+#Remove and rename rows for comparison
+LVQ.Pro$X1 <- NULL
+SVM.Pro$X1 <- NULL
+colnames(LVQ.Pro)[1] <- "Overall"
+colnames(SVM.Pro)[1] <- "Overall"
+
+SVM.PFS <- importance3E$importance
+GMB.PFS <- importance3F$importance
+
+#Select values from a certain level (currently based on 20 most significant factors)
+LVQ.Pro.Sig <- subset(LVQ.Pro, Overall >= '0.5357', select = c("Overall"))
+SVM.Pro.Sig <- subset(SVM.Pro, Overall >= '0.5357', select = c("Overall"))
+GBM.Pro.Sig <- subset(GBM.Pro, Overall >= '0.0817', select = c("Overall"))
+
+SVM.PFS.Sig <- subset(SVM.PFS, Overall >= '0.02062', select = c("Overall"))
+GBM.PFS.Sig <- subset(GBM.PFS, Overall >= '0.02062', select = c("Overall"))
+
+library(rJava)
+library(venneular)
+
+
 
 #Feature selection 3
 set.seed(57)
