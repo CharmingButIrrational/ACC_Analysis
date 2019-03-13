@@ -198,19 +198,37 @@ colnames(LVQ.Pro)[1] <- "Overall"
 colnames(SVM.Pro)[1] <- "Overall"
 
 SVM.PFS <- importance3E$importance
-GMB.PFS <- importance3F$importance
+GBM.PFS <- importance3F$importance
 
 #Select values from a certain level (currently based on 20 most significant factors)
 LVQ.Pro.Sig <- subset(LVQ.Pro, Overall >= '0.5357', select = c("Overall"))
 SVM.Pro.Sig <- subset(SVM.Pro, Overall >= '0.5357', select = c("Overall"))
 GBM.Pro.Sig <- subset(GBM.Pro, Overall >= '0.0817', select = c("Overall"))
-
 SVM.PFS.Sig <- subset(SVM.PFS, Overall >= '0.02062', select = c("Overall"))
 GBM.PFS.Sig <- subset(GBM.PFS, Overall >= '0.02062', select = c("Overall"))
 
-library(rJava)
-library(venneular)
+library(prob)
+library(data.table)
+#Convert row names to a column
+LVQ.Pro.Sig <- setDT(LVQ.Pro.Sig, keep.rownames = TRUE)[]
+SVM.Pro.Sig <- setDT(SVM.Pro.Sig, keep.rownames = TRUE)[]
+GBM.Pro.Sig <- setDT(GBM.Pro.Sig, keep.rownames = TRUE)[]
+SVM.PFS.Sig <- setDT(SVM.PFS.Sig, keep.rownames = TRUE)[]
+GBM.PFS.Sig <- setDT(GBM.PFS.Sig, keep.rownames = TRUE)[]
+#Remove values to make the intersect function work
+LVQ.Pro.Sig$Overall <- NULL
+SVM.Pro.Sig$Overall <- NULL
+GBM.Pro.Sig$Overall <- NULL
+SVM.PFS.Sig$Overall <- NULL
+GBM.PFS.Sig$Overall <- NULL
+#Find the predictors which appear in all different groups
+#Two different methods both produce the same results. A_TP53 is in all groups but not produced as result
+Pro.Var.Selection <- Reduce(intersect, list(LVQ.Pro.Sig, SVM.Pro.Sig, GBM.Pro.Sig))
+Pro.Var.Selection <- intersect(intersect(LVQ.Pro.Sig, SVM.Pro.Sig), GBM.Pro.Sig)
+#This appear to produce correct results
+PFS.Var.Selection <- intersect(SVM.PFS.Sig, GBM.PFS.Sig)
 
+library(venneuler)
 
 
 #Feature selection 3
