@@ -45,8 +45,10 @@ step.glm.chemo.Pro <- stepAIC(glm.chemo.Pro, direction = "both", trace = FALSE)
 summary(step.glm.chemo.Pro)
 
 #2. Correlation matrix
+library(varhandle)
 set.seed(126)
-data.chemo.pro.cor <- alt.data11[,-1]
+data.chemo.pro.cor <- alt.data11
+unfactor(data.chemo.pro.cor$progress..yes.no.)
 correlationMatrix.pro <- cor(progress..yes.no., data.chemo.pro.cor)
 print(correlationMatrix.pro)
 #May change cutoff if results are poor
