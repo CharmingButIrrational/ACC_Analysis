@@ -28,6 +28,7 @@ library(e1071)
 library(gbm)
 library(MASS)
 library(randomForest)
+library(ROCR)
 
 #########################################################################################################
 
@@ -177,12 +178,30 @@ glm.binomial.Pro <- glm(progress..yes.no. ~ A_EGFR + A_ATM + A_FLCN + A_CDK4 +
 summary(glm.binomial.Pro)
 predict.glm.Pro <- predict(glm.binomial.Pro, test.data.Pro)
 confusion.glm.Pro <- confusionMatrix(predict.glm.Pro, test.data.Pro$progress..yes.no.)
+#Plotting ROC graph
+ROC.glm.Pro <- performance(predict.glm.Pro, "tpr", "fpr")
+plot(ROC.glm.Pro)
+plot(ROC.glm.Pro, add = TRUE, col = "green")
+legend("right", legend = c("rf"), col = c("green"), lty = 1:2, cex = 0.6)
+#Calculating AUC
+AUC.glm.Pro <- performance(predict.glm.Pro, "AUC")
+AUC.glm.test.Pro <- as.numeric(AUC.glm.Pro@y.values)
+AUC.glm.test.Pro
 
 #Step.AIC using progress..yes.no.  (from MASS package)
 step.glm.binomial.Pro.both <- stepAIC(glm.binomial.Pro, direction = "both", trace = FALSE)
 summary(step.glm.binomial.Pro.both)
 predict.step.glm.Pro <- predict(step.glm.binomial.Pro.both, test.data.Pro)
 confusion.step.glm.Pro <- confusionMatrix(predict.step.glm.Pro, test.data.Pro$progress..yes.no.)
+#Plotting ROC graph
+ROC.AIC.Pro <- performance(predict.step.glm.Pro, "tpr", "fpr")
+plot(ROC.AIC.Pro)
+plot(ROC.AIC.Pro, add = TRUE, col = "green")
+legend("right", legend = c("rf"), col = c("green"), lty = 1:2, cex = 0.6)
+#Calculating AUC
+AUC.AIC.Pro <- performance(predict.step.glm.Pro, "AUC")
+AUC.AIC.test.Pro <- as.numeric(AUC.AIC.Pro@y.values)
+AUC.AIC.test.Pro
 
 #SVM using progress..yes.no.(from caret package)
 control.svm.Pro <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
@@ -213,6 +232,15 @@ model.svm.Pro <- train(progress..yes.no. ~ A_EGFR + A_ATM + A_FLCN + A_CDK4 + A_
                        na.action = na.pass)
 predict.svm.Pro <- predict(model.svm.Pro, test.data.Pro)
 confusion.svm.Pro <- confusionMatrix(predict.svm.Pro, test.data.Pro$progress..yes.no.)
+#Plotting ROC graph
+ROC.svm.Pro <- performance(predict.svm.Pro, "tpr", "fpr")
+plot(ROC.svm.Pro)
+plot(ROC.svm.Pro, add = TRUE, col = "green")
+legend("right", legend = c("rf"), col = c("green"), lty = 1:2, cex = 0.6)
+#Calculating AUC
+AUC.svm.Pro <- performance(predict.svm.Pro, "AUC")
+AUC.svm.test.Pro <- as.numeric(AUC.svm.Pro@y.values)
+AUC.svm.test.Pro
 
 #GBM using progress..yes.no. (from gbm package)
 control.gbm.Pro <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
@@ -243,6 +271,15 @@ model.gbm.Pro <- train(progress..yes.no. ~ A_EGFR + A_ATM + A_FLCN + A_CDK4 + A_
                        na.action = na.pass)
 predict.gbm.Pro <- predict.gbm(model.gbm.Pro, test.data.Pro)
 confusion.gbm.Pro <- confusionMatrix(predict.gbm.Pro, test.data.Pro$progress..yes.no.)
+#Plotting ROC graph
+ROC.gbm.Pro <- performance(predict.gbm.Pro, "tpr", "fpr")
+plot(ROC.gbm.Pro)
+plot(ROC.gbm.Pro, add = TRUE, col = "green")
+legend("right", legend = c("rf"), col = c("green"), lty = 1:2, cex = 0.6)
+#Calculating AUC
+AUC.gbm.Pro <- performance(predict.gbm.Pro, "AUC")
+AUC.gbm.test.Pro <- as.numeric(AUC.gbm.Pro@y.values)
+AUC.gbm.test.Pro
 
 #RandomForest with progress..yes.no (from randomForest package)
 model.rf.Pro <- randomForest(progress..yes.no. ~ A_EGFR + A_ATM + A_FLCN + A_CDK4 + A_TERT + A_PBRM1 + 
@@ -267,3 +304,12 @@ model.rf.Pro <- randomForest(progress..yes.no. ~ A_EGFR + A_ATM + A_FLCN + A_CDK
                             data = train.data.Pro, importance = TRUE)
 predict.rf.Pro <- predict(model.rf.Pro, test.data.Pro)
 confusion.rf.Pro <- confusionMatrix(predict.rf.Pro, test.data.Pro$progress..yes.no.)
+#Plotting ROC graph
+ROC.rf.Pro <- performance(predict.rf.Pro, "tpr", "fpr")
+plot(ROC.rf.Pro)
+plot(ROC.rf.Pro, add = TRUE, col = "green")
+legend("right", legend = c("rf"), col = c("green"), lty = 1:2, cex = 0.6)
+#Calculating AUC
+AUC.rf.Pro <- performance(predict.rf.Pro, "AUC")
+AUC.rf.test.Pro <- as.numeric(AUC.rf.Pro@y.values)
+AUC.rf.test.Pro
