@@ -45,6 +45,7 @@ step.glm.chemo.Pro <- stepAIC(glm.chemo.Pro, direction = "both", trace = FALSE)
 summary(step.glm.chemo.Pro)
 
 #2. Correlation matrix
+#Still need to be fixed
 library(varhandle)
 set.seed(126)
 data.chemo.pro.cor <- alt.data11
@@ -114,14 +115,14 @@ step.glm.chemo.PFS <- stepAIC(glm.chemo.PFS, direction = "both", trace = FALSE)
 summary(step.glm.chemo.PFS)
 
 #2 Correlation matrix
-set.seed(126)
-data.chemo.PFS.cor <- alt.data11.PFS[,-1]
-correlationMatrix.PFS <- cor(progress..yes.no., data.chemo.PFS.cor)
-print(correlationMatrix.PFS)
+#set.seed(126)
+#data.chemo.PFS.cor <- alt.data11.PFS[,-1]
+#correlationMatrix.PFS <- cor(progress..yes.no., data.chemo.PFS.cor)
+#print(correlationMatrix.PFS)
 #Some missing values
 #May change cutoff if results are poor
-highlyCorrelated.PFS <- findCorrelation(correlationMatrix.PFS, cutoff=0.5)
-print(highlyCorrelated.PFS)
+#highlyCorrelated.PFS <- findCorrelation(correlationMatrix.PFS, cutoff=0.5)
+#print(highlyCorrelated.PFS)
 
 #3 Learning Vector Quantization
 #test.chemo.lvq.PFS <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
@@ -152,6 +153,7 @@ plot(importance.chemo.svm.PFS)
 
 #5 Gradient Boosted Machine
 #Remove all the columns with zero variance
+#Still producing errors 
 alt.data11.PFS.rm <- alt.data11.PFS[, colSums(alt.data11.PFS != 0) > 0]
 
 test.chemo.gbm.PFS <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
@@ -166,7 +168,7 @@ importance.chemo.gbm.PFS <- varImp(model.chemo.gbm.PFS, scale = FALSE)
 print(importance.chemo.gbm.PFS)
 plot(importance.chemo.gbm.PFS)
 
-#6 RandomForest
+#6 Recursive Feature elimination 
 set.seed(86)
 test.chemo.rf.PFS <- rfeControl(functions = rfFuncs, method = "cv", number = 10)
 results.chemo.rf.PFS <- rfe(alt.data11.PFS[,2:146], alt.data11.PFS[,1], sizes = c(2:146), rfeControl = test.chemo.rf.PFS)
