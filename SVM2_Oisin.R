@@ -128,7 +128,6 @@ model.test2C <- train(progress..yes.no. ~ A_EGFR + A_ATM + A_FLCN + A_CDK4 + A_T
                       preProcess = c("center", "scale"),
                       tuneLength = 10,
                       na.action = na.pass)
-#This function cannot be found
 importanceC <- varImp(model.test2C, scale = FALSE)
 print(importanceC)
 plot(importanceC)
@@ -244,14 +243,20 @@ venn.plot <- venn.diagram(x = list(LVQ.Pro.Sig=LVQ.Pro.Sig, SVM.Pro.Sig=SVM.Pro.
                           col = "transparent")
 
 grid.draw(venn.plot)
-
 venn.intersect <- calculate.overlap(venn.data)
-
 print(venn.intersect$a31)
 
+venn.data.pro <- list(LVQ.Pro.Sig, SVM.Pro.Sig, GBM.Pro.Sig)
 
 
-
+venn.plot.Pro <- venn.diagram(x = list(LVQ.Pro.Sig=LVQ.Pro.Sig, SVM.Pro.Sig=SVM.Pro.Sig, GBM.Pro.Sig=GBM.Pro.Sig),
+                          filename=NULL, 
+                          fill = c("red", "blue", "green"),
+                          alpha = 0.50,
+                          col = "transparent")
+grid.draw(venn.plot.Pro)
+venn.intersect.pro <- calculate.overlap(venn.data.pro)
+print(venn.intersect.pro$a5)
 
 #Feature selection 3
 set.seed(57)
