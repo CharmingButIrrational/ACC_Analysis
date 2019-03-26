@@ -211,7 +211,6 @@ GBM.Pro.Sig <- subset(GBM.Pro, Overall >= '0.0817', select = c("Overall"))
 SVM.PFS.Sig <- subset(SVM.PFS, Overall >= '0.02062', select = c("Overall"))
 GBM.PFS.Sig <- subset(GBM.PFS, Overall >= '0.02062', select = c("Overall"))
 
-library(prob)
 library(data.table)
 #Convert row names to a column
 LVQ.Pro.Sig <- setDT(LVQ.Pro.Sig, keep.rownames = TRUE)[]
@@ -225,14 +224,33 @@ SVM.Pro.Sig$Overall <- NULL
 GBM.Pro.Sig$Overall <- NULL
 SVM.PFS.Sig$Overall <- NULL
 GBM.PFS.Sig$Overall <- NULL
-#Find the predictors which appear in all different groups
-#Two different methods both produce the same results. A_TP53 is in all groups but not produced as result
-Pro.Var.Selection <- Reduce(intersect, list(LVQ.Pro.Sig, SVM.Pro.Sig, GBM.Pro.Sig))
-Pro.Var.Selection <- intersect(intersect(LVQ.Pro.Sig, SVM.Pro.Sig), GBM.Pro.Sig)
-#This appear to produce correct results
-PFS.Var.Selection <- intersect(SVM.PFS.Sig, GBM.PFS.Sig)
 
-library(venneuler)
+LVQ.Pro.Sig <- unlist(LVQ.Pro.Sig)
+SVM.Pro.Sig <- unlist(SVM.Pro.Sig)
+GBM.Pro.Sig <- unlist(GBM.Pro.Sig)
+SVM.PFS.Sig <- unlist(SVM.PFS.Sig)
+GBM.PFS.Sig <- unlist(GBM.PFS.Sig)
+
+library(VennDiagram)
+
+venn.data <- list(LVQ.Pro.Sig, SVM.Pro.Sig, GBM.Pro.Sig, SVM.PFS.Sig, GBM.PFS.Sig)
+
+grid.newpage()
+
+venn.plot <- venn.diagram(x = list(LVQ.Pro.Sig=LVQ.Pro.Sig, SVM.Pro.Sig=SVM.Pro.Sig, GBM.Pro.Sig=GBM.Pro.Sig, SVM.PFS.Sig=SVM.PFS.Sig, GBM.PFS.Sig=GBM.PFS.Sig),
+                          filename=NULL, 
+                          fill = c("red", "blue", "green", "yellow", "darkorchid1"),
+                          alpha = 0.50,
+                          col = "transparent")
+
+grid.draw(venn.plot)
+
+venn.intersect <- calculate.overlap(venn.data)
+
+print(venn.intersect$a31)
+
+
+
 
 
 #Feature selection 3
