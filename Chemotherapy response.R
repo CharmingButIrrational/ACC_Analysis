@@ -392,7 +392,6 @@ model.chemo.svm.pro <- train(progress..yes.no. ~ A_EGFR + A_ATM + A_FLCN + A_CDK
 importance.chemo.svm.pro <- varImp(model.chemo.svm.pro, scale = FALSE)
 print(importance.chemo.svm.pro)
 plot(importance.chemo.svm.pro)
-
 #5 Gradient Boosted Machine
 test.chemo.gbm.pro <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
 set.seed(86)
@@ -408,51 +407,48 @@ print(importance.chemo.gbm.pro)
 plot(importance.chemo.gbm.pro)
 
 #Common predictors for progress..yes.no.
-LVQ.Pro <- importance.chemo.lvq.pro$importance
-SVM.Pro <- importance.chemo.svm.pro$importance
-GBM.Pro <- importance.chemo.gbm.pro$importance
-all(LVQ.Pro$X0 == LVQ.Pro$X1)
-all(SVM.Pro$X0 == SVM.Pro$X1)
-LVQ.Pro$X1 <- NULL
-SVM.Pro$X1 <- NULL
-colnames(LVQ.Pro)[1] <- "Overall"
-colnames(SVM.Pro)[1] <- "Overall"
-LVQ.Pro.Sig <- setDT(LVQ.Pro.Sig, keep.rownames = TRUE)[]
-SVM.Pro.Sig <- setDT(SVM.Pro.Sig, keep.rownames = TRUE)[]
-GBM.Pro.Sig <- setDT(GBM.Pro.Sig, keep.rownames = TRUE)[]
-LVQ.Pro <- LVQ.Pro[order(-LVQ.Pro$Overall),]
-SVM.Pro <- SVM.Pro[order(-SVM.Pro$Overall),]
-GBM.Pro <- GBM.Pro[order(-GBM.Pro$Overall),]
-LVQ.Pro <- head(LVQ.Pro, 20)
-SVM.Pro <- head(SVM.Pro, 20)
+LVQ.chemo.Pro <- importance.chemo.lvq.pro$importance
+SVM.chemo.Pro <- importance.chemo.svm.pro$importance
+GBM.chemo.Pro <- importance.chemo.gbm.pro$importance
+all(LVQ.chemo.Pro$X0 == LVQ.chemo.Pro$X1)
+all(SVM.chemo.Pro$X0 == SVM.chemo.Pro$X1)
+LVQ.chemo.Pro$X1 <- NULL
+SVM.chemo.Pro$X1 <- NULL
+colnames(LVQ.chemo.Pro)[1] <- "Overall"
+colnames(SVM.chemo.Pro)[1] <- "Overall"
+LVQ.chemo.Pro.Sig <- setDT(LVQ.chemo.Pro, keep.rownames = TRUE)[]
+SVM.chemo.Pro.Sig <- setDT(SVM.chemo.Pro, keep.rownames = TRUE)[]
+GBM.chemo.Pro.Sig <- setDT(GBM.chemo.Pro, keep.rownames = TRUE)[]
+LVQ.chemo.Pro.Sig <- LVQ.chemo.Pro.Sig[order(-LVQ.chemo.Pro.Sig$Overall),]
+SVM.chemo.Pro.Sig <- SVM.chemo.Pro.Sig[order(-SVM.chemo.Pro.Sig$Overall),]
+GBM.chemo.Pro.Sig <- GBM.chemo.Pro.Sig[order(-GBM.chemo.Pro.Sig$Overall),]
+LVQ.chemo.Pro.Sig <- head(LVQ.chemo.Pro.Sig, 20)
+SVM.chemo.Pro.Sig <- head(SVM.chemo.Pro.Sig, 20)
 #Adjust GBM selection based on printed variables
-GBM.Pro <- head(GBM.Pro, 20)
-
-
-
-LVQ.Pro.Sig$Overall <- NULL
-SVM.Pro.Sig$Overall <- NULL
-GBM.Pro.Sig$Overall <- NULL
+GBM.chemo.Pro.Sig <- head(GBM.chemo.Pro.Sig, 20)
+LVQ.chemo.Pro.Sig$Overall <- NULL
+SVM.chemo.Pro.Sig$Overall <- NULL
+GBM.chemo.Pro.Sig$Overall <- NULL
 #The data need to be in a vector. As.vector doesn't work, but unlist reduces data to simple
-LVQ.Pro.Sig <- unlist(LVQ.Pro.Sig)
-SVM.Pro.Sig <- unlist(SVM.Pro.Sig)
-GBM.Pro.Sig <- unlist(GBM.Pro.Sig)
+LVQ.chemo.Pro.Sig <- unlist(LVQ.chemo.Pro.Sig)
+SVM.chemo.Pro.Sig <- unlist(SVM.chemo.Pro.Sig)
+GBM.chemo.Pro.Sig <- unlist(GBM.chemo.Pro.Sig)
 
 library(VennDiagram)
 
-venn.data <- list(LVQ.Pro.Sig, SVM.Pro.Sig, GBM.Pro.Sig)
+venn.data.chemo <- list(LVQ.chemo.Pro.chemo.Sig, SVM.chemo.Pro.Sig, GBM.chemo.Pro.Sig)
 
 grid.newpage()
 
-venn.plot <- venn.diagram(x = list(LVQ.Pro.Sig=LVQ.Pro.Sig, SVM.Pro.Sig=SVM.Pro.Sig, GBM.Pro.Sig=GBM.Pro.Sig),
+venn.plot.chemo <- venn.diagram(x = list(LVQ.chemo.Pro.Sig=LVQ.chemo.Pro.Sig, SVM.chemo.Pro.Sig=SVM.chemo.Pro.Sig, GBM.chemo.Pro.Sig=GBM.chemo.Pro.Sig),
                           filename=NULL, 
                           fill = c("red", "blue", "green"),
                           alpha = 0.50,
                           col = "transparent")
 
-grid.draw(venn.plot)
-venn.intersect <- calculate.overlap(venn.data)
-print(venn.intersect$a5)
+grid.draw(venn.plot.chemo)
+venn.intersect.chemo <- calculate.overlap(venn.data.chemo)
+print(venn.intersect.chemo$a5)
 
 ##################################################################################################################################
 #Seperation for A_, B_ and C_ using progress..yes.no.
@@ -497,44 +493,44 @@ print(importance.chemo.gbm.A.pro)
 plot(importance.chemo.gbm.A.pro)
 
 #Common predictors for A_ progress..yes.no.
-LVQ.Pro.A <- importance.chemo.lvq.A.pro$importance
-SVM.Pro.A <- importance.chemo.svm.A.pro$importance
-GBM.Pro.A <- importance.chemo.gbm.A.pro$importance
-all(LVQ.Pro.A$X0 == LVQ.Pro.A$X1)
-all(SVM.Pro.A$X0 == SVM.Pro.A$X1)
+LVQ.chemo.Pro.A <- importance.chemo.lvq.A.pro$importance
+SVM.chemo.Pro.A <- importance.chemo.svm.A.pro$importance
+GBM.chemo.Pro.A <- importance.chemo.gbm.A.pro$importance
+all(LVQ.chemo.Pro.A$X0 == LVQ.chemo.Pro.A$X1)
+all(SVM.chemo.Pro.A$X0 == SVM.chemo.Pro.A$X1)
 LVQ.Pro.A$X1 <- NULL
 SVM.Pro.A$X1 <- NULL
 colnames(LVQ.Pro.A)[1] <- "Overall"
 colnames(SVM.Pro.A)[1] <- "Overall"
-#LVQ.Pro.Sig.A <- head(LVQ.Pro.A, 20)
-#SVM.Pro.Sig.A <- head(SVM.Pro.A, 20)
-#GBM.Pro.Sig.A <- head(GBM.Pro.A, )
-LVQ.Pro.Sig.A <- subset(LVQ.Pro.A, Overall >= '0.5167', select = c("Overall"))
-SVM.Pro.Sig.A <- subset(SVM.Pro.A, Overall >= '0.5167', select = c("Overall"))
-GBM.Pro.Sig.A <- subset(GBM.Pro.A, Overall >= '0.1337', select = c("Overall"))
-library(data.table)
-LVQ.Pro.Sig.A <- setDT(LVQ.Pro.Sig.A, keep.rownames = TRUE)[]
-SVM.Pro.Sig.A <- setDT(SVM.Pro.Sig.A, keep.rownames = TRUE)[]
-GBM.Pro.Sig.A <- setDT(GBM.Pro.Sig.A, keep.rownames = TRUE)[]
-LVQ.Pro.Sig.A$Overall <- NULL
-SVM.Pro.Sig.A$Overall <- NULL
-GBM.Pro.Sig.A$Overall <- NULL
+LVQ.chemo.Pro.Sig <- setDT(LVQ.chemo.Pro.A, keep.rownames = TRUE)[]
+SVM.chemo.Pro.Sig <- setDT(SVM.chemo.Pro.A, keep.rownames = TRUE)[]
+GBM.chemo.Pro.Sig <- setDT(GBM.chemo.Pro.A, keep.rownames = TRUE)[]
+LVQ.chemo.Pro.Sig <- LVQ.chemo.Pro.Sig[order(-LVQ.chemo.Pro.Sig$Overall),]
+SVM.chemo.Pro.Sig <- SVM.chemo.Pro.Sig[order(-SVM.chemo.Pro.Sig$Overall),]
+GBM.chemo.Pro.Sig <- GBM.chemo.Pro.Sig[order(-GBM.chemo.Pro.Sig$Overall),]
+LVQ.chemo.Pro.Sig <- head(LVQ.chemo.Pro.Sig, 20)
+SVM.chemo.Pro.Sig <- head(SVM.chemo.Pro.Sig, 20)
+#Adjust GBM selection based on printed variables
+GBM.chemo.Pro.Sig <- head(GBM.chemo.Pro.Sig, 20)
+LVQ.chemo.Pro.Sig.A$Overall <- NULL
+SVM.chemo.Pro.Sig.A$Overall <- NULL
+GBM..chemoPro.Sig.A$Overall <- NULL
 #The data need to be in a vector. As.vector doesn't work, but unlist reduces data to simple
-LVQ.Pro.Sig.A <- unlist(LVQ.Pro.Sig.A)
-SVM.Pro.Sig.A <- unlist(SVM.Pro.Sig.A)
-GBM.Pro.Sig.A <- unlist(GBM.Pro.Sig.A)
+LVQ.chemo.Pro.Sig.A <- unlist(LVQ.chemo.Pro.Sig.A)
+SVM.chemo.Pro.Sig.A <- unlist(SVM.chemo.Pro.Sig.A)
+GBM.chemo.Pro.Sig.A <- unlist(GBM.chemo.Pro.Sig.A)
 library(VennDiagram)
-venn.data.A <- list(LVQ.Pro.Sig.A, SVM.Pro.Sig.A, GBM.Pro.Sig.A)
+venn.data.chemo.A <- list(LVQ.chemo.Pro.Sig.A, SVM.chemo.Pro.Sig.A, GBM.chemo.Pro.Sig.A)
 grid.newpage()
-venn.plot.A <- venn.diagram(x = list(LVQ.Pro.Sig.A=LVQ.Pro.Sig.A, SVM.Pro.Sig.A=SVM.Pro.Sig.A, GBM.Pro.Sig.A=GBM.Pro.Sig.A),
+venn.plot.chemo.A <- venn.diagram(x = list(LVQ.chemo.Pro.Sig.A=LVQ.chemo.Pro.Sig.A, SVM.chemo.Pro.Sig.A=SVM.chemo.Pro.Sig.A, GBM.chemo.Pro.Sig.A=GBM.chemo.Pro.Sig.A),
                           filename=NULL, 
                           fill = c("red", "blue", "green"),
                           alpha = 0.50,
                           col = "transparent")
-grid.draw(venn.plot.A)
-venn.intersect.A <- calculate.overlap(venn.data.A)
-print(venn.intersect.A$a5)
-
+grid.draw(venn.plot.chemo.A)
+venn.intersect.chemo.A <- calculate.overlap(venn.data.chemo.A)
+print(venn.intersect.chemo.A$a5)
+########### Below here isn't done yet
 #LVQ B_
 test.chemo.lvq.B.pro <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
 set.seed(86)
