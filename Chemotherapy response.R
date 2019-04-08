@@ -19,6 +19,7 @@ alt.data.whole.C <- cbind(progress..yes.no., alt.data.whole.C)
 alt.data <- split(mydata, mydata$Chemotherapy)
 alt.data0 <- alt.data$`0`
 alt.data1 <- alt.data$`1`
+
 #For treatment without chemotherapy
 alt.data00 <- alt.data0[,c(34:180)]
 alt.data00$gene.with.CN.gains..80..log..FC.0.5..1.5x..amplicons.min.5. <- NULL
@@ -57,7 +58,7 @@ library(MASS)
 #LVQ 
 test.whole.lvq.pro <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
 set.seed(86)
-model.whole.lvq.pro <- train(progress..yes.no. ~ A_EGFR + A_ATM + A_FLCN + A_CDK4 + A_TERT + A_PBRM1 + A_MAP3K1 + A_ATRX + A_PPP2R1A + A_SMARCB1 + A_ABL1 + A_PALB2 + A_MYC + A_MED12 + A_DAXX + A_CSFR1 + A_U2AF1 + A_CREBBP + A_FBXO11 + A_CDH1 + A_ZNFR3 + A_ARID1A + A_GRIN2A + A_BCL6 + A_TSC2 + A_BRCA1 + A_CDK12 + A_PTCH1 + A_TP53 + A_EZH2 + A_MSH2 + A_AR + A_GNA11 + A_SMAD4 + A_BRCA2 + A_RB1 + A_CTNNB1 + A_KIT + A_SETD2 + A_KDR + A_JAK1 + A_WT1 + A_SLC7A8 + A_KMT2D + A_NF1 + A_NOTCH1 + A_KDM6A + A_CIC + A_PRDM1 + A_JAK2 + A_RET + A_BCOR + A_ESR1 + A_APC + A_FBXW7 + A_GNAS + A_MEN1 + A_DNMT3A + A_ZNRF3 + A_FANCE + A_TSC1 + A_SMARC4A + A_MSH6 + A_EP300 + A_PRKAR1A + A_BUB1B + A_none + A_MLH1 + A_H3F3A + A_SMO + A_BRAF,
+model.whole.lvq.pro <- train(progress..yes.no. ~ A_EGFR + A_ATM + A_FLCN + A_CDK4 + A_TERT + A_PBRM1 + A_MAP3K1 + A_ATRX + A_PPP2R1A + A_SMARCB1 + A_ABL1 + A_PALB2 + A_MYC + A_MED12 + A_DAXX + A_CSFR1 + A_U2AF1 + A_CREBBP + A_FBXO11 + A_CDH1 + A_ZNFR3 + A_ARID1A + A_GRIN2A + A_BCL6 + A_TSC2 + A_BRCA1 + A_CDK12 + A_PTCH1 + A_TP53 + A_EZH2 + A_MSH2 + A_AR + A_GNA11 + A_SMAD4 + A_BRCA2 + A_RB1 + A_CTNNB1 + A_KIT + A_SETD2 + A_KDR + A_JAK1 + A_WT1 + A_SLC7A8 + A_KMT2D + A_NF1 + A_NOTCH1 + A_KDM6A + A_CIC + A_PRDM1 + A_JAK2 + A_RET + A_BCOR + A_ESR1 + A_APC + A_FBXW7 + A_GNAS + A_MEN1 + A_DNMT3A + A_ZNRF3 + A_FANCE + A_TSC1 + A_SMARC4A + A_MSH6 + A_EP300 + A_PRKAR1A + A_BUB1B + A_none + A_MLH1 + A_H3F3A + A_SMO + A_BRAF + B_APC + B_SMARC4 + B_BAP1 + B_NPM1 + B_FGFR3 + B_CIC + B_GNA11 + B_IL7R + B_GNAS + B_KMT2D + B_MAP3K1 + B_ZRSR2 + B_DDB2 + B_MDM2 + B_MEN1 + B_none + B_PIK3R1 + B_ARID2 + B_ABL1 + B_NOTCH1 + B_TERT + B_CDK4 + B_CSF1R + B_VHL + B_MYC + B_TSC1 + B_PRKAR1A + B_DDR2 + B_SLC7A8 + B_STK11 + B_IL6ST + B_U2AF1 + B_ASXL1 + C_CARD11 + C_SDHB + C_TNRFSF14 + C_CYLD + C_SLC7A8 + C_PHF6 + C_FGFR2 + C_SPOP + C_MLH1 + C_none + C_BRIP1 + C_MSH2 + C_CD79 + C_SMO + C_GNAQ + C_ECT2L + C_CDC73 + C_PIK3R1 + C_TNFSRF14 + C_BRAF + C_RB1 + C_SMAD4 + C_MAP2K4 + C_SMARCB1 + C_DNMT3A + C_BRCA2 + C_JAK1 + C_EZH2 + C_FAS + C_NF1 + C_CHEK2 + C_PALB2 + C_CSF1R + C_TNFSRSF14 + C_CDK12 + C_FLCN + C_FLNC + C_MAP4K3 + C_EPCAM + C_TNFRSF14 + C_VHL,
                                data = alt.data.whole, method = "lvq",
                                trControl = test.whole.lvq.pro,
                                preProcess = c("center", "scale"),
@@ -67,10 +68,10 @@ importance.whole.lvq.pro <- varImp(model.whole.lvq.pro, scale = FALSE)
 print(importance.whole.lvq.pro)
 plot(importance.whole.lvq.pro)
 
-#SVM A_
+#SVM
 test.whole.svm.pro <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
 set.seed(86)
-model.whole.svm.pro <- train(progress..yes.no. ~ A_EGFR + A_ATM + A_FLCN + A_CDK4 + A_TERT + A_PBRM1 + A_MAP3K1 + A_ATRX + A_PPP2R1A + A_SMARCB1 + A_ABL1 + A_PALB2 + A_MYC + A_MED12 + A_DAXX + A_CSFR1 + A_U2AF1 + A_CREBBP + A_FBXO11 + A_CDH1 + A_ZNFR3 + A_ARID1A + A_GRIN2A + A_BCL6 + A_TSC2 + A_BRCA1 + A_CDK12 + A_PTCH1 + A_TP53 + A_EZH2 + A_MSH2 + A_AR + A_GNA11 + A_SMAD4 + A_BRCA2 + A_RB1 + A_CTNNB1 + A_KIT + A_SETD2 + A_KDR + A_JAK1 + A_WT1 + A_SLC7A8 + A_KMT2D + A_NF1 + A_NOTCH1 + A_KDM6A + A_CIC + A_PRDM1 + A_JAK2 + A_RET + A_BCOR + A_ESR1 + A_APC + A_FBXW7 + A_GNAS + A_MEN1 + A_DNMT3A + A_ZNRF3 + A_FANCE + A_TSC1 + A_SMARC4A + A_MSH6 + A_EP300 + A_PRKAR1A + A_BUB1B + A_none + A_MLH1 + A_H3F3A + A_SMO + A_BRAF, 
+model.whole.svm.pro <- train(progress..yes.no. ~ A_EGFR + A_ATM + A_FLCN + A_CDK4 + A_TERT + A_PBRM1 + A_MAP3K1 + A_ATRX + A_PPP2R1A + A_SMARCB1 + A_ABL1 + A_PALB2 + A_MYC + A_MED12 + A_DAXX + A_CSFR1 + A_U2AF1 + A_CREBBP + A_FBXO11 + A_CDH1 + A_ZNFR3 + A_ARID1A + A_GRIN2A + A_BCL6 + A_TSC2 + A_BRCA1 + A_CDK12 + A_PTCH1 + A_TP53 + A_EZH2 + A_MSH2 + A_AR + A_GNA11 + A_SMAD4 + A_BRCA2 + A_RB1 + A_CTNNB1 + A_KIT + A_SETD2 + A_KDR + A_JAK1 + A_WT1 + A_SLC7A8 + A_KMT2D + A_NF1 + A_NOTCH1 + A_KDM6A + A_CIC + A_PRDM1 + A_JAK2 + A_RET + A_BCOR + A_ESR1 + A_APC + A_FBXW7 + A_GNAS + A_MEN1 + A_DNMT3A + A_ZNRF3 + A_FANCE + A_TSC1 + A_SMARC4A + A_MSH6 + A_EP300 + A_PRKAR1A + A_BUB1B + A_none + A_MLH1 + A_H3F3A + A_SMO + A_BRAF + B_APC + B_SMARC4 + B_BAP1 + B_NPM1 + B_FGFR3 + B_CIC + B_GNA11 + B_IL7R + B_GNAS + B_KMT2D + B_MAP3K1 + B_ZRSR2 + B_DDB2 + B_MDM2 + B_MEN1 + B_none + B_PIK3R1 + B_ARID2 + B_ABL1 + B_NOTCH1 + B_TERT + B_CDK4 + B_CSF1R + B_VHL + B_MYC + B_TSC1 + B_PRKAR1A + B_DDR2 + B_SLC7A8 + B_STK11 + B_IL6ST + B_U2AF1 + B_ASXL1 + C_CARD11 + C_SDHB + C_TNRFSF14 + C_CYLD + C_SLC7A8 + C_PHF6 + C_FGFR2 + C_SPOP + C_MLH1 + C_none + C_BRIP1 + C_MSH2 + C_CD79 + C_SMO + C_GNAQ + C_ECT2L + C_CDC73 + C_PIK3R1 + C_TNFSRF14 + C_BRAF + C_RB1 + C_SMAD4 + C_MAP2K4 + C_SMARCB1 + C_DNMT3A + C_BRCA2 + C_JAK1 + C_EZH2 + C_FAS + C_NF1 + C_CHEK2 + C_PALB2 + C_CSF1R + C_TNFSRSF14 + C_CDK12 + C_FLCN + C_FLNC + C_MAP4K3 + C_EPCAM + C_TNFRSF14 + C_VHL, 
                                data = alt.data.whole, method = "svmRadial",
                                trControl = test.whole.svm.pro,
                                preProcess = c("center", "scale"),
@@ -83,13 +84,12 @@ plot(importance.whole.svm.pro)
 #GBM 
 test.whole.gbm.pro <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
 set.seed(86)
-model.whole.gbm.pro <- train(progress..yes.no. ~ A_EGFR + A_ATM + A_FLCN + A_CDK4 + A_TERT + A_PBRM1 + A_MAP3K1 + A_ATRX + A_PPP2R1A + A_SMARCB1 + A_ABL1 + A_PALB2 + A_MYC + A_MED12 + A_DAXX + A_CSFR1 + A_U2AF1 + A_CREBBP + A_FBXO11 + A_CDH1 + A_ZNFR3 + A_ARID1A + A_GRIN2A + A_BCL6 + A_TSC2 + A_BRCA1 + A_CDK12 + A_PTCH1 + A_TP53 + A_EZH2 + A_MSH2 + A_AR + A_GNA11 + A_SMAD4 + A_BRCA2 + A_RB1 + A_CTNNB1 + A_KIT + A_SETD2 + A_KDR + A_JAK1 + A_WT1 + A_SLC7A8 + A_KMT2D + A_NF1 + A_NOTCH1 + A_KDM6A + A_CIC + A_PRDM1 + A_JAK2 + A_RET + A_BCOR + A_ESR1 + A_APC + A_FBXW7 + A_GNAS + A_MEN1 + A_DNMT3A + A_ZNRF3 + A_FANCE + A_TSC1 + A_SMARC4A + A_MSH6 + A_EP300 + A_PRKAR1A + A_BUB1B + A_none + A_MLH1 + A_H3F3A + A_SMO + A_BRAF, 
+model.whole.gbm.pro <- train(progress..yes.no. ~ A_EGFR + A_ATM + A_FLCN + A_CDK4 + A_TERT + A_PBRM1 + A_MAP3K1 + A_ATRX + A_PPP2R1A + A_SMARCB1 + A_ABL1 + A_PALB2 + A_MYC + A_MED12 + A_DAXX + A_CSFR1 + A_U2AF1 + A_CREBBP + A_FBXO11 + A_CDH1 + A_ZNFR3 + A_ARID1A + A_GRIN2A + A_BCL6 + A_TSC2 + A_BRCA1 + A_CDK12 + A_PTCH1 + A_TP53 + A_EZH2 + A_MSH2 + A_AR + A_GNA11 + A_SMAD4 + A_BRCA2 + A_RB1 + A_CTNNB1 + A_KIT + A_SETD2 + A_KDR + A_JAK1 + A_WT1 + A_SLC7A8 + A_KMT2D + A_NF1 + A_NOTCH1 + A_KDM6A + A_CIC + A_PRDM1 + A_JAK2 + A_RET + A_BCOR + A_ESR1 + A_APC + A_FBXW7 + A_GNAS + A_MEN1 + A_DNMT3A + A_ZNRF3 + A_FANCE + A_TSC1 + A_SMARC4A + A_MSH6 + A_EP300 + A_PRKAR1A + A_BUB1B + A_none + A_MLH1 + A_H3F3A + A_SMO + A_BRAF + B_APC + B_SMARC4 + B_BAP1 + B_NPM1 + B_FGFR3 + B_CIC + B_GNA11 + B_IL7R + B_GNAS + B_KMT2D + B_MAP3K1 + B_ZRSR2 + B_DDB2 + B_MDM2 + B_MEN1 + B_none + B_PIK3R1 + B_ARID2 + B_ABL1 + B_NOTCH1 + B_TERT + B_CDK4 + B_CSF1R + B_VHL + B_MYC + B_TSC1 + B_PRKAR1A + B_DDR2 + B_SLC7A8 + B_STK11 + B_IL6ST + B_U2AF1 + B_ASXL1 + C_CARD11 + C_SDHB + C_TNRFSF14 + C_CYLD + C_SLC7A8 + C_PHF6 + C_FGFR2 + C_SPOP + C_MLH1 + C_none + C_BRIP1 + C_MSH2 + C_CD79 + C_SMO + C_GNAQ + C_ECT2L + C_CDC73 + C_PIK3R1 + C_TNFSRF14 + C_BRAF + C_RB1 + C_SMAD4 + C_MAP2K4 + C_SMARCB1 + C_DNMT3A + C_BRCA2 + C_JAK1 + C_EZH2 + C_FAS + C_NF1 + C_CHEK2 + C_PALB2 + C_CSF1R + C_TNFSRSF14 + C_CDK12 + C_FLCN + C_FLNC + C_MAP4K3 + C_EPCAM + C_TNFRSF14 + C_VHL, 
                                data = alt.data.whole, method = "gbm",
                                trControl = test.whole.gbm.pro,
                                preProcess = c("center", "scale"),
                                tuneLength = 10,
                                na.action = na.pass)
-
 importance.whole.gbm.pro <- varImp(model.whole.gbm.pro, scale = FALSE)
 print(importance.whole.gbm.pro)
 plot(importance.whole.gbm.pro)
@@ -113,7 +113,7 @@ GBM.whole.Pro <- GBM.whole.Pro[order(-GBM.whole.Pro$Overall),]
 LVQ.whole.Pro.Sig <- head(LVQ.whole.Pro, 20)
 SVM.whole.Pro.Sig <- head(SVM.whole.Pro, 20)
 #Adjust GBM selection based on printed variables
-GBM.whole.Pro.Sig <- head(GBM.whole.Pro, 3)
+GBM.whole.Pro.Sig <- head(GBM.whole.Pro, 13)
 LVQ.whole.Pro.Sig$Overall <- NULL
 SVM.whole.Pro.Sig$Overall <- NULL
 GBM.whole.Pro.Sig$Overall <- NULL
@@ -270,8 +270,8 @@ GBM.whole.Pro.Sig.B <- setDT(GBM.whole.Pro.B, keep.rownames = TRUE)[]
 LVQ.whole.Pro.Sig.B <- LVQ.whole.Pro.Sig.B[order(-LVQ.whole.Pro.B$Overall),]
 SVM.whole.Pro.Sig.B <- SVM.whole.Pro.Sig.B[order(-SVM.whole.Pro.B$Overall),]
 GBM.whole.Pro.Sig.B <- GBM.whole.Pro.Sig.B[order(-GBM.whole.Pro.B$Overall),]
-LVQ.whole.Pro.Sig.B <- head(LVQ.whole.Pro.B, 20)
-SVM.whole.Pro.Sig.B <- head(SVM.whole.Pro.B, 20)
+LVQ.whole.Pro.Sig.B <- head(LVQ.whole.Pro.Sig.B, 20)
+SVM.whole.Pro.Sig.B <- head(SVM.whole.Pro.Sig.B, 20)
 #Adjust GBM selection based on printed variables
 GBM.whole.Pro.Sig.B <- head(GBM.whole.Pro.Sig.B, 5)
 LVQ.whole.Pro.Sig.B$Overall <- NULL
@@ -292,6 +292,7 @@ venn.plot.whole.B <- venn.diagram(x = list(LVQ.whole.Pro.Sig.B=LVQ.whole.Pro.Sig
 grid.draw(venn.plot.whole.B)
 venn.intersect.whole.B <- calculate.overlap(venn.data.whole.B)
 print(venn.intersect.whole.B$a5)
+print(venn.intersect.whole.B$a2)
 
 #LVQ C_
 test.whole.lvq.C.pro <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
@@ -351,7 +352,7 @@ GBM.whole.Pro.Sig.C <- GBM.whole.Pro.Sig.C[order(-GBM.whole.Pro.Sig.C$Overall),]
 LVQ.whole.Pro.Sig.C <- head(LVQ.whole.Pro.Sig.C, 20)
 SVM.whole.Pro.Sig.C <- head(SVM.whole.Pro.Sig.C, 20)
 #Adjust GBM selection based on printed variables
-GBM.whole.Pro.Sig.B <- head(GBM.whole.Pro.Sig.B, 6)
+GBM.whole.Pro.Sig.C <- head(GBM.whole.Pro.Sig.C, 6)
 LVQ.whole.Pro.Sig.C$Overall <- NULL
 SVM.whole.Pro.Sig.C$Overall <- NULL
 GBM.whole.Pro.Sig.C$Overall <- NULL
@@ -370,6 +371,7 @@ venn.plot.whole.C <- venn.diagram(x = list(LVQ.whole.Pro.Sig.C=LVQ.whole.Pro.Sig
 grid.draw(venn.plot.whole.C)
 venn.intersect.whole.C <- calculate.overlap(venn.data.whole.C)
 print(venn.intersect.whole.C$a5)
+print(venn.intersect.whole.C$a2)
 
 #########################################################################################################################################
 
@@ -440,9 +442,7 @@ GBM.chemo.Pro.Sig$Overall <- NULL
 LVQ.chemo.Pro.Sig <- unlist(LVQ.chemo.Pro.Sig)
 SVM.chemo.Pro.Sig <- unlist(SVM.chemo.Pro.Sig)
 GBM.chemo.Pro.Sig <- unlist(GBM.chemo.Pro.Sig)
-
 library(VennDiagram)
-
 venn.data.chemo <- list(LVQ.chemo.Pro.Sig, SVM.chemo.Pro.Sig, GBM.chemo.Pro.Sig)
 grid.newpage()
 venn.plot.chemo <- venn.diagram(x = list(LVQ.chemo.Pro.Sig=LVQ.chemo.Pro.Sig, SVM.chemo.Pro.Sig=SVM.chemo.Pro.Sig, GBM.chemo.Pro.Sig=GBM.chemo.Pro.Sig),
@@ -454,6 +454,7 @@ venn.plot.chemo <- venn.diagram(x = list(LVQ.chemo.Pro.Sig=LVQ.chemo.Pro.Sig, SV
 grid.draw(venn.plot.chemo)
 venn.intersect.chemo <- calculate.overlap(venn.data.chemo)
 print(venn.intersect.chemo$a5)
+print(venn.intersect.chemo$a2)
 
 ##################################################################################################################################
 #Seperation for chemo by A_, B_ and C_ using progress..yes.no.
@@ -535,6 +536,7 @@ venn.plot.chemo.A <- venn.diagram(x = list(LVQ.chemo.Pro.Sig.A=LVQ.chemo.Pro.Sig
 grid.draw(venn.plot.chemo.A)
 venn.intersect.chemo.A <- calculate.overlap(venn.data.chemo.A)
 print(venn.intersect.chemo.A$a5)
+print(venn.intersect.chemo.A$a2)
 
 #LVQ B_
 test.chemo.lvq.B.pro <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
@@ -613,6 +615,7 @@ venn.plot.chemo.B <- venn.diagram(x = list(LVQ.chemo.Pro.Sig.B=LVQ.chemo.Pro.Sig
 grid.draw(venn.plot.chemo.B)
 venn.intersect.chemo.B <- calculate.overlap(venn.data.chemo.B)
 print(venn.intersect.chemo.B$a5)
+print(venn.intersect.chemo.B$a2)
 
 #LVQ C_
 test.chemo.lvq.C.pro <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
@@ -690,6 +693,7 @@ venn.plot.chemo.C <- venn.diagram(x = list(LVQ.chemo.Pro.Sig.C=LVQ.chemo.Pro.Sig
 grid.draw(venn.plot.chemo.C)
 venn.intersect.chemo.C <- calculate.overlap(venn.data.chemo.C)
 print(venn.intersect.chemo.C$a5)
+print(venn.intersect.chemo.C$a2)
 
 ###################################################################################################################################
 ######Removed all the GBM functions because they wouldn't work (possibly due to small datasets)
@@ -754,8 +758,8 @@ SVM.nochemo.Pro.Sig <- setDT(SVM.nochemo.Pro, keep.rownames = TRUE)[]
 LVQ.nochemo.Pro.Sig <- LVQ.nochemo.Pro.Sig[order(-LVQ.nochemo.Pro.Sig$Overall),]
 SVM.nochemo.Pro.Sig <- SVM.nochemo.Pro.Sig[order(-SVM.nochemo.Pro.Sig$Overall),]
 #GBM.nochemo.Pro.Sig <- GBM.nochemo.Pro.Sig[order(-GBM.nochemo.Pro.Sig$Overall),]
-LVQ.nochemo.Pro.Sig <- head(LVQ.nochemo.Pro.Sig.C, 20)
-SVM.nochemo.Pro.Sig <- head(SVM.nochemo.Pro.Sig.C, 20)
+LVQ.nochemo.Pro.Sig <- head(LVQ.nochemo.Pro.Sig, 20)
+SVM.nochemo.Pro.Sig <- head(SVM.nochemo.Pro.Sig, 20)
 #Adjust GBM selection based on printed variables
 #GBM.nochemo.Pro.Sig <- head(GBM.nochemo.Pro.Sig, 20)
 LVQ.nochemo.Pro.Sig$Overall <- NULL
@@ -775,7 +779,7 @@ venn.plot.nochemo <- venn.diagram(x = list(LVQ.nochemo.Pro.Sig=LVQ.nochemo.Pro.S
                           col = "transparent")
 grid.draw(venn.plot.nochemo)
 venn.intersect.nochemo <- calculate.overlap(venn.data.nochemo)
-print(venn.intersect.nochemo$a5)
+print(venn.intersect.nochemo$a2)
 
 ##################################################################################################################################
 
@@ -1034,11 +1038,27 @@ mitotane.neg.data.whole$gene.with.CN.losses..80..log..FC.0.25..amplicons.min.5. 
 progress..yes.no. <- as.factor(mitotane.neg$progress..yes.no.)
 mitotane.neg.data.whole <- cbind(progress..yes.no., mitotane.neg.data.whole)
 
+#Seperating Mitotane dataset into A_, B_, C_
+progress..yes.no. <- as.factor(mitotane.pos.data.whole$progress..yes.no.)
+mitotane.pos.data.A <- mitotane.pos.data.whole[,c(1:72)]
+mitotane.pos.data.B <- mitotane.pos.data.whole[,c(73:105)]
+mitotane.pos.data.B <- cbind(progress..yes.no., mitotane.pos.data.B)
+mitotane.pos.data.C <- mitotane.pos.data.whole[,c(105:146)]
+mitotane.pos.data.C <- cbind(progress..yes.no., mitotane.pos.data.C)
+
+#Seperating NoMitotane dataset into A_, B_, C_
+progress..yes.no. <- as.factor(mitotane.neg.data.whole$progress..yes.no.)
+mitotane.neg.data.A <- mitotane.neg.data.whole[,c(1:72)]
+mitotane.neg.data.B <- mitotane.neg.data.whole[,c(73:105)]
+mitotane.neg.data.B <- cbind(progress..yes.no., mitotane.neg.data.B)
+mitotane.neg.data.C <- mitotane.neg.data.whole[,c(105:146)]
+mitotane.neg.data.C <- cbind(progress..yes.no., mitotane.neg.data.C)
+
 #Mitotane positive treatment 
 #LVQ 
 test.mitotane.lvq.pro <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
 set.seed(86)
-model.mitotane.lvq.pro <- train(progress..yes.no. ~ A_EGFR + A_ATM + A_FLCN + A_CDK4 + A_TERT + A_PBRM1 + A_MAP3K1 + A_ATRX + A_PPP2R1A + A_SMARCB1 + A_ABL1 + A_PALB2 + A_MYC + A_MED12 + A_DAXX + A_CSFR1 + A_U2AF1 + A_CREBBP + A_FBXO11 + A_CDH1 + A_ZNFR3 + A_ARID1A + A_GRIN2A + A_BCL6 + A_TSC2 + A_BRCA1 + A_CDK12 + A_PTCH1 + A_TP53 + A_EZH2 + A_MSH2 + A_AR + A_GNA11 + A_SMAD4 + A_BRCA2 + A_RB1 + A_CTNNB1 + A_KIT + A_SETD2 + A_KDR + A_JAK1 + A_WT1 + A_SLC7A8 + A_KMT2D + A_NF1 + A_NOTCH1 + A_KDM6A + A_CIC + A_PRDM1 + A_JAK2 + A_RET + A_BCOR + A_ESR1 + A_APC + A_FBXW7 + A_GNAS + A_MEN1 + A_DNMT3A + A_ZNRF3 + A_FANCE + A_TSC1 + A_SMARC4A + A_MSH6 + A_EP300 + A_PRKAR1A + A_BUB1B + A_none + A_MLH1 + A_H3F3A + A_SMO + A_BRAF,
+model.mitotane.lvq.pro <- train(progress..yes.no. ~ A_EGFR + A_ATM + A_FLCN + A_CDK4 + A_TERT + A_PBRM1 + A_MAP3K1 + A_ATRX + A_PPP2R1A + A_SMARCB1 + A_ABL1 + A_PALB2 + A_MYC + A_MED12 + A_DAXX + A_CSFR1 + A_U2AF1 + A_CREBBP + A_FBXO11 + A_CDH1 + A_ZNFR3 + A_ARID1A + A_GRIN2A + A_BCL6 + A_TSC2 + A_BRCA1 + A_CDK12 + A_PTCH1 + A_TP53 + A_EZH2 + A_MSH2 + A_AR + A_GNA11 + A_SMAD4 + A_BRCA2 + A_RB1 + A_CTNNB1 + A_KIT + A_SETD2 + A_KDR + A_JAK1 + A_WT1 + A_SLC7A8 + A_KMT2D + A_NF1 + A_NOTCH1 + A_KDM6A + A_CIC + A_PRDM1 + A_JAK2 + A_RET + A_BCOR + A_ESR1 + A_APC + A_FBXW7 + A_GNAS + A_MEN1 + A_DNMT3A + A_ZNRF3 + A_FANCE + A_TSC1 + A_SMARC4A + A_MSH6 + A_EP300 + A_PRKAR1A + A_BUB1B + A_none + A_MLH1 + A_H3F3A + A_SMO + A_BRAF + B_APC + B_SMARC4 + B_BAP1 + B_NPM1 + B_FGFR3 + B_CIC + B_GNA11 + B_IL7R + B_GNAS + B_KMT2D + B_MAP3K1 + B_ZRSR2 + B_DDB2 + B_MDM2 + B_MEN1 + B_none + B_PIK3R1 + B_ARID2 + B_ABL1 + B_NOTCH1 + B_TERT + B_CDK4 + B_CSF1R + B_VHL + B_MYC + B_TSC1 + B_PRKAR1A + B_DDR2 + B_SLC7A8 + B_STK11 + B_IL6ST + B_U2AF1 + B_ASXL1 + C_CARD11 + C_SDHB + C_TNRFSF14 + C_CYLD + C_SLC7A8 + C_PHF6 + C_FGFR2 + C_SPOP + C_MLH1 + C_none + C_BRIP1 + C_MSH2 + C_CD79 + C_SMO + C_GNAQ + C_ECT2L + C_CDC73 + C_PIK3R1 + C_TNFSRF14 + C_BRAF + C_RB1 + C_SMAD4 + C_MAP2K4 + C_SMARCB1 + C_DNMT3A + C_BRCA2 + C_JAK1 + C_EZH2 + C_FAS + C_NF1 + C_CHEK2 + C_PALB2 + C_CSF1R + C_TNFSRSF14 + C_CDK12 + C_FLCN + C_FLNC + C_MAP4K3 + C_EPCAM + C_TNFRSF14 + C_VHL,
                              data = mitotane.pos.data.whole, method = "lvq",
                              trControl = test.mitotane.lvq.pro,
                              preProcess = c("center", "scale"),
@@ -1048,10 +1068,10 @@ importance.mitotane.lvq.pro <- varImp(model.mitotane.lvq.pro, scale = FALSE)
 print(importance.mitotane.lvq.pro)
 plot(importance.mitotane.lvq.pro)
 
-#SVM A_
+#SVM 
 test.mitotane.svm.pro <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
 set.seed(86)
-model.mitotane.svm.pro <- train(progress..yes.no. ~ A_EGFR + A_ATM + A_FLCN + A_CDK4 + A_TERT + A_PBRM1 + A_MAP3K1 + A_ATRX + A_PPP2R1A + A_SMARCB1 + A_ABL1 + A_PALB2 + A_MYC + A_MED12 + A_DAXX + A_CSFR1 + A_U2AF1 + A_CREBBP + A_FBXO11 + A_CDH1 + A_ZNFR3 + A_ARID1A + A_GRIN2A + A_BCL6 + A_TSC2 + A_BRCA1 + A_CDK12 + A_PTCH1 + A_TP53 + A_EZH2 + A_MSH2 + A_AR + A_GNA11 + A_SMAD4 + A_BRCA2 + A_RB1 + A_CTNNB1 + A_KIT + A_SETD2 + A_KDR + A_JAK1 + A_WT1 + A_SLC7A8 + A_KMT2D + A_NF1 + A_NOTCH1 + A_KDM6A + A_CIC + A_PRDM1 + A_JAK2 + A_RET + A_BCOR + A_ESR1 + A_APC + A_FBXW7 + A_GNAS + A_MEN1 + A_DNMT3A + A_ZNRF3 + A_FANCE + A_TSC1 + A_SMARC4A + A_MSH6 + A_EP300 + A_PRKAR1A + A_BUB1B + A_none + A_MLH1 + A_H3F3A + A_SMO + A_BRAF, 
+model.mitotane.svm.pro <- train(progress..yes.no. ~ A_EGFR + A_ATM + A_FLCN + A_CDK4 + A_TERT + A_PBRM1 + A_MAP3K1 + A_ATRX + A_PPP2R1A + A_SMARCB1 + A_ABL1 + A_PALB2 + A_MYC + A_MED12 + A_DAXX + A_CSFR1 + A_U2AF1 + A_CREBBP + A_FBXO11 + A_CDH1 + A_ZNFR3 + A_ARID1A + A_GRIN2A + A_BCL6 + A_TSC2 + A_BRCA1 + A_CDK12 + A_PTCH1 + A_TP53 + A_EZH2 + A_MSH2 + A_AR + A_GNA11 + A_SMAD4 + A_BRCA2 + A_RB1 + A_CTNNB1 + A_KIT + A_SETD2 + A_KDR + A_JAK1 + A_WT1 + A_SLC7A8 + A_KMT2D + A_NF1 + A_NOTCH1 + A_KDM6A + A_CIC + A_PRDM1 + A_JAK2 + A_RET + A_BCOR + A_ESR1 + A_APC + A_FBXW7 + A_GNAS + A_MEN1 + A_DNMT3A + A_ZNRF3 + A_FANCE + A_TSC1 + A_SMARC4A + A_MSH6 + A_EP300 + A_PRKAR1A + A_BUB1B + A_none + A_MLH1 + A_H3F3A + A_SMO + A_BRAF + B_APC + B_SMARC4 + B_BAP1 + B_NPM1 + B_FGFR3 + B_CIC + B_GNA11 + B_IL7R + B_GNAS + B_KMT2D + B_MAP3K1 + B_ZRSR2 + B_DDB2 + B_MDM2 + B_MEN1 + B_none + B_PIK3R1 + B_ARID2 + B_ABL1 + B_NOTCH1 + B_TERT + B_CDK4 + B_CSF1R + B_VHL + B_MYC + B_TSC1 + B_PRKAR1A + B_DDR2 + B_SLC7A8 + B_STK11 + B_IL6ST + B_U2AF1 + B_ASXL1 + C_CARD11 + C_SDHB + C_TNRFSF14 + C_CYLD + C_SLC7A8 + C_PHF6 + C_FGFR2 + C_SPOP + C_MLH1 + C_none + C_BRIP1 + C_MSH2 + C_CD79 + C_SMO + C_GNAQ + C_ECT2L + C_CDC73 + C_PIK3R1 + C_TNFSRF14 + C_BRAF + C_RB1 + C_SMAD4 + C_MAP2K4 + C_SMARCB1 + C_DNMT3A + C_BRCA2 + C_JAK1 + C_EZH2 + C_FAS + C_NF1 + C_CHEK2 + C_PALB2 + C_CSF1R + C_TNFSRSF14 + C_CDK12 + C_FLCN + C_FLNC + C_MAP4K3 + C_EPCAM + C_TNFRSF14 + C_VHL, 
                              data = mitotane.pos.data.whole, method = "svmRadial",
                              trControl = test.mitotane.svm.pro,
                              preProcess = c("center", "scale"),
@@ -1064,7 +1084,7 @@ plot(importance.mitotane.svm.pro)
 #GBM 
 test.mitotane.gbm.pro <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
 set.seed(86)
-model.mitotane.gbm.pro <- train(progress..yes.no. ~ A_EGFR + A_ATM + A_FLCN + A_CDK4 + A_TERT + A_PBRM1 + A_MAP3K1 + A_ATRX + A_PPP2R1A + A_SMARCB1 + A_ABL1 + A_PALB2 + A_MYC + A_MED12 + A_DAXX + A_CSFR1 + A_U2AF1 + A_CREBBP + A_FBXO11 + A_CDH1 + A_ZNFR3 + A_ARID1A + A_GRIN2A + A_BCL6 + A_TSC2 + A_BRCA1 + A_CDK12 + A_PTCH1 + A_TP53 + A_EZH2 + A_MSH2 + A_AR + A_GNA11 + A_SMAD4 + A_BRCA2 + A_RB1 + A_CTNNB1 + A_KIT + A_SETD2 + A_KDR + A_JAK1 + A_WT1 + A_SLC7A8 + A_KMT2D + A_NF1 + A_NOTCH1 + A_KDM6A + A_CIC + A_PRDM1 + A_JAK2 + A_RET + A_BCOR + A_ESR1 + A_APC + A_FBXW7 + A_GNAS + A_MEN1 + A_DNMT3A + A_ZNRF3 + A_FANCE + A_TSC1 + A_SMARC4A + A_MSH6 + A_EP300 + A_PRKAR1A + A_BUB1B + A_none + A_MLH1 + A_H3F3A + A_SMO + A_BRAF, 
+model.mitotane.gbm.pro <- train(progress..yes.no. ~ A_EGFR + A_ATM + A_FLCN + A_CDK4 + A_TERT + A_PBRM1 + A_MAP3K1 + A_ATRX + A_PPP2R1A + A_SMARCB1 + A_ABL1 + A_PALB2 + A_MYC + A_MED12 + A_DAXX + A_CSFR1 + A_U2AF1 + A_CREBBP + A_FBXO11 + A_CDH1 + A_ZNFR3 + A_ARID1A + A_GRIN2A + A_BCL6 + A_TSC2 + A_BRCA1 + A_CDK12 + A_PTCH1 + A_TP53 + A_EZH2 + A_MSH2 + A_AR + A_GNA11 + A_SMAD4 + A_BRCA2 + A_RB1 + A_CTNNB1 + A_KIT + A_SETD2 + A_KDR + A_JAK1 + A_WT1 + A_SLC7A8 + A_KMT2D + A_NF1 + A_NOTCH1 + A_KDM6A + A_CIC + A_PRDM1 + A_JAK2 + A_RET + A_BCOR + A_ESR1 + A_APC + A_FBXW7 + A_GNAS + A_MEN1 + A_DNMT3A + A_ZNRF3 + A_FANCE + A_TSC1 + A_SMARC4A + A_MSH6 + A_EP300 + A_PRKAR1A + A_BUB1B + A_none + A_MLH1 + A_H3F3A + A_SMO + A_BRAF + B_APC + B_SMARC4 + B_BAP1 + B_NPM1 + B_FGFR3 + B_CIC + B_GNA11 + B_IL7R + B_GNAS + B_KMT2D + B_MAP3K1 + B_ZRSR2 + B_DDB2 + B_MDM2 + B_MEN1 + B_none + B_PIK3R1 + B_ARID2 + B_ABL1 + B_NOTCH1 + B_TERT + B_CDK4 + B_CSF1R + B_VHL + B_MYC + B_TSC1 + B_PRKAR1A + B_DDR2 + B_SLC7A8 + B_STK11 + B_IL6ST + B_U2AF1 + B_ASXL1 + C_CARD11 + C_SDHB + C_TNRFSF14 + C_CYLD + C_SLC7A8 + C_PHF6 + C_FGFR2 + C_SPOP + C_MLH1 + C_none + C_BRIP1 + C_MSH2 + C_CD79 + C_SMO + C_GNAQ + C_ECT2L + C_CDC73 + C_PIK3R1 + C_TNFSRF14 + C_BRAF + C_RB1 + C_SMAD4 + C_MAP2K4 + C_SMARCB1 + C_DNMT3A + C_BRCA2 + C_JAK1 + C_EZH2 + C_FAS + C_NF1 + C_CHEK2 + C_PALB2 + C_CSF1R + C_TNFSRSF14 + C_CDK12 + C_FLCN + C_FLNC + C_MAP4K3 + C_EPCAM + C_TNFRSF14 + C_VHL, 
                              data = mitotane.pos.data.whole, method = "gbm",
                              trControl = test.mitotane.gbm.pro,
                              preProcess = c("center", "scale"),
@@ -1093,7 +1113,7 @@ GBM.mitotane.Pro <- GBM.mitotane.Pro[order(-GBM.mitotane.Pro$Overall),]
 LVQ.mitotane.Pro.Sig <- head(LVQ.mitotane.Pro, 20)
 SVM.mitotane.Pro.Sig <- head(SVM.mitotane.Pro, 20)
 #Adjust GBM selection based on printed variables
-GBM.mitotane.Pro.Sig <- head(GBM.mitotane.Pro, 3)
+GBM.mitotane.Pro.Sig <- head(GBM.mitotane.Pro, 9)
 LVQ.mitotane.Pro.Sig$Overall <- NULL
 SVM.mitotane.Pro.Sig$Overall <- NULL
 GBM.mitotane.Pro.Sig$Overall <- NULL
@@ -1113,3 +1133,561 @@ grid.draw(venn.plot.mitotane.pos)
 venn.intersect.mitotane.pos <- calculate.overlap(venn.data.mitotane.pos)
 print(venn.intersect.mitotane.pos$a5)
 print(venn.intersect.mitotane.pos$a2)
+
+
+
+#Seperation for mitotane by A_, B_ and C_ using progress..yes.no.
+#LVQ A_
+test.mito.lvq.A.pro <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
+set.seed(86)
+model.mito.lvq.A.pro <- train(progress..yes.no. ~ A_EGFR + A_ATM + A_FLCN + A_CDK4 + A_TERT + A_PBRM1 + A_MAP3K1 + A_ATRX + A_PPP2R1A + A_SMARCB1 + A_ABL1 + A_PALB2 + A_MYC + A_MED12 + A_DAXX + A_CSFR1 + A_U2AF1 + A_CREBBP + A_FBXO11 + A_CDH1 + A_ZNFR3 + A_ARID1A + A_GRIN2A + A_BCL6 + A_TSC2 + A_BRCA1 + A_CDK12 + A_PTCH1 + A_TP53 + A_EZH2 + A_MSH2 + A_AR + A_GNA11 + A_SMAD4 + A_BRCA2 + A_RB1 + A_CTNNB1 + A_KIT + A_SETD2 + A_KDR + A_JAK1 + A_WT1 + A_SLC7A8 + A_KMT2D + A_NF1 + A_NOTCH1 + A_KDM6A + A_CIC + A_PRDM1 + A_JAK2 + A_RET + A_BCOR + A_ESR1 + A_APC + A_FBXW7 + A_GNAS + A_MEN1 + A_DNMT3A + A_ZNRF3 + A_FANCE + A_TSC1 + A_SMARC4A + A_MSH6 + A_EP300 + A_PRKAR1A + A_BUB1B + A_none + A_MLH1 + A_H3F3A + A_SMO + A_BRAF,
+                               data = mitotane.pos.data.A, method = "lvq",
+                               trControl = test.mito.lvq.A.pro,
+                               preProcess = c("center", "scale"),
+                               tuneLength = 10,
+                               na.action = na.pass)
+importance.mito.lvq.A.pro <- varImp(model.mito.lvq.A.pro, scale = FALSE)
+print(importance.mito.lvq.A.pro)
+plot(importance.mito.lvq.A.pro)
+
+#SVM A_
+test.mito.svm.A.pro <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
+set.seed(86)
+model.mito.svm.A.pro <- train(progress..yes.no. ~ A_EGFR + A_ATM + A_FLCN + A_CDK4 + A_TERT + A_PBRM1 + A_MAP3K1 + A_ATRX + A_PPP2R1A + A_SMARCB1 + A_ABL1 + A_PALB2 + A_MYC + A_MED12 + A_DAXX + A_CSFR1 + A_U2AF1 + A_CREBBP + A_FBXO11 + A_CDH1 + A_ZNFR3 + A_ARID1A + A_GRIN2A + A_BCL6 + A_TSC2 + A_BRCA1 + A_CDK12 + A_PTCH1 + A_TP53 + A_EZH2 + A_MSH2 + A_AR + A_GNA11 + A_SMAD4 + A_BRCA2 + A_RB1 + A_CTNNB1 + A_KIT + A_SETD2 + A_KDR + A_JAK1 + A_WT1 + A_SLC7A8 + A_KMT2D + A_NF1 + A_NOTCH1 + A_KDM6A + A_CIC + A_PRDM1 + A_JAK2 + A_RET + A_BCOR + A_ESR1 + A_APC + A_FBXW7 + A_GNAS + A_MEN1 + A_DNMT3A + A_ZNRF3 + A_FANCE + A_TSC1 + A_SMARC4A + A_MSH6 + A_EP300 + A_PRKAR1A + A_BUB1B + A_none + A_MLH1 + A_H3F3A + A_SMO + A_BRAF, 
+                               data = mitotane.pos.data.A, method = "svmRadial",
+                               trControl = test.mito.svm.A.pro,
+                               preProcess = c("center", "scale"),
+                               tuneLength = 10,
+                               na.action = na.pass)
+importance.mito.svm.A.pro <- varImp(model.mito.svm.A.pro, scale = FALSE)
+print(importance.mito.svm.A.pro)
+plot(importance.mito.svm.A.pro)
+
+#GBM A_
+test.mito.gbm.A.pro <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
+set.seed(86)
+model.mito.gbm.A.pro <- train(progress..yes.no. ~ A_EGFR + A_ATM + A_FLCN + A_CDK4 + A_TERT + A_PBRM1 + A_MAP3K1 + A_ATRX + A_PPP2R1A + A_SMARCB1 + A_ABL1 + A_PALB2 + A_MYC + A_MED12 + A_DAXX + A_CSFR1 + A_U2AF1 + A_CREBBP + A_FBXO11 + A_CDH1 + A_ZNFR3 + A_ARID1A + A_GRIN2A + A_BCL6 + A_TSC2 + A_BRCA1 + A_CDK12 + A_PTCH1 + A_TP53 + A_EZH2 + A_MSH2 + A_AR + A_GNA11 + A_SMAD4 + A_BRCA2 + A_RB1 + A_CTNNB1 + A_KIT + A_SETD2 + A_KDR + A_JAK1 + A_WT1 + A_SLC7A8 + A_KMT2D + A_NF1 + A_NOTCH1 + A_KDM6A + A_CIC + A_PRDM1 + A_JAK2 + A_RET + A_BCOR + A_ESR1 + A_APC + A_FBXW7 + A_GNAS + A_MEN1 + A_DNMT3A + A_ZNRF3 + A_FANCE + A_TSC1 + A_SMARC4A + A_MSH6 + A_EP300 + A_PRKAR1A + A_BUB1B + A_none + A_MLH1 + A_H3F3A + A_SMO + A_BRAF, 
+                               data = mitotane.pos.data.A, method = "gbm",
+                               trControl = test.mito.gbm.A.pro,
+                               preProcess = c("center", "scale"),
+                               tuneLength = 10,
+                               na.action = na.pass)
+importance.mito.gbm.A.pro <- varImp(model.mito.gbm.A.pro, scale = FALSE)
+print(importance.mito.gbm.A.pro)
+plot(importance.mito.gbm.A.pro)
+
+#Common predictors for A_ progress..yes.no.
+LVQ.mito.Pro.A <- importance.mito.lvq.A.pro$importance
+SVM.mito.Pro.A <- importance.mito.svm.A.pro$importance
+GBM.mito.Pro.A <- importance.mito.gbm.A.pro$importance
+all(LVQ.mito.Pro.A$X0 == LVQ.mito.Pro.A$X1)
+all(SVM.mito.Pro.A$X0 == SVM.mito.Pro.A$X1)
+LVQ.mito.Pro.A$X1 <- NULL
+SVM.mito.Pro.A$X1 <- NULL
+colnames(LVQ.mito.Pro.A)[1] <- "Overall"
+colnames(SVM.mito.Pro.A)[1] <- "Overall"
+LVQ.mito.Pro.Sig.A <- setDT(LVQ.mito.Pro.A, keep.rownames = TRUE)[]
+SVM.mito.Pro.Sig.A <- setDT(SVM.mito.Pro.A, keep.rownames = TRUE)[]
+GBM.mito.Pro.Sig.A <- setDT(GBM.mito.Pro.A, keep.rownames = TRUE)[]
+LVQ.mito.Pro.Sig.A <- LVQ.mito.Pro.Sig.A[order(-LVQ.mito.Pro.Sig.A$Overall),]
+SVM.mito.Pro.Sig.A <- SVM.mito.Pro.Sig.A[order(-SVM.mito.Pro.Sig.A$Overall),]
+GBM.mito.Pro.Sig.A <- GBM.mito.Pro.Sig.A[order(-GBM.mito.Pro.Sig.A$Overall),]
+LVQ.mito.Pro.Sig.A <- head(LVQ.mito.Pro.Sig.A, 20)
+SVM.mito.Pro.Sig.A <- head(SVM.mito.Pro.Sig.A, 20)
+#Adjust GBM selection based on printed variables
+GBM.mito.Pro.Sig.A <- head(GBM.mito.Pro.Sig.A, 3)
+LVQ.mito.Pro.Sig.A$Overall <- NULL
+SVM.mito.Pro.Sig.A$Overall <- NULL
+GBM.mito.Pro.Sig.A$Overall <- NULL
+#The data need to be in a vector. As.vector doesn't work, but unlist reduces data to simple
+LVQ.mito.Pro.Sig.A <- unlist(LVQ.mito.Pro.Sig.A)
+SVM.mito.Pro.Sig.A <- unlist(SVM.mito.Pro.Sig.A)
+GBM.mito.Pro.Sig.A <- unlist(GBM.mito.Pro.Sig.A)
+library(VennDiagram)
+venn.data.mito.A <- list(LVQ.mito.Pro.Sig.A, SVM.mito.Pro.Sig.A, GBM.mito.Pro.Sig.A)
+grid.newpage()
+venn.plot.mito.A <- venn.diagram(x = list(LVQ.mito.Pro.Sig.A=LVQ.mito.Pro.Sig.A, SVM.mito.Pro.Sig.A=SVM.mito.Pro.Sig.A, GBM.mito.Pro.Sig.A=GBM.mito.Pro.Sig.A),
+                                  filename=NULL, 
+                                  fill = c("red", "blue", "green"),
+                                  alpha = 0.50,
+                                  col = "transparent")
+grid.draw(venn.plot.mito.A)
+venn.intersect.mito.A <- calculate.overlap(venn.data.mito.A)
+print(venn.intersect.mito.A$a5)
+print(venn.intersect.mito.A$a2)
+
+
+#LVQ B_
+test.mito.lvq.B.pro <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
+set.seed(86)
+model.mito.lvq.B.pro <- train(progress..yes.no. ~ B_APC + B_SMARC4 + B_BAP1 + B_NPM1 + B_FGFR3 + B_CIC + B_GNA11 + B_IL7R + B_GNAS + B_KMT2D + B_MAP3K1 + B_ZRSR2 + B_DDB2 + B_MDM2 + B_MEN1 + B_none + B_PIK3R1 + B_ARID2 + B_ABL1 + B_NOTCH1 + B_TERT + B_CDK4 + B_CSF1R + B_VHL + B_MYC + B_TSC1 + B_PRKAR1A + B_DDR2 + B_SLC7A8 + B_STK11 + B_IL6ST + B_U2AF1 + B_ASXL1, 
+                               data = mitotane.pos.data.B, method = "lvq",
+                               trControl = test.mito.lvq.B.pro,
+                               preProcess = c("center", "scale"),
+                               tuneLength = 10,
+                               na.action = na.pass)
+importance.mito.lvq.B.pro <- varImp(model.mito.lvq.B.pro, scale = FALSE)
+print(importance.mito.lvq.B.pro)
+plot(importance.mito.lvq.B.pro)
+
+#SVM B_
+test.mito.svm.B.pro <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
+set.seed(86)
+model.mito.svm.B.pro <- train(progress..yes.no. ~ B_APC + B_SMARC4 + B_BAP1 + B_NPM1 + B_FGFR3 + B_CIC + B_GNA11 + B_IL7R + B_GNAS + B_KMT2D + B_MAP3K1 + B_ZRSR2 + B_DDB2 + B_MDM2 + B_MEN1 + B_none + B_PIK3R1 + B_ARID2 + B_ABL1 + B_NOTCH1 + B_TERT + B_CDK4 + B_CSF1R + B_VHL + B_MYC + B_TSC1 + B_PRKAR1A + B_DDR2 + B_SLC7A8 + B_STK11 + B_IL6ST + B_U2AF1 + B_ASXL1, 
+                               data = mitotane.pos.data.B, method = "svmRadial",
+                               trControl = test.mito.svm.B.pro,
+                               preProcess = c("center", "scale"),
+                               tuneLength = 10,
+                               na.action = na.pass)
+importance.mito.svm.B.pro <- varImp(model.mito.svm.B.pro, scale = FALSE)
+print(importance.mito.svm.B.pro)
+plot(importance.mito.svm.B.pro)
+
+#GBM B_
+test.mito.gbm.B.pro <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
+set.seed(86)
+model.mito.gbm.B.pro <- train(progress..yes.no. ~ B_APC + B_SMARC4 + B_BAP1 + B_NPM1 + B_FGFR3 + B_CIC + B_GNA11 + B_IL7R + B_GNAS + B_KMT2D + B_MAP3K1 + B_ZRSR2 + B_DDB2 + B_MDM2 + B_MEN1 + B_none + B_PIK3R1 + B_ARID2 + B_ABL1 + B_NOTCH1 + B_TERT + B_CDK4 + B_CSF1R + B_VHL + B_MYC + B_TSC1 + B_PRKAR1A + B_DDR2 + B_SLC7A8 + B_STK11 + B_IL6ST + B_U2AF1 + B_ASXL1, 
+                               data = mitotane.pos.data.B, method = "gbm",
+                               trControl = test.mito.gbm.B.pro,
+                               preProcess = c("center", "scale"),
+                               tuneLength = 10,
+                               na.action = na.pass)
+importance.mito.gbm.B.pro <- varImp(model.mito.gbm.B.pro, scale = FALSE)
+print(importance.mito.gbm.B.pro)
+plot(importance.mito.gbm.B.pro)
+
+#Common predictors for A_ progress..yes.no.
+LVQ.mito.Pro.B <- importance.mito.lvq.B.pro$importance
+SVM.mito.Pro.B <- importance.mito.svm.B.pro$importance
+GBM.mito.Pro.B <- importance.mito.gbm.B.pro$importance
+all(LVQ.mito.Pro.B$X0 == LVQ.mito.Pro.B$X1)
+all(SVM.mito.Pro.B$X0 == SVM.mito.Pro.B$X1)
+LVQ.mito.Pro.B$X1 <- NULL
+SVM.mito.Pro.B$X1 <- NULL
+colnames(LVQ.mito.Pro.B)[1] <- "Overall"
+colnames(SVM.mito.Pro.B)[1] <- "Overall"
+LVQ.mito.Pro.Sig.B <- setDT(LVQ.mito.Pro.B, keep.rownames = TRUE)[]
+SVM.mito.Pro.Sig.B <- setDT(SVM.mito.Pro.B, keep.rownames = TRUE)[]
+GBM.mito.Pro.Sig.B <- setDT(GBM.mito.Pro.B, keep.rownames = TRUE)[]
+LVQ.mito.Pro.Sig.B <- LVQ.mito.Pro.Sig.B[order(-LVQ.mito.Pro.Sig.B$Overall),]
+SVM.mito.Pro.Sig.B <- SVM.mito.Pro.Sig.B[order(-SVM.mito.Pro.Sig.B$Overall),]
+GBM.mito.Pro.Sig.B <- GBM.mito.Pro.Sig.B[order(-GBM.mito.Pro.Sig.B$Overall),]
+LVQ.mito.Pro.Sig.B <- head(LVQ.mito.Pro.Sig.B, 20)
+SVM.mito.Pro.Sig.B <- head(SVM.mito.Pro.Sig.B, 20)
+#Adjust GBM selection based on printed variables
+GBM.mito.Pro.Sig.B <- head(GBM.mito.Pro.Sig.B, 3)
+LVQ.mito.Pro.Sig.B$Overall <- NULL
+SVM.mito.Pro.Sig.B$Overall <- NULL
+GBM.mito.Pro.Sig.B$Overall <- NULL
+#The data need to be in a vector. As.vector doesn't work, but unlist reduces data to simple
+LVQ.mito.Pro.Sig.B <- unlist(LVQ.mito.Pro.Sig.B)
+SVM.mito.Pro.Sig.B <- unlist(SVM.mito.Pro.Sig.B)
+GBM.mito.Pro.Sig.B <- unlist(GBM.mito.Pro.Sig.B)
+library(VennDiagram)
+venn.data.mito.B <- list(LVQ.mito.Pro.Sig.B, SVM.mito.Pro.Sig.B, GBM.mito.Pro.Sig.B)
+grid.newpage()
+venn.plot.mito.B <- venn.diagram(x = list(LVQ.mito.Pro.Sig.B=LVQ.mito.Pro.Sig.B, SVM.mito.Pro.Sig.B=SVM.mito.Pro.Sig.B, GBM.mito.Pro.Sig.B=GBM.mito.Pro.Sig.B),
+                                  filename=NULL, 
+                                  fill = c("red", "blue", "green"),
+                                  alpha = 0.50,
+                                  col = "transparent")
+grid.draw(venn.plot.mito.B)
+venn.intersect.mito.B <- calculate.overlap(venn.data.mito.B)
+print(venn.intersect.mito.B$a5)
+print(venn.intersect.mito.B$a2)
+
+#LVQ C_
+test.mito.lvq.C.pro <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
+set.seed(86)
+model.mito.lvq.C.pro <- train(progress..yes.no. ~ C_CARD11 + C_SDHB + C_TNRFSF14 + C_CYLD + C_SLC7A8 + C_PHF6 + C_FGFR2 + C_SPOP + C_MLH1 + C_none + C_BRIP1 + C_MSH2 + C_CD79 + C_SMO + C_GNAQ + C_ECT2L + C_CDC73 + C_PIK3R1 + C_TNFSRF14 + C_BRAF + C_RB1 + C_SMAD4 + C_MAP2K4 + C_SMARCB1 + C_DNMT3A + C_BRCA2 + C_JAK1 + C_EZH2 + C_FAS + C_NF1 + C_CHEK2 + C_PALB2 + C_CSF1R + C_TNFSRSF14 + C_CDK12 + C_FLCN + C_FLNC + C_MAP4K3 + C_EPCAM + C_TNFRSF14 + C_VHL, 
+                               data = mitotane.pos.data.C, method = "lvq",
+                               trControl = test.mito.lvq.C.pro,
+                               preProcess = c("center", "scale"),
+                               tuneLength = 10,
+                               na.action = na.pass)
+importance.mito.lvq.C.pro <- varImp(model.mito.lvq.C.pro, scale = FALSE)
+print(importance.mito.lvq.C.pro)
+plot(importance.mito.lvq.C.pro)
+
+#SVM C_
+test.mito.svm.C.pro <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
+set.seed(86)
+model.mito.svm.C.pro <- train(progress..yes.no. ~ C_CARD11 + C_SDHB + C_TNRFSF14 + C_CYLD + C_SLC7A8 + C_PHF6 + C_FGFR2 + C_SPOP + C_MLH1 + C_none + C_BRIP1 + C_MSH2 + C_CD79 + C_SMO + C_GNAQ + C_ECT2L + C_CDC73 + C_PIK3R1 + C_TNFSRF14 + C_BRAF + C_RB1 + C_SMAD4 + C_MAP2K4 + C_SMARCB1 + C_DNMT3A + C_BRCA2 + C_JAK1 + C_EZH2 + C_FAS + C_NF1 + C_CHEK2 + C_PALB2 + C_CSF1R + C_TNFSRSF14 + C_CDK12 + C_FLCN + C_FLNC + C_MAP4K3 + C_EPCAM + C_TNFRSF14 + C_VHL, 
+                               data = mitotane.pos.data.C, method = "svmRadial",
+                               trControl = test.mito.svm.C.pro,
+                               preProcess = c("center", "scale"),
+                               tuneLength = 10,
+                               na.action = na.pass)
+importance.mito.svm.C.pro <- varImp(model.mito.svm.C.pro, scale = FALSE)
+print(importance.mito.svm.C.pro)
+plot(importance.mito.svm.C.pro)
+#GBM C_
+test.mito.gbm.C.pro <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
+set.seed(86)
+model.mito.gbm.C.pro <- train(progress..yes.no. ~ C_CARD11 + C_SDHB + C_TNRFSF14 + C_CYLD + C_SLC7A8 + C_PHF6 + C_FGFR2 + C_SPOP + C_MLH1 + C_none + C_BRIP1 + C_MSH2 + C_CD79 + C_SMO + C_GNAQ + C_ECT2L + C_CDC73 + C_PIK3R1 + C_TNFSRF14 + C_BRAF + C_RB1 + C_SMAD4 + C_MAP2K4 + C_SMARCB1 + C_DNMT3A + C_BRCA2 + C_JAK1 + C_EZH2 + C_FAS + C_NF1 + C_CHEK2 + C_PALB2 + C_CSF1R + C_TNFSRSF14 + C_CDK12 + C_FLCN + C_FLNC + C_MAP4K3 + C_EPCAM + C_TNFRSF14 + C_VHL, 
+                               data = mitotane.pos.data.C, method = "gbm",
+                               trControl = test.mito.gbm.C.pro,
+                               preProcess = c("center", "scale"),
+                               tuneLength = 10,
+                               na.action = na.pass)
+importance.mito.gbm.C.pro <- varImp(model.mito.gbm.C.pro, scale = FALSE)
+print(importance.mito.gbm.C.pro)
+plot(importance.mito.gbm.C.pro)
+
+#Common predictors for A_ progress..yes.no.
+LVQ.mito.Pro.C <- importance.mito.lvq.C.pro$importance
+SVM.mito.Pro.C <- importance.mito.svm.C.pro$importance
+GBM.mito.Pro.C <- importance.mito.gbm.C.pro$importance
+all(LVQ.mito.Pro.C$X0 == LVQ.mito.Pro.C$X1)
+all(SVM.mito.Pro.C$X0 == SVM.mito.Pro.C$X1)
+LVQ.mito.Pro.C$X1 <- NULL
+SVM.mito.Pro.C$X1 <- NULL
+colnames(LVQ.mito.Pro.C)[1] <- "Overall"
+colnames(SVM.mito.Pro.C)[1] <- "Overall"
+LVQ.mito.Pro.Sig.C <- setDT(LVQ.mito.Pro.C, keep.rownames = TRUE)[]
+SVM.mito.Pro.Sig.C <- setDT(SVM.mito.Pro.C, keep.rownames = TRUE)[]
+GBM.mito.Pro.Sig.C <- setDT(GBM.mito.Pro.C, keep.rownames = TRUE)[]
+LVQ.mito.Pro.Sig.C <- LVQ.mito.Pro.Sig.C[order(-LVQ.mito.Pro.Sig.C$Overall),]
+SVM.mito.Pro.Sig.C <- SVM.mito.Pro.Sig.C[order(-SVM.mito.Pro.Sig.C$Overall),]
+GBM.mito.Pro.Sig.C <- GBM.mito.Pro.Sig.C[order(-GBM.mito.Pro.Sig.C$Overall),]
+LVQ.mito.Pro.Sig.C <- head(LVQ.mito.Pro.Sig.C, 20)
+SVM.mito.Pro.Sig.C <- head(SVM.mito.Pro.Sig.C, 20)
+#Adjust GBM selection based on printed variables
+GBM.mito.Pro.Sig.C <- head(GBM.mito.Pro.Sig.C, 3)
+LVQ.mito.Pro.Sig.C$Overall <- NULL
+SVM.mito.Pro.Sig.C$Overall <- NULL
+GBM.mito.Pro.Sig.C$Overall <- NULL
+#The data need to be in a vector. As.vector doesn't work, but unlist reduces data to simple
+LVQ.mito.Pro.Sig.C <- unlist(LVQ.mito.Pro.Sig.C)
+SVM.mito.Pro.Sig.C <- unlist(SVM.mito.Pro.Sig.C)
+GBM.mito.Pro.Sig.C <- unlist(GBM.mito.Pro.Sig.C)
+library(VennDiagram)
+venn.data.mito.C <- list(LVQ.mito.Pro.Sig.C, SVM.mito.Pro.Sig.C, GBM.mito.Pro.Sig.C)
+grid.newpage()
+venn.plot.mito.C <- venn.diagram(x = list(LVQ.mito.Pro.Sig.C=LVQ.mito.Pro.Sig.C, SVM.mito.Pro.Sig.C=SVM.mito.Pro.Sig.C, GBM.mito.Pro.Sig.C=GBM.mito.Pro.Sig.C),
+                                  filename=NULL, 
+                                  fill = c("red", "blue", "green"),
+                                  alpha = 0.50,
+                                  col = "transparent")
+grid.draw(venn.plot.mito.C)
+venn.intersect.mito.C <- calculate.overlap(venn.data.mito.C)
+print(venn.intersect.mito.C$a5)
+print(venn.intersect.mito.C$a2)
+
+
+#Mitotane negative treatment 
+#LVQ 
+test.Nomitotane.lvq.pro <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
+set.seed(86)
+model.Nomitotane.lvq.pro <- train(progress..yes.no. ~ A_EGFR + A_ATM + A_FLCN + A_CDK4 + A_TERT + A_PBRM1 + A_MAP3K1 + A_ATRX + A_PPP2R1A + A_SMARCB1 + A_ABL1 + A_PALB2 + A_MYC + A_MED12 + A_DAXX + A_CSFR1 + A_U2AF1 + A_CREBBP + A_FBXO11 + A_CDH1 + A_ZNFR3 + A_ARID1A + A_GRIN2A + A_BCL6 + A_TSC2 + A_BRCA1 + A_CDK12 + A_PTCH1 + A_TP53 + A_EZH2 + A_MSH2 + A_AR + A_GNA11 + A_SMAD4 + A_BRCA2 + A_RB1 + A_CTNNB1 + A_KIT + A_SETD2 + A_KDR + A_JAK1 + A_WT1 + A_SLC7A8 + A_KMT2D + A_NF1 + A_NOTCH1 + A_KDM6A + A_CIC + A_PRDM1 + A_JAK2 + A_RET + A_BCOR + A_ESR1 + A_APC + A_FBXW7 + A_GNAS + A_MEN1 + A_DNMT3A + A_ZNRF3 + A_FANCE + A_TSC1 + A_SMARC4A + A_MSH6 + A_EP300 + A_PRKAR1A + A_BUB1B + A_none + A_MLH1 + A_H3F3A + A_SMO + A_BRAF + B_APC + B_SMARC4 + B_BAP1 + B_NPM1 + B_FGFR3 + B_CIC + B_GNA11 + B_IL7R + B_GNAS + B_KMT2D + B_MAP3K1 + B_ZRSR2 + B_DDB2 + B_MDM2 + B_MEN1 + B_none + B_PIK3R1 + B_ARID2 + B_ABL1 + B_NOTCH1 + B_TERT + B_CDK4 + B_CSF1R + B_VHL + B_MYC + B_TSC1 + B_PRKAR1A + B_DDR2 + B_SLC7A8 + B_STK11 + B_IL6ST + B_U2AF1 + B_ASXL1 + C_CARD11 + C_SDHB + C_TNRFSF14 + C_CYLD + C_SLC7A8 + C_PHF6 + C_FGFR2 + C_SPOP + C_MLH1 + C_none + C_BRIP1 + C_MSH2 + C_CD79 + C_SMO + C_GNAQ + C_ECT2L + C_CDC73 + C_PIK3R1 + C_TNFSRF14 + C_BRAF + C_RB1 + C_SMAD4 + C_MAP2K4 + C_SMARCB1 + C_DNMT3A + C_BRCA2 + C_JAK1 + C_EZH2 + C_FAS + C_NF1 + C_CHEK2 + C_PALB2 + C_CSF1R + C_TNFSRSF14 + C_CDK12 + C_FLCN + C_FLNC + C_MAP4K3 + C_EPCAM + C_TNFRSF14 + C_VHL,
+                                data = mitotane.neg.data.whole, method = "lvq",
+                                trControl = test.Nomitotane.lvq.pro,
+                                preProcess = c("center", "scale"),
+                                tuneLength = 10,
+                                tuneGrid = data.frame(size = 3, k = 1:2),
+                                na.action = na.pass)
+importance.Nomitotane.lvq.pro <- varImp(model.Nomitotane.lvq.pro, scale = FALSE)
+print(importance.Nomitotane.lvq.pro)
+plot(importance.Nomitotane.lvq.pro)
+
+#SVM 
+test.Nomitotane.svm.pro <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
+set.seed(86)
+model.Nomitotane.svm.pro <- train(progress..yes.no. ~ A_EGFR + A_ATM + A_FLCN + A_CDK4 + A_TERT + A_PBRM1 + A_MAP3K1 + A_ATRX + A_PPP2R1A + A_SMARCB1 + A_ABL1 + A_PALB2 + A_MYC + A_MED12 + A_DAXX + A_CSFR1 + A_U2AF1 + A_CREBBP + A_FBXO11 + A_CDH1 + A_ZNFR3 + A_ARID1A + A_GRIN2A + A_BCL6 + A_TSC2 + A_BRCA1 + A_CDK12 + A_PTCH1 + A_TP53 + A_EZH2 + A_MSH2 + A_AR + A_GNA11 + A_SMAD4 + A_BRCA2 + A_RB1 + A_CTNNB1 + A_KIT + A_SETD2 + A_KDR + A_JAK1 + A_WT1 + A_SLC7A8 + A_KMT2D + A_NF1 + A_NOTCH1 + A_KDM6A + A_CIC + A_PRDM1 + A_JAK2 + A_RET + A_BCOR + A_ESR1 + A_APC + A_FBXW7 + A_GNAS + A_MEN1 + A_DNMT3A + A_ZNRF3 + A_FANCE + A_TSC1 + A_SMARC4A + A_MSH6 + A_EP300 + A_PRKAR1A + A_BUB1B + A_none + A_MLH1 + A_H3F3A + A_SMO + A_BRAF + B_APC + B_SMARC4 + B_BAP1 + B_NPM1 + B_FGFR3 + B_CIC + B_GNA11 + B_IL7R + B_GNAS + B_KMT2D + B_MAP3K1 + B_ZRSR2 + B_DDB2 + B_MDM2 + B_MEN1 + B_none + B_PIK3R1 + B_ARID2 + B_ABL1 + B_NOTCH1 + B_TERT + B_CDK4 + B_CSF1R + B_VHL + B_MYC + B_TSC1 + B_PRKAR1A + B_DDR2 + B_SLC7A8 + B_STK11 + B_IL6ST + B_U2AF1 + B_ASXL1 + C_CARD11 + C_SDHB + C_TNRFSF14 + C_CYLD + C_SLC7A8 + C_PHF6 + C_FGFR2 + C_SPOP + C_MLH1 + C_none + C_BRIP1 + C_MSH2 + C_CD79 + C_SMO + C_GNAQ + C_ECT2L + C_CDC73 + C_PIK3R1 + C_TNFSRF14 + C_BRAF + C_RB1 + C_SMAD4 + C_MAP2K4 + C_SMARCB1 + C_DNMT3A + C_BRCA2 + C_JAK1 + C_EZH2 + C_FAS + C_NF1 + C_CHEK2 + C_PALB2 + C_CSF1R + C_TNFSRSF14 + C_CDK12 + C_FLCN + C_FLNC + C_MAP4K3 + C_EPCAM + C_TNFRSF14 + C_VHL, 
+                                data = mitotane.neg.data.whole, method = "svmRadial",
+                                trControl = test.Nomitotane.svm.pro,
+                                preProcess = c("center", "scale"),
+                                tuneLength = 10,
+                                na.action = na.pass)
+importance.Nomitotane.svm.pro <- varImp(model.Nomitotane.svm.pro, scale = FALSE)
+print(importance.Nomitotane.svm.pro)
+plot(importance.Nomitotane.svm.pro)
+
+
+#GBM 
+#test.Nomitotane.gbm.pro <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
+#set.seed(86)
+#model.Nomitotane.gbm.pro <- train(progress..yes.no. ~ A_EGFR + A_ATM + A_FLCN + A_CDK4 + A_TERT + A_PBRM1 + A_MAP3K1 + A_ATRX + A_PPP2R1A + A_SMARCB1 + A_ABL1 + A_PALB2 + A_MYC + A_MED12 + A_DAXX + A_CSFR1 + A_U2AF1 + A_CREBBP + A_FBXO11 + A_CDH1 + A_ZNFR3 + A_ARID1A + A_GRIN2A + A_BCL6 + A_TSC2 + A_BRCA1 + A_CDK12 + A_PTCH1 + A_TP53 + A_EZH2 + A_MSH2 + A_AR + A_GNA11 + A_SMAD4 + A_BRCA2 + A_RB1 + A_CTNNB1 + A_KIT + A_SETD2 + A_KDR + A_JAK1 + A_WT1 + A_SLC7A8 + A_KMT2D + A_NF1 + A_NOTCH1 + A_KDM6A + A_CIC + A_PRDM1 + A_JAK2 + A_RET + A_BCOR + A_ESR1 + A_APC + A_FBXW7 + A_GNAS + A_MEN1 + A_DNMT3A + A_ZNRF3 + A_FANCE + A_TSC1 + A_SMARC4A + A_MSH6 + A_EP300 + A_PRKAR1A + A_BUB1B + A_none + A_MLH1 + A_H3F3A + A_SMO + A_BRAF + B_APC + B_SMARC4 + B_BAP1 + B_NPM1 + B_FGFR3 + B_CIC + B_GNA11 + B_IL7R + B_GNAS + B_KMT2D + B_MAP3K1 + B_ZRSR2 + B_DDB2 + B_MDM2 + B_MEN1 + B_none + B_PIK3R1 + B_ARID2 + B_ABL1 + B_NOTCH1 + B_TERT + B_CDK4 + B_CSF1R + B_VHL + B_MYC + B_TSC1 + B_PRKAR1A + B_DDR2 + B_SLC7A8 + B_STK11 + B_IL6ST + B_U2AF1 + B_ASXL1 + C_CARD11 + C_SDHB + C_TNRFSF14 + C_CYLD + C_SLC7A8 + C_PHF6 + C_FGFR2 + C_SPOP + C_MLH1 + C_none + C_BRIP1 + C_MSH2 + C_CD79 + C_SMO + C_GNAQ + C_ECT2L + C_CDC73 + C_PIK3R1 + C_TNFSRF14 + C_BRAF + C_RB1 + C_SMAD4 + C_MAP2K4 + C_SMARCB1 + C_DNMT3A + C_BRCA2 + C_JAK1 + C_EZH2 + C_FAS + C_NF1 + C_CHEK2 + C_PALB2 + C_CSF1R + C_TNFSRSF14 + C_CDK12 + C_FLCN + C_FLNC + C_MAP4K3 + C_EPCAM + C_TNFRSF14 + C_VHL, 
+#                                data = mitotane.neg.data.whole, method = "gbm",
+#                                trControl = test.Nomitotane.gbm.pro,
+#                                preProcess = c("center", "scale"),
+#                                tuneLength = 10,
+#                                na.action = na.pass)
+#importance.Nomitotane.gbm.pro <- varImp(model.Nomitotane.gbm.pro, scale = FALSE)
+#print(importance.Nomitotane.gbm.pro)
+#plot(importance.Nomitotane.gbm.pro)
+
+#Common predictors for  progress..yes.no.
+LVQ.Nomitotane.Pro <- importance.Nomitotane.lvq.pro$importance
+SVM.Nomitotane.Pro <- importance.Nomitotane.svm.pro$importance
+#GBM.Nomitotane.Pro <- importance.Nomitotane.gbm.pro$importance
+all(LVQ.Nomitotane.Pro$X0 == LVQ.Nomitotane.Pro$X1)
+all(SVM.Nomitotane.Pro$X0 == SVM.Nomitotane.Pro$X1)
+LVQ.Nomitotane.Pro$X1 <- NULL
+SVM.Nomitotane.Pro$X1 <- NULL
+colnames(LVQ.Nomitotane.Pro)[1] <- "Overall"
+colnames(SVM.Nomitotane.Pro)[1] <- "Overall"
+LVQ.Nomitotane.Pro <- setDT(LVQ.Nomitotane.Pro, keep.rownames = TRUE)[]
+SVM.Nomitotane.Pro <- setDT(SVM.Nomitotane.Pro, keep.rownames = TRUE)[]
+#GBM.Nomitotane.Pro <- setDT(GBM.Nomitotane.Pro, keep.rownames = TRUE)[]
+LVQ.Nomitotane.Pro <- LVQ.Nomitotane.Pro[order(-LVQ.Nomitotane.Pro$Overall),]
+SVM.Nomitotane.Pro <- SVM.Nomitotane.Pro[order(-SVM.Nomitotane.Pro$Overall),]
+#GBM.Nomitotane.Pro <- GBM.Nomitotane.Pro[order(-GBM.Nomitotane.Pro$Overall),]
+LVQ.Nomitotane.Pro.Sig <- head(LVQ.Nomitotane.Pro, 20)
+SVM.Nomitotane.Pro.Sig <- head(SVM.Nomitotane.Pro, 20)
+#Adjust GBM selection based on printed variables
+#GBM.Nomitotane.Pro.Sig <- head(GBM.Nomitotane.Pro, 3)
+LVQ.Nomitotane.Pro.Sig$Overall <- NULL
+SVM.Nomitotane.Pro.Sig$Overall <- NULL
+#GBM.Nomitotane.Pro.Sig$Overall <- NULL
+#The data need to be in a vector. As.vector doesn't work, but unlist reduces data to simple
+LVQ.Nomitotane.Pro.Sig <- unlist(LVQ.Nomitotane.Pro.Sig)
+SVM.Nomitotane.Pro.Sig <- unlist(SVM.Nomitotane.Pro.Sig)
+#GBM.Nomitotane.Pro.Sig <- unlist(GBM.Nomitotane.Pro.Sig)
+library(VennDiagram)
+venn.data.Nomitotane.pos <- list(LVQ.Nomitotane.Pro.Sig, SVM.Nomitotane.Pro.Sig)
+grid.newpage()
+venn.plot.Nomitotane.pos <- venn.diagram(x = list(LVQ.Nomitotane.Pro.Sig=LVQ.Nomitotane.Pro.Sig, SVM.Nomitotane.Pro.Sig=SVM.Nomitotane.Pro.Sig),
+                                       filename=NULL, 
+                                       fill = c("red", "blue"),
+                                       alpha = 0.50,
+                                       col = "transparent")
+grid.draw(venn.plot.Nomitotane.pos)
+venn.intersect.Nomitotane.pos <- calculate.overlap(venn.data.Nomitotane.pos)
+
+
+#Seperation for Nomitotane by A_, B_ and C_ using progress..yes.no.
+#LVQ A_
+test.Nomito.lvq.A.pro <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
+set.seed(86)
+model.Nomito.lvq.A.pro <- train(progress..yes.no. ~ A_EGFR + A_ATM + A_FLCN + A_CDK4 + A_TERT + A_PBRM1 + A_MAP3K1 + A_ATRX + A_PPP2R1A + A_SMARCB1 + A_ABL1 + A_PALB2 + A_MYC + A_MED12 + A_DAXX + A_CSFR1 + A_U2AF1 + A_CREBBP + A_FBXO11 + A_CDH1 + A_ZNFR3 + A_ARID1A + A_GRIN2A + A_BCL6 + A_TSC2 + A_BRCA1 + A_CDK12 + A_PTCH1 + A_TP53 + A_EZH2 + A_MSH2 + A_AR + A_GNA11 + A_SMAD4 + A_BRCA2 + A_RB1 + A_CTNNB1 + A_KIT + A_SETD2 + A_KDR + A_JAK1 + A_WT1 + A_SLC7A8 + A_KMT2D + A_NF1 + A_NOTCH1 + A_KDM6A + A_CIC + A_PRDM1 + A_JAK2 + A_RET + A_BCOR + A_ESR1 + A_APC + A_FBXW7 + A_GNAS + A_MEN1 + A_DNMT3A + A_ZNRF3 + A_FANCE + A_TSC1 + A_SMARC4A + A_MSH6 + A_EP300 + A_PRKAR1A + A_BUB1B + A_none + A_MLH1 + A_H3F3A + A_SMO + A_BRAF,
+                              data = mitotane.neg.data.A, method = "lvq",
+                              trControl = test.Nomito.lvq.A.pro,
+                              preProcess = c("center", "scale"),
+                              tuneLength = 10,
+                              na.action = na.pass)
+importance.Nomito.lvq.A.pro <- varImp(model.Nomito.lvq.A.pro, scale = FALSE)
+print(importance.Nomito.lvq.A.pro)
+plot(importance.Nomito.lvq.A.pro)
+
+#SVM A_
+test.Nomito.svm.A.pro <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
+set.seed(86)
+model.Nomito.svm.A.pro <- train(progress..yes.no. ~ A_EGFR + A_ATM + A_FLCN + A_CDK4 + A_TERT + A_PBRM1 + A_MAP3K1 + A_ATRX + A_PPP2R1A + A_SMARCB1 + A_ABL1 + A_PALB2 + A_MYC + A_MED12 + A_DAXX + A_CSFR1 + A_U2AF1 + A_CREBBP + A_FBXO11 + A_CDH1 + A_ZNFR3 + A_ARID1A + A_GRIN2A + A_BCL6 + A_TSC2 + A_BRCA1 + A_CDK12 + A_PTCH1 + A_TP53 + A_EZH2 + A_MSH2 + A_AR + A_GNA11 + A_SMAD4 + A_BRCA2 + A_RB1 + A_CTNNB1 + A_KIT + A_SETD2 + A_KDR + A_JAK1 + A_WT1 + A_SLC7A8 + A_KMT2D + A_NF1 + A_NOTCH1 + A_KDM6A + A_CIC + A_PRDM1 + A_JAK2 + A_RET + A_BCOR + A_ESR1 + A_APC + A_FBXW7 + A_GNAS + A_MEN1 + A_DNMT3A + A_ZNRF3 + A_FANCE + A_TSC1 + A_SMARC4A + A_MSH6 + A_EP300 + A_PRKAR1A + A_BUB1B + A_none + A_MLH1 + A_H3F3A + A_SMO + A_BRAF, 
+                              data = mitotane.neg.data.A, method = "svmRadial",
+                              trControl = test.Nomito.svm.A.pro,
+                              preProcess = c("center", "scale"),
+                              tuneLength = 10,
+                              na.action = na.pass)
+importance.Nomito.svm.A.pro <- varImp(model.Nomito.svm.A.pro, scale = FALSE)
+print(importance.Nomito.svm.A.pro)
+plot(importance.Nomito.svm.A.pro)
+
+#GBM A_
+#test.Nomito.gbm.A.pro <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
+#set.seed(86)
+#model.Nomito.gbm.A.pro <- train(progress..yes.no. ~ A_EGFR + A_ATM + A_FLCN + A_CDK4 + A_TERT + A_PBRM1 + A_MAP3K1 + A_ATRX + A_PPP2R1A + A_SMARCB1 + A_ABL1 + A_PALB2 + A_MYC + A_MED12 + A_DAXX + A_CSFR1 + A_U2AF1 + A_CREBBP + A_FBXO11 + A_CDH1 + A_ZNFR3 + A_ARID1A + A_GRIN2A + A_BCL6 + A_TSC2 + A_BRCA1 + A_CDK12 + A_PTCH1 + A_TP53 + A_EZH2 + A_MSH2 + A_AR + A_GNA11 + A_SMAD4 + A_BRCA2 + A_RB1 + A_CTNNB1 + A_KIT + A_SETD2 + A_KDR + A_JAK1 + A_WT1 + A_SLC7A8 + A_KMT2D + A_NF1 + A_NOTCH1 + A_KDM6A + A_CIC + A_PRDM1 + A_JAK2 + A_RET + A_BCOR + A_ESR1 + A_APC + A_FBXW7 + A_GNAS + A_MEN1 + A_DNMT3A + A_ZNRF3 + A_FANCE + A_TSC1 + A_SMARC4A + A_MSH6 + A_EP300 + A_PRKAR1A + A_BUB1B + A_none + A_MLH1 + A_H3F3A + A_SMO + A_BRAF, 
+#                              data = mitotane.neg.data.A, method = "gbm",
+#                              trControl = test.Nomito.gbm.A.pro,
+#                              preProcess = c("center", "scale"),
+#                              tuneLength = 10,
+#                              na.action = na.pass)
+#importance.Nomito.gbm.A.pro <- varImp(model.Nomito.gbm.A.pro, scale = FALSE)
+#print(importance.Nomito.gbm.A.pro)
+#plot(importance.Nomito.gbm.A.pro)
+
+#Common predictors for A_ progress..yes.no.
+LVQ.Nomito.Pro.A <- importance.Nomito.lvq.A.pro$importance
+SVM.Nomito.Pro.A <- importance.Nomito.svm.A.pro$importance
+#GBM.Nomito.Pro.A <- importance.Nomito.gbm.A.pro$importance
+all(LVQ.Nomito.Pro.A$X0 == LVQ.Nomito.Pro.A$X1)
+all(SVM.Nomito.Pro.A$X0 == SVM.Nomito.Pro.A$X1)
+LVQ.Nomito.Pro.A$X1 <- NULL
+SVM.Nomito.Pro.A$X1 <- NULL
+colnames(LVQ.Nomito.Pro.A)[1] <- "Overall"
+colnames(SVM.Nomito.Pro.A)[1] <- "Overall"
+LVQ.Nomito.Pro.Sig.A <- setDT(LVQ.Nomito.Pro.A, keep.rownames = TRUE)[]
+SVM.Nomito.Pro.Sig.A <- setDT(SVM.Nomito.Pro.A, keep.rownames = TRUE)[]
+#GBM.Nomito.Pro.Sig.A <- setDT(GBM.Nomito.Pro.A, keep.rownames = TRUE)[]
+LVQ.Nomito.Pro.Sig.A <- LVQ.Nomito.Pro.Sig.A[order(-LVQ.Nomito.Pro.Sig.A$Overall),]
+SVM.Nomito.Pro.Sig.A <- SVM.Nomito.Pro.Sig.A[order(-SVM.Nomito.Pro.Sig.A$Overall),]
+#GBM.Nomito.Pro.Sig.A <- GBM.Nomito.Pro.Sig.A[order(-GBM.Nomito.Pro.Sig.A$Overall),]
+LVQ.Nomito.Pro.Sig.A <- head(LVQ.Nomito.Pro.Sig.A, 20)
+SVM.Nomito.Pro.Sig.A <- head(SVM.Nomito.Pro.Sig.A, 20)
+#Adjust GBM selection based on printed variables
+#GBM.Nomito.Pro.Sig.A <- head(GBM.Nomito.Pro.Sig.A, 3)
+LVQ.Nomito.Pro.Sig.A$Overall <- NULL
+SVM.Nomito.Pro.Sig.A$Overall <- NULL
+#GBM.Nomito.Pro.Sig.A$Overall <- NULL
+#The data need to be in a vector. As.vector doesn't work, but unlist reduces data to simple
+LVQ.Nomito.Pro.Sig.A <- unlist(LVQ.Nomito.Pro.Sig.A)
+SVM.Nomito.Pro.Sig.A <- unlist(SVM.Nomito.Pro.Sig.A)
+#GBM.Nomito.Pro.Sig.A <- unlist(GBM.Nomito.Pro.Sig.A)
+library(VennDiagram)
+venn.data.Nomito.A <- list(LVQ.Nomito.Pro.Sig.A, SVM.Nomito.Pro.Sig.A)
+grid.newpage()
+venn.plot.Nomito.A <- venn.diagram(x = list(LVQ.Nomito.Pro.Sig.A=LVQ.Nomito.Pro.Sig.A, SVM.Nomito.Pro.Sig.A=SVM.Nomito.Pro.Sig.A),
+                                 filename=NULL, 
+                                 fill = c("red", "blue"),
+                                 alpha = 0.50,
+                                 col = "transparent")
+grid.draw(venn.plot.Nomito.A)
+venn.intersect.Nomito.A <- calculate.overlap(venn.data.Nomito.A)
+
+
+#LVQ B_
+test.Nomito.lvq.B.pro <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
+set.seed(86)
+model.Nomito.lvq.B.pro <- train(progress..yes.no. ~ B_APC + B_SMARC4 + B_BAP1 + B_NPM1 + B_FGFR3 + B_CIC + B_GNA11 + B_IL7R + B_GNAS + B_KMT2D + B_MAP3K1 + B_ZRSR2 + B_DDB2 + B_MDM2 + B_MEN1 + B_none + B_PIK3R1 + B_ARID2 + B_ABL1 + B_NOTCH1 + B_TERT + B_CDK4 + B_CSF1R + B_VHL + B_MYC + B_TSC1 + B_PRKAR1A + B_DDR2 + B_SLC7A8 + B_STK11 + B_IL6ST + B_U2AF1 + B_ASXL1, 
+                              data = mitotane.neg.data.B, method = "lvq",
+                              trControl = test.Nomito.lvq.B.pro,
+                              preProcess = c("center", "scale"),
+                              tuneLength = 10,
+                              na.action = na.pass)
+importance.Nomito.lvq.B.pro <- varImp(model.Nomito.lvq.B.pro, scale = FALSE)
+print(importance.Nomito.lvq.B.pro)
+plot(importance.Nomito.lvq.B.pro)
+
+#SVM B_
+test.Nomito.svm.B.pro <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
+set.seed(86)
+model.Nomito.svm.B.pro <- train(progress..yes.no. ~ B_APC + B_SMARC4 + B_BAP1 + B_NPM1 + B_FGFR3 + B_CIC + B_GNA11 + B_IL7R + B_GNAS + B_KMT2D + B_MAP3K1 + B_ZRSR2 + B_DDB2 + B_MDM2 + B_MEN1 + B_none + B_PIK3R1 + B_ARID2 + B_ABL1 + B_NOTCH1 + B_TERT + B_CDK4 + B_CSF1R + B_VHL + B_MYC + B_TSC1 + B_PRKAR1A + B_DDR2 + B_SLC7A8 + B_STK11 + B_IL6ST + B_U2AF1 + B_ASXL1, 
+                              data = mitotane.neg.data.B, method = "svmRadial",
+                              trControl = test.Nomito.svm.B.pro,
+                              preProcess = c("center", "scale"),
+                              tuneLength = 10,
+                              na.action = na.pass)
+importance.Nomito.svm.B.pro <- varImp(model.Nomito.svm.B.pro, scale = FALSE)
+print(importance.Nomito.svm.B.pro)
+plot(importance.Nomito.svm.B.pro)
+
+#GBM B_
+#test.Nomito.gbm.B.pro <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
+#set.seed(86)
+#model.Nomito.gbm.B.pro <- train(progress..yes.no. ~ B_APC + B_SMARC4 + B_BAP1 + B_NPM1 + B_FGFR3 + B_CIC + B_GNA11 + B_IL7R + B_GNAS + B_KMT2D + B_MAP3K1 + B_ZRSR2 + B_DDB2 + B_MDM2 + B_MEN1 + B_none + B_PIK3R1 + B_ARID2 + B_ABL1 + B_NOTCH1 + B_TERT + B_CDK4 + B_CSF1R + B_VHL + B_MYC + B_TSC1 + B_PRKAR1A + B_DDR2 + B_SLC7A8 + B_STK11 + B_IL6ST + B_U2AF1 + B_ASXL1, 
+#                              data = mitotane.neg.data.B, method = "gbm",
+#                              trControl = test.Nomito.gbm.B.pro,
+#                              preProcess = c("center", "scale"),
+#                              tuneLength = 10,
+#                              na.action = na.pass)
+#importance.Nomito.gbm.B.pro <- varImp(model.Nomito.gbm.B.pro, scale = FALSE)
+#print(importance.Nomito.gbm.B.pro)
+#plot(importance.Nomito.gbm.B.pro)
+
+#Common predictors for A_ progress..yes.no.
+LVQ.Nomito.Pro.B <- importance.Nomito.lvq.B.pro$importance
+SVM.Nomito.Pro.B <- importance.Nomito.svm.B.pro$importance
+#GBM.Nomito.Pro.B <- importance.Nomito.gbm.B.pro$importance
+all(LVQ.Nomito.Pro.B$X0 == LVQ.Nomito.Pro.B$X1)
+all(SVM.Nomito.Pro.B$X0 == SVM.Nomito.Pro.B$X1)
+LVQ.Nomito.Pro.B$X1 <- NULL
+SVM.Nomito.Pro.B$X1 <- NULL
+colnames(LVQ.Nomito.Pro.B)[1] <- "Overall"
+colnames(SVM.Nomito.Pro.B)[1] <- "Overall"
+LVQ.Nomito.Pro.Sig.B <- setDT(LVQ.Nomito.Pro.B, keep.rownames = TRUE)[]
+SVM.Nomito.Pro.Sig.B <- setDT(SVM.Nomito.Pro.B, keep.rownames = TRUE)[]
+#GBM.Nomito.Pro.Sig.B <- setDT(GBM.Nomito.Pro.B, keep.rownames = TRUE)[]
+LVQ.Nomito.Pro.Sig.B <- LVQ.Nomito.Pro.Sig.B[order(-LVQ.Nomito.Pro.Sig.B$Overall),]
+SVM.Nomito.Pro.Sig.B <- SVM.Nomito.Pro.Sig.B[order(-SVM.Nomito.Pro.Sig.B$Overall),]
+#GBM.Nomito.Pro.Sig.B <- GBM.Nomito.Pro.Sig.B[order(-GBM.Nomito.Pro.Sig.B$Overall),]
+LVQ.Nomito.Pro.Sig.B <- head(LVQ.Nomito.Pro.Sig.B, 20)
+SVM.Nomito.Pro.Sig.B <- head(SVM.Nomito.Pro.Sig.B, 20)
+#Adjust GBM selection based on printed variables
+#GBM.Nomito.Pro.Sig.B <- head(GBM.Nomito.Pro.Sig.B, 3)
+LVQ.Nomito.Pro.Sig.B$Overall <- NULL
+SVM.Nomito.Pro.Sig.B$Overall <- NULL
+#GBM.Nomito.Pro.Sig.B$Overall <- NULL
+#The data need to be in a vector. As.vector doesn't work, but unlist reduces data to simple
+LVQ.Nomito.Pro.Sig.B <- unlist(LVQ.Nomito.Pro.Sig.B)
+SVM.Nomito.Pro.Sig.B <- unlist(SVM.Nomito.Pro.Sig.B)
+#GBM.Nomito.Pro.Sig.B <- unlist(GBM.Nomito.Pro.Sig.B)
+library(VennDiagram)
+venn.data.Nomito.B <- list(LVQ.Nomito.Pro.Sig.B, SVM.Nomito.Pro.Sig.B)
+grid.newpage()
+venn.plot.Nomito.B <- venn.diagram(x = list(LVQ.Nomito.Pro.Sig.B=LVQ.Nomito.Pro.Sig.B, SVM.Nomito.Pro.Sig.B=SVM.Nomito.Pro.Sig.B),
+                                 filename=NULL, 
+                                 fill = c("red", "blue"),
+                                 alpha = 0.50,
+                                 col = "transparent")
+grid.draw(venn.plot.Nomito.B)
+venn.intersect.Nomito.B <- calculate.overlap(venn.data.Nomito.B)
+
+
+#LVQ C_
+test.Nomito.lvq.C.pro <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
+set.seed(86)
+model.Nomito.lvq.C.pro <- train(progress..yes.no. ~ C_CARD11 + C_SDHB + C_TNRFSF14 + C_CYLD + C_SLC7A8 + C_PHF6 + C_FGFR2 + C_SPOP + C_MLH1 + C_none + C_BRIP1 + C_MSH2 + C_CD79 + C_SMO + C_GNAQ + C_ECT2L + C_CDC73 + C_PIK3R1 + C_TNFSRF14 + C_BRAF + C_RB1 + C_SMAD4 + C_MAP2K4 + C_SMARCB1 + C_DNMT3A + C_BRCA2 + C_JAK1 + C_EZH2 + C_FAS + C_NF1 + C_CHEK2 + C_PALB2 + C_CSF1R + C_TNFSRSF14 + C_CDK12 + C_FLCN + C_FLNC + C_MAP4K3 + C_EPCAM + C_TNFRSF14 + C_VHL, 
+                              data = mitotane.neg.data.C, method = "lvq",
+                              trControl = test.Nomito.lvq.C.pro,
+                              preProcess = c("center", "scale"),
+                              tuneLength = 10,
+                              na.action = na.pass)
+importance.Nomito.lvq.C.pro <- varImp(model.Nomito.lvq.C.pro, scale = FALSE)
+print(importance.Nomito.lvq.C.pro)
+plot(importance.Nomito.lvq.C.pro)
+
+#SVM C_
+test.Nomito.svm.C.pro <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
+set.seed(86)
+model.Nomito.svm.C.pro <- train(progress..yes.no. ~ C_CARD11 + C_SDHB + C_TNRFSF14 + C_CYLD + C_SLC7A8 + C_PHF6 + C_FGFR2 + C_SPOP + C_MLH1 + C_none + C_BRIP1 + C_MSH2 + C_CD79 + C_SMO + C_GNAQ + C_ECT2L + C_CDC73 + C_PIK3R1 + C_TNFSRF14 + C_BRAF + C_RB1 + C_SMAD4 + C_MAP2K4 + C_SMARCB1 + C_DNMT3A + C_BRCA2 + C_JAK1 + C_EZH2 + C_FAS + C_NF1 + C_CHEK2 + C_PALB2 + C_CSF1R + C_TNFSRSF14 + C_CDK12 + C_FLCN + C_FLNC + C_MAP4K3 + C_EPCAM + C_TNFRSF14 + C_VHL, 
+                              data = mitotane.neg.data.C, method = "svmRadial",
+                              trControl = test.Nomito.svm.C.pro,
+                              preProcess = c("center", "scale"),
+                              tuneLength = 10,
+                              na.action = na.pass)
+importance.Nomito.svm.C.pro <- varImp(model.Nomito.svm.C.pro, scale = FALSE)
+print(importance.Nomito.svm.C.pro)
+plot(importance.Nomito.svm.C.pro)
+
+#GBM C_
+#test.Nomito.gbm.C.pro <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
+#set.seed(86)
+#model.Nomito.gbm.C.pro <- train(progress..yes.no. ~ C_CARD11 + C_SDHB + C_TNRFSF14 + C_CYLD + C_SLC7A8 + C_PHF6 + C_FGFR2 + C_SPOP + C_MLH1 + C_none + C_BRIP1 + C_MSH2 + C_CD79 + C_SMO + C_GNAQ + C_ECT2L + C_CDC73 + C_PIK3R1 + C_TNFSRF14 + C_BRAF + C_RB1 + C_SMAD4 + C_MAP2K4 + C_SMARCB1 + C_DNMT3A + C_BRCA2 + C_JAK1 + C_EZH2 + C_FAS + C_NF1 + C_CHEK2 + C_PALB2 + C_CSF1R + C_TNFSRSF14 + C_CDK12 + C_FLCN + C_FLNC + C_MAP4K3 + C_EPCAM + C_TNFRSF14 + C_VHL, 
+#                              data = mitotane.neg.data.C, method = "gbm",
+#                              trControl = test.Nomito.gbm.C.pro,
+#                              preProcess = c("center", "scale"),
+#                              tuneLength = 10,
+#                              na.action = na.pass)
+#importance.Nomito.gbm.C.pro <- varImp(model.Nomito.gbm.C.pro, scale = FALSE)
+#print(importance.Nomito.gbm.C.pro)
+#plot(importance.Nomito.gbm.C.pro)
+
+#Common predictors for A_ progress..yes.no.
+LVQ.Nomito.Pro.C <- importance.Nomito.lvq.C.pro$importance
+SVM.Nomito.Pro.C <- importance.Nomito.svm.C.pro$importance
+#GBM.Nomito.Pro.C <- importance.Nomito.gbm.C.pro$importance
+all(LVQ.Nomito.Pro.C$X0 == LVQ.Nomito.Pro.C$X1)
+all(SVM.Nomito.Pro.C$X0 == SVM.Nomito.Pro.C$X1)
+LVQ.Nomito.Pro.C$X1 <- NULL
+SVM.Nomito.Pro.C$X1 <- NULL
+colnames(LVQ.Nomito.Pro.C)[1] <- "Overall"
+colnames(SVM.Nomito.Pro.C)[1] <- "Overall"
+LVQ.Nomito.Pro.Sig.C <- setDT(LVQ.Nomito.Pro.C, keep.rownames = TRUE)[]
+SVM.Nomito.Pro.Sig.C <- setDT(SVM.Nomito.Pro.C, keep.rownames = TRUE)[]
+#GBM.Nomito.Pro.Sig.C <- setDT(GBM.Nomito.Pro.C, keep.rownames = TRUE)[]
+LVQ.Nomito.Pro.Sig.C <- LVQ.Nomito.Pro.Sig.C[order(-LVQ.Nomito.Pro.Sig.C$Overall),]
+SVM.Nomito.Pro.Sig.C <- SVM.Nomito.Pro.Sig.C[order(-SVM.Nomito.Pro.Sig.C$Overall),]
+#GBM.Nomito.Pro.Sig.C <- GBM.Nomito.Pro.Sig.C[order(-GBM.Nomito.Pro.Sig.C$Overall),]
+LVQ.Nomito.Pro.Sig.C <- head(LVQ.Nomito.Pro.Sig.C, 20)
+SVM.Nomito.Pro.Sig.C <- head(SVM.Nomito.Pro.Sig.C, 20)
+#Adjust GBM selection based on printed variables
+#GBM.Nomito.Pro.Sig.C <- head(GBM.Nomito.Pro.Sig.C, 3)
+LVQ.Nomito.Pro.Sig.C$Overall <- NULL
+SVM.Nomito.Pro.Sig.C$Overall <- NULL
+#GBM.Nomito.Pro.Sig.C$Overall <- NULL
+#The data need to be in a vector. As.vector doesn't work, but unlist reduces data to simple
+LVQ.Nomito.Pro.Sig.C <- unlist(LVQ.Nomito.Pro.Sig.C)
+SVM.Nomito.Pro.Sig.C <- unlist(SVM.Nomito.Pro.Sig.C)
+#GBM.Nomito.Pro.Sig.C <- unlist(GBM.Nomito.Pro.Sig.C)
+library(VennDiagram)
+venn.data.Nomito.C <- list(LVQ.Nomito.Pro.Sig.C, SVM.Nomito.Pro.Sig.C)
+grid.newpage()
+venn.plot.Nomito.C <- venn.diagram(x = list(LVQ.Nomito.Pro.Sig.C=LVQ.Nomito.Pro.Sig.C, SVM.Nomito.Pro.Sig.C=SVM.Nomito.Pro.Sig.C),
+                                 filename=NULL, 
+                                 fill = c("red", "blue"),
+                                 alpha = 0.50,
+                                 col = "transparent")
+grid.draw(venn.plot.Nomito.C)
+venn.intersect.Nomito.C <- calculate.overlap(venn.data.Nomito.C)
+print(venn.intersect.Nomito.C$a5)
+print(venn.intersect.Nomito.C$a2)
