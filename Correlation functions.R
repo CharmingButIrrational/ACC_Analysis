@@ -297,15 +297,28 @@ intersect.noMito.corr$a3
 
 #########################################################################################################
 #Whole dataset
-corrplot(corr.whole, method="number", is.corr=FALSE)
+corr.whole.sig <- cor(alt.data.whole[c(30,38,68,79,88,92,94,102,129,136,141,145)], alt.data.whole$progress..yes.no., method = "spearman")
+corr.whole.sig
+corrplot(corr.whole.sig, method="number", is.corr=FALSE)
+
 #Chemo dataset
-corrplot(corr.chemo, method="number", is.corr=FALSE)
+corr.chemo.sig <- cor(alt.data.chemo[c(30,68,94,102,129,145)], alt.data.chemo$progress..yes.no., method = "spearman")
+corr.chemo.sig
+corrplot(corr.chemo.sig, method="number", is.corr=FALSE)
+
 #NoChemo dataset
-corrplot(corr.nochemo, method="number", is.corr=FALSE)
+corr.nochemo.sig <- cor(alt.data.nochemo[c(9,22,30,36,38,46,47,68,72,79,88,92,93,94,102,114,122,129,136,141)], alt.data.nochemo$progress..yes.no., method = "spearman")
+corr.nochemo.sig
+corrplot(corr.nochemo.sig, method="number", is.corr=FALSE)
+
 #Mito dataset
-corrplot(mitotane.pos.data.whole, method="number", is.corr=FALSE)
+corr.mito.sig <- cor(mitotane.pos.data.whole[c(30,68,94,102,129,145)], mitotane.pos.data.whole$progress..yes.no., method = "spearman")
+corr.mito.sig
+corrplot(corr.mito.sig, method="number", is.corr=FALSE)
 #NoMito dataset
-corrplot(mitotane.neg.data.whole, method="number", is.corr=FALSE)
+corr.nomito.sig <- cor(mitotane.neg.data.whole[c(30,38,41,46,47,51,58,60,68,86,88,92,94,116,117,128,129,136,141,145)], mitotane.neg.data.whole$progress..yes.no., method = "spearman")
+corr.nomito.sig
+corrplot(corr.nomito.sig, method="number", is.corr=FALSE)
 
 
 #Separated whole data
