@@ -297,51 +297,48 @@ intersect.noMito.corr$a3
 
 #########################################################################################################
 #Whole dataset
-corr.whole.sig <- cor(alt.data.whole[c(30,38,68,79,88,92,94,102,129,136,141,145)], alt.data.whole$progress..yes.no., method = "spearman")
+corr.whole.sig <- cor(alt.data.whole[c(1,30,38,68,79,88,92,94,102,129,136,141,145)], alt.data.whole[c(1,30,38,68,79,88,92,94,102,129,136,141,145)], method = "spearman")
 corr.whole.sig
-corrplot(corr.whole.sig, method="number", is.corr=FALSE)
+corrplot(corr.whole.sig, type = "upper", method="number", is.corr=FALSE)
 
 #Chemo dataset
-corr.chemo.sig <- cor(alt.data.chemo[c(30,68,94,102,129,145)], alt.data.chemo$progress..yes.no., method = "spearman")
+corr.chemo.sig <- cor(alt.data.chemo[c(1,30,68,94,102,129,145)], alt.data.chemo[c(1,30,68,94,102,129,145)], method = "spearman")
 corr.chemo.sig
-corrplot(corr.chemo.sig, method="number", is.corr=FALSE)
+corrplot(corr.chemo.sig, type = "upper", method="number", is.corr=FALSE)
 
 #NoChemo dataset
-corr.nochemo.sig <- cor(alt.data.nochemo[c(9,22,30,36,38,46,47,68,72,79,88,92,93,94,102,114,122,129,136,141)], alt.data.nochemo$progress..yes.no., method = "spearman")
+corr.nochemo.sig <- cor(alt.data.nochemo[c(1,9,22,30,36,38,46,47,68,72,79,88,92,93,94,102,114,122,129,136,141)], alt.data.nochemo[c(1,9,22,30,36,38,46,47,68,72,79,88,92,93,94,102,114,122,129,136,141)], method = "spearman")
 corr.nochemo.sig
-corrplot(corr.nochemo.sig, method="number", is.corr=FALSE)
+corrplot(corr.nochemo.sig, type = "upper", method="number", is.corr=FALSE)
 
 #Mito dataset
-corr.mito.sig <- cor(mitotane.pos.data.whole[c(30,68,94,102,129,145)], mitotane.pos.data.whole$progress..yes.no., method = "spearman")
+corr.mito.sig <- cor(mitotane.pos.data.whole[c(1,30,68,94,102,129,145)], mitotane.pos.data.whole[c(1,30,68,94,102,129,145)], method = "spearman")
 corr.mito.sig
-corrplot(corr.mito.sig, method="number", is.corr=FALSE)
+corrplot(corr.mito.sig, type = "upper", method="number", is.corr=FALSE)
 #NoMito dataset
-corr.nomito.sig <- cor(mitotane.neg.data.whole[c(30,38,41,46,47,51,58,60,68,86,88,92,94,116,117,128,129,136,141,145)], mitotane.neg.data.whole$progress..yes.no., method = "spearman")
+corr.nomito.sig <- cor(mitotane.neg.data.whole[c(1,30,38,41,46,47,51,58,60,68,86,88,92,94,116,117,128,129,136,141,145)], mitotane.neg.data.whole[c(1,30,38,41,46,47,51,58,60,68,86,88,92,94,116,117,128,129,136,141,145)], method = "spearman")
 corr.nomito.sig
-corrplot(corr.nomito.sig, method="number", is.corr=FALSE)
+corrplot(corr.nomito.sig, type = "upper", method="number", is.corr=FALSE)
 
+library(reshape)
+#Whole data, all predictors B
+corr.whole.all.sig <- cor(alt.data.whole, alt.data.whole, method = "spearman")
+corr.whole.all.sig
+corrplot(corr.whole.all.sig, type = "upper", method="square", is.corr=FALSE)
 
-#Separated whole data
-corrplot(corr.whole.A, method="number", is.corr=FALSE)
-corrplot(corr.whole.B, method="number", is.corr=FALSE)
-corrplot(corr.whole.C, method="number", is.corr=FALSE)
+corr.whole.all.sig[lower.tri(corr.whole.all.sig,diag=TRUE)]=NA  #Prepare to drop duplicates and meaningless information
+corr.whole.all.sig=as.data.frame(as.table(corr.whole.all.sig))  #Turn into a 3-column table
+corr.whole.all.sig=na.omit(corr.whole.all.sig)  #Get rid of the junk we flagged above
+corr.whole.all.sig=corr.whole.all.sig[order(-abs(corr.whole.all.sig$Freq)),]
+corr.whole.all.sig=subset(corr.whole.all.sig, abs(Freq) > 0.5) 
+corr.whole.all.sig
 
-#Separated chemo data
-corrplot(corr.chemo.A, method="number", is.corr=FALSE)
-corrplot(corr.chemo.B, method="number", is.corr=FALSE)
-corrplot(corr.chemo.C, method="number", is.corr=FALSE)
+#Whole data, all predictors A
+corr.whole.all.sigA <- cor(alt.data.whole[c(1:75)], alt.data.whole[c(1:75)], method = "spearman")
+corr.whole.all.sigA
+corrplot(corr.whole.all.sigA, type = "upper", method="square", is.corr=FALSE)
 
-#Separated nochemo data
-corrplot(corr.nochemo.A, method="number", is.corr=FALSE)
-corrplot(corr.nochemo.B, method="number", is.corr=FALSE)
-corrplot(corr.nochemo.C, method="number", is.corr=FALSE)
-
-#Separated mitotane data
-corrplot(mitotane.pos.data.A, method="number", is.corr=FALSE)
-corrplot(mitotane.pos.data.B, method="number", is.corr=FALSE)
-corrplot(mitotane.pos.data.C, method="number", is.corr=FALSE)
-
-#Separated no mitodata data
-corrplot(mitotane.neg.data.A, method="number", is.corr=FALSE)
-corrplot(mitotane.neg.data.B, method="number", is.corr=FALSE)
-corrplot(mitotane.neg.data.C, method="number", is.corr=FALSE)
+#Whole data, all predictors B
+corr.whole.all.sigB <- cor(alt.data.whole[c(76:146)], alt.data.whole[c(75:146)], method = "spearman")
+corr.whole.all.sigB
+corrplot(corr.whole.all.sigB, type = "upper", method="square", is.corr=FALSE)
