@@ -96,4 +96,5 @@ pca.data.whole <- prcomp(num.data.whole, scale = TRUE)
 fviz_eig(pca.data.whole) #This only shows 4.5% explained variance at best. Not useful for variable selection
 
 
-#########################################################################################################################
+###################################################################################################################
+
