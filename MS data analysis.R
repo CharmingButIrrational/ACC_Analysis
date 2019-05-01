@@ -106,22 +106,20 @@ venn.intersect.predictors <- calculate.overlap(venn.data.predictors)
 print(venn.intersect.predictors$a3)
 
 
-#Correlation function
-corr.whole.sig <- cor(df_alt, method = "spearman")
-corr.whole.sig
-corrplot(corr.whole.sig, type = "upper", method="number", is.corr=FALSE)
+
+library(parallel)
+library(pvclust)
+#This cluster method works on columns, not rows, so it fits with the transposed data I used for LVQ and SVM
+#Use parallel package to support parallel computing
+cores <- detectCores() - 1 
+cl <- makeCluster(cores)
+cluster.fit <- parPvclust(cl, df_alt, method.hclust="ward.D",
+               method.dist="euclidean", )
+plot(cluster.fit) # dendogram with p values
+# add rectangles around groups highly supported by the data
+pvrect(cluster.fit, alpha=.95) 
 
 
-#lasso
-train.lasso <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
-set.seed(86)
-lasso <- train(Samples ~ .,
-             data = df_alt, method = "lasso",
-             trControl = train.lasso,
-             preProcess = c("center", "scale"),
-             tuneLength = 10,
-             na.action = na.pass)
-importance.lasso <- varImp(lasso, scale = FALSE)
-print(importance.lasso)
-plot(importance.lasso, top = 20) 
+
+
 
