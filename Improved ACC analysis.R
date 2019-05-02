@@ -17,15 +17,35 @@ alt.data.chemo <- alt.data$`1`
 no.chemo.mito.split <- split(alt.data.nochemo, alt.data.nochemo$Mitotane..pall.or.adj.)
 #Data with mitotane only
 mitotane.nochemo <- rbind(no.chemo.mito.split$adj, no.chemo.mito.split$`adj+pall`, no.chemo.mito.split$pall)
+mitotane.nochemo <- mitotane.nochemo[,c(34:180)]
+mitotane.nochemo$gene.with.CN.gains..80..log..FC.0.5..1.5x..amplicons.min.5. <- NULL
+mitotane.nochemo$gene.with.CN.losses..80..log..FC.0.25..amplicons.min.5. <- NULL
+progress..yes.no. <- as.factor(mitotane.nochemo$progress..yes.no.)
+mitotane.nochemo <- cbind(progress..yes.no., mitotane.nochemo)
 #Data which recieved no therapy
 no.therapy <- no.chemo.mito.split$`0`
+no.therapy <- no.therapy[,c(34:180)]
+no.therapy$gene.with.CN.gains..80..log..FC.0.5..1.5x..amplicons.min.5. <- NULL
+no.therapy$gene.with.CN.losses..80..log..FC.0.25..amplicons.min.5. <- NULL
+progress..yes.no. <- as.factor(no.therapy$progress..yes.no.)
+no.therapy <- cbind(progress..yes.no., no.therapy)
 
 #Split chemo data by mitotane (All forms of therapy)
 chemo.mito.split <- split(alt.data.chemo, alt.data.chemo$Mitotane..pall.or.adj.)
 #Data with both chemotherapy and mitotane therapy
 mitotane.chemo <- rbind(chemo.mito.split$adj, chemo.mito.split$`adj+pall`, chemo.mito.split$pall, chemo.mito.split$`adj (with chemo)`)
+mitotane.chemo <- mitotane.chemo[,c(34:180)]
+mitotane.chemo$gene.with.CN.gains..80..log..FC.0.5..1.5x..amplicons.min.5. <- NULL
+mitotane.chemo$gene.with.CN.losses..80..log..FC.0.25..amplicons.min.5. <- NULL
+progress..yes.no. <- as.factor(mitotane.chemo$progress..yes.no.)
+mitotane.chemo <- cbind(progress..yes.no., mitotane.chemo)
 #Data with chemotherapy only
 chemo.nomito <- chemo.mito.split$`0`
+chemo.nomito <- chemo.nomito[,c(34:180)]
+chemo.nomito$gene.with.CN.gains..80..log..FC.0.5..1.5x..amplicons.min.5. <- NULL
+chemo.nomito$gene.with.CN.losses..80..log..FC.0.25..amplicons.min.5. <- NULL
+progress..yes.no. <- as.factor(chemo.nomito$progress..yes.no.)
+chemo.nomito <- cbind(progress..yes.no., chemo.nomito)
 
 
 #Chemotherapy only
