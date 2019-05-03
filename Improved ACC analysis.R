@@ -445,18 +445,18 @@ chemo.nomito$gene.with.CN.losses..80..log..FC.0.25..amplicons.min.5. <- NULL
 chemo.nomito <- cbind(progress..yes.no., chemo.nomito)
 
 
-
+library(corrplot)
 #No therapy dataset
-corr.no.therapy.sig <- cor(no.therapy[c(16, 19, 30, 38, 43, 46, 51, 52, 64, 66, 68, 77, 78, 88, 94, 97, 114, 129, 136, 141)], no.therapy[c(16, 19, 30, 38, 43, 46, 51, 52, 64, 66, 68, 77, 78, 88, 94, 97, 114, 129, 136, 141)], method = "spearman")
+corr.no.therapy.sig <- cor(no.therapy[c(1, 16, 19, 30, 38, 43, 46, 51, 52, 64, 66, 68, 77, 78, 88, 94, 97, 114, 129, 136, 141)], no.therapy[c(1, 16, 19, 30, 38, 43, 46, 51, 52, 64, 66, 68, 77, 78, 88, 94, 97, 114, 129, 136, 141)], method = "spearman")
 corr.no.therapy.sig
 corrplot(corr.no.therapy.sig, type = "upper", method="number", is.corr=FALSE)
 
 #Mitotane only dataset
-corr.mitotane.nochemo.sig <- cor(mitotane.nochemo[c(9, 30, 46, 55, 57, 60, 68, 72, 77, 81, 88, 93, 94, 102, 112, 113, 116, 122, 126, 129)], mitotane.nochemo[c(9, 30, 46, 55, 57, 60, 68, 72, 77, 81, 88, 93, 94, 102, 112, 113, 116, 122, 126, 129)], method = "spearman")
+corr.mitotane.nochemo.sig <- cor(mitotane.nochemo[c(1, 9, 30, 46, 55, 57, 60, 68, 72, 77, 81, 88, 93, 94, 102, 112, 113, 116, 122, 126, 129)], mitotane.nochemo[c(1, 9, 30, 46, 55, 57, 60, 68, 72, 77, 81, 88, 93, 94, 102, 112, 113, 116, 122, 126, 129)], method = "spearman")
 corr.mitotane.nochemo.sig
 corrplot(corr.mitotane.nochemo.sig, type = "upper", method="number", is.corr=FALSE)
 
-#Mito dataset
-corr.mitotane.chemo.sig <- cor(mitotane.chemo[c()], mitotane.chemo[c()], method = "spearman")
+#Mito and Chemo dataset
+corr.mitotane.chemo.sig <- cor(mitotane.chemo[c(1, 18, 30, 33, 38, 46, 47, 68, 78, 79, 88, 92, 93, 94, 102, 115, 128, 129, 136, 141, 142, 145)], mitotane.chemo[c(1, 18, 30, 33, 38, 46, 47, 68, 78, 79, 88, 92, 93, 94, 102, 115, 128, 129, 136, 141, 142, 145)], method = "spearman")
 corr.mitotane.chemo.sig
 corrplot(corr.mitotane.chemo.sig, type = "upper", method="number", is.corr=FALSE)
