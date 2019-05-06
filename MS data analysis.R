@@ -19,6 +19,7 @@ write.csv(df_subset, file = "Altered MS data")
 df_alt <- read.csv("C:/Users/oisin/Desktop/Analysis Data/Altered MS data")
 #Remove X column at the start of the df
 df_alt$X <- NULL
+df_alt.num <- df_alt
 #convert target to factor
 df_alt$Samples <- as.factor(df_alt$Samples)
 
@@ -105,7 +106,26 @@ grid.draw(venn.plot.predictors)
 venn.intersect.predictors <- calculate.overlap(venn.data.predictors)
 print(venn.intersect.predictors$a3)
 
+#############################################################
+set.seed(233)
+elastic.ms <- train(Samples ~ ., 
+  data = df_alt, method = "glmnet",
+  trControl = trainControl("cv", number = 10),
+  tuneLength = 10)
+print(elastic.ms)
+print(elastic.ms$bestTune)
+coef(elastic.ms)
 
+
+#Correlation matrix
+library(caret)
+library(corrplot)
+set.seed(767)
+corr.sig <- cor(df_alt.num, df_alt.num, method = "spearman")
+corr.sig
+corrplot(corr.sig, type = "upper", method="number", is.corr=FALSE)
+
+######################################################
 
 library(parallel)
 library(pvclust)
@@ -119,7 +139,28 @@ plot(cluster.fit) # dendogram with p values
 # add rectangles around groups highly supported by the data
 pvrect(cluster.fit, alpha=.95) 
 
+#############################################################
+
+sam.data <- mydata
+
+sam.data.red <- sam.data[,-1]
+
+Outcome <- as.character(as.vector(sam.data[1,]))
+Outcome[1] <- NULL
 
 
 library(samr)
+
+sam.data <- SAM(sam.data.red,censoring.status=NULL,
+            resp.type=c("Two class unpaired"),
+            s0=NULL, 
+            s0.perc=NULL, 
+            nperms=10000, 
+            center.arrays=TRUE, 
+            testStatistic=c("standard"), 
+            time.summary.type=c("slope"), 
+            regression.method=c("standard"), 
+            knn.neighbors=10, 
+            random.seed=101332,
+            logged2 = FALSE)
 
