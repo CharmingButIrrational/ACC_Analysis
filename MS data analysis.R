@@ -44,28 +44,31 @@ svm <- train(Samples ~ .,
                           trControl = train.svm,
                           preProcess = c("center", "scale"),
                           tuneLength = 10,
-                          na.action = na.pass)
+                          na.action = na.pass,
+                          allowParallel = TRUE)
 importance.svm <- varImp(svm, scale = FALSE)
 print(importance.svm)
 plot(importance.svm, top = 20)
 
 #GBM 
-#train.gbm <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
-#set.seed(86)
-#gbm <- train(Samples ~ .,
-#                          data = df_alt
-#                          , method = "gbm",
-#                          trControl = train.gbm,
-#                          preProcess = c("center", "scale"),
-#                          tuneGrid = expand.grid(interaction.depth=seq(1,6,by=1),
-#                                                 n.trees=c(25,50,100,200),
-#                                                 shrinkage=c(1e-3),
-#n.minobsinnode = 10),
-#                          tuneLength = 10,
-#                          na.action = na.pass)
-#importance.gbm <- varImp(gbm, scale = FALSE)
-#print(importance.gbm)
-#plot(importance.gbm)
+train.gbm <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
+gbmGrid <-  expand.grid(interaction.depth = c(1, 3, 6, 9, 10),
+                        n.trees = (0:50)*50, 
+                        shrinkage = seq(.0005, .05,.0005),
+                        n.minobsinnode = 10)
+set.seed(86)
+gbm <- train(Samples ~ .,
+                          data = df_alt
+                          , method = "gbm",
+                          trControl = train.gbm,
+                          preProcess = c("center", "scale"),
+                          tuneLength = 10,
+                          tuneGrid = gbmGrid,
+                          na.action = na.pass,
+                          allowParallel = TRUE)
+importance.gbm <- varImp(gbm, scale = FALSE)
+print(importance.gbm)
+plot(importance.gbm)
 
 #Common predictors for  progress..yes.no.
 LVQ.predictors <- importance.lvq$importance
@@ -124,6 +127,14 @@ set.seed(767)
 corr.sig <- cor(df_alt.num, df_alt.num, method = "spearman")
 corr.sig
 corrplot(corr.sig, type = "upper", method="number", is.corr=FALSE)
+
+library(mlbench)
+set.seed(7658)
+control <- rfeControl(functions=rfFuncs, method="cv", number=10)
+results <- rfe(df_alt, df_alt, rfeControl=control)
+print(results)
+predictors(results)
+plot(results, type=c("g", "o"))
 
 ######################################################
 
