@@ -23,6 +23,9 @@ df_alt.num <- df_alt
 #convert target to factor
 df_alt$Samples <- as.factor(df_alt$Samples)
 
+df_alt.num$Samples <- as.numeric(as.character(df_alt.num$Samples))
+
+###################################################################
 #LVQ 
 train.lvq <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
 set.seed(86)
@@ -128,6 +131,7 @@ corr.sig <- cor(df_alt.num, df_alt.num, method = "spearman")
 corr.sig
 corrplot(corr.sig, type = "upper", method="number", is.corr=FALSE)
 
+library(randomForest)
 library(mlbench)
 set.seed(7658)
 control <- rfeControl(functions=rfFuncs, method="cv", number=10)
@@ -144,11 +148,18 @@ library(pvclust)
 #Use parallel package to support parallel computing
 cores <- detectCores() - 1 
 cl <- makeCluster(cores)
-cluster.fit <- parPvclust(cl, df_alt, method.hclust="ward.D",
-               method.dist="euclidean", )
+cluster.fit <- parPvclust(cl, df_alt[,-1], method.hclust="ward.D",
+               method.dist="euclidean", nboot = 10000)
 plot(cluster.fit) # dendogram with p values
 # add rectangles around groups highly supported by the data
 pvrect(cluster.fit, alpha=.95) 
+
+
+cluster.fit.2 <- parPvclust(cl, df_alt[,-1], method.hclust="average",
+                          method.dist="euclidean", nboot = 10000)
+plot(cluster.fit.2) # dendogram with p values
+# add rectangles around groups highly supported by the data
+pvrect(cluster.fit.2, alpha=.99) 
 
 #############################################################
 
@@ -174,4 +185,9 @@ sam.data <- SAM(sam.data.red,censoring.status=NULL,
             knn.neighbors=10, 
             random.seed=101332,
             logged2 = FALSE)
+
+########################################################################
+df_alt.num.mat <- as.matrix(df_alt.num)
+
+heatmap(df_alt.num.mat)
 
