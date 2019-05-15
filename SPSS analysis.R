@@ -56,6 +56,13 @@ print(importance.gbm)
 plot(importance.gbm, top = 20)
 
 ##################################################################
+#Compare models
+results <- resamples(list(ELA=elastic.spss, GBM=gbm.spss, SVM=svm.spss))
+summary(results)
+bwplot(results)
+
+#In this dataset GBM has greater accuracy and kappa values
+##################################################################
 
 library(data.table)
 
@@ -95,7 +102,7 @@ venn.plot.predictors <- venn.diagram(x = list(elastic.predictors.Sig=elastic.pre
                                      col = "transparent")
 grid.draw(venn.plot.predictors)
 venn.intersect.predictors <- calculate.overlap(venn.data.predictors)
-print(venn.intersect.predictors$a5)
+print(venn.intersect.predictors$a5) #Variables selected by all models
 
 ###################################################################
 #Analysis of selected variables
