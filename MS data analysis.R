@@ -26,6 +26,19 @@ df_alt$Samples <- as.factor(df_alt$Samples)
 df_alt.num$Samples <- as.numeric(as.character(df_alt.num$Samples))
 
 ###################################################################
+#Elastic net 
+train.elastic <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
+set.seed(233)
+elastic <- train(Samples ~ ., 
+                      data = df_alt, 
+                      method = "glmnet",
+                      trControl = train.elastic,
+                      preProc = c("center", "scale"),
+                      tuneLength = 10)
+importance.elastic <- varImp(elastic, scale = FALSE)
+print(importance.elastic)
+plot(importance.elastic, top = 20)
+
 #LVQ 
 train.lvq <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
 set.seed(86)
@@ -39,6 +52,7 @@ lvq <- train(Samples ~ .,
 importance.lvq <- varImp(lvq, scale = FALSE)
 print(importance.lvq)
 plot(importance.lvq, top = 20)
+
 #SVM 
 train.svm <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
 set.seed(86)
@@ -53,30 +67,38 @@ importance.svm <- varImp(svm, scale = FALSE)
 print(importance.svm)
 plot(importance.svm, top = 20)
 
+###Dataset too small
 #GBM 
-train.gbm <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
-gbmGrid <-  expand.grid(interaction.depth = c(1, 3, 6, 9, 10),
-                        n.trees = (0:50)*50, 
-                        shrinkage = seq(.0005, .05,.0005),
-                        n.minobsinnode = 10)
-set.seed(86)
-gbm <- train(Samples ~ .,
-                          data = df_alt
-                          , method = "gbm",
-                          trControl = train.gbm,
-                          preProcess = c("center", "scale"),
-                          tuneLength = 10,
-                          tuneGrid = gbmGrid,
-                          na.action = na.pass,
-                          allowParallel = TRUE)
-importance.gbm <- varImp(gbm, scale = FALSE)
-print(importance.gbm)
-plot(importance.gbm)
+#train.gbm <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
+#gbmGrid <-  expand.grid(interaction.depth = c(1, 3, 6, 9, 10),
+#                        n.trees = (0:50)*50, 
+#                        shrinkage = seq(.0005, .05,.0005),
+#                        n.minobsinnode = 10)
+#set.seed(86)
+#gbm <- train(Samples ~ ., data = df_alt,
+#                          method = "gbm",
+#                          trControl = train.gbm,
+#                          preProcess = c("center", "scale"),
+#                          tuneLength = 10,
+#                          tuneGrid = gbmGrid,
+#                          na.action = na.pass)
+#importance.gbm <- varImp(gbm, scale = FALSE)
+#print(importance.gbm)
+#plot(importance.gbm)
+
+################################################################
+#Compare models
+results <- resamples(list(ELA=elastic, SVM=svm, LVQ=lvq))
+summary(results)
+bwplot(results)
+
+################################################
+
 
 #Common predictors for  progress..yes.no.
 LVQ.predictors <- importance.lvq$importance
 SVM.predictors <- importance.svm$importance
-#GBM.predictors <- importance.gbm$importance
+elastic.predictors <- importance.elastic$importance
 all(LVQ.predictors$X0 == LVQ.predictors$X1)
 all(SVM.predictors$X0 == SVM.predictors$X1)
 LVQ.predictors$X1 <- NULL
@@ -85,62 +107,35 @@ colnames(LVQ.predictors)[1] <- "Overall"
 colnames(SVM.predictors)[1] <- "Overall"
 LVQ.predictors <- setDT(LVQ.predictors, keep.rownames = TRUE)[]
 SVM.predictors <- setDT(SVM.predictors, keep.rownames = TRUE)[]
-#GBM.predictors <- setDT(GBM.predictors, keep.rownames = TRUE)[]
+elastic.predictors <- setDT(elastic.predictors, keep.rownames = TRUE)[]
 LVQ.predictors <- LVQ.predictors[order(-LVQ.predictors$Overall),]
 SVM.predictors <- SVM.predictors[order(-SVM.predictors$Overall),]
-#GBM.predictors <- GBM.predictors[order(-GBM.predictors$Overall),]
+elastic.predictors <- elastic.predictors[order(-elastic.predictors$Overall),]
 LVQ.predictors.Sig <- head(LVQ.predictors, 20)
 SVM.predictors.Sig <- head(SVM.predictors, 20)
-#Adjust GBM selection based on printed variables
-#GBM.predictors.Sig <- head(GBM.predictors, 9)
+#Adjust elastic selection based on printed variables
+elastic.predictors.Sig <- head(elastic.predictors, 4)
 LVQ.predictors.Sig$Overall <- NULL
 SVM.predictors.Sig$Overall <- NULL
-#GBM.predictors.Sig$Overall <- NULL
+elastic.predictors.Sig$Overall <- NULL
 #The data need to be in a vector. As.vector doesn't work, but unlist reduces data to simple
 LVQ.predictors.Sig <- unlist(LVQ.predictors.Sig)
 SVM.predictors.Sig <- unlist(SVM.predictors.Sig)
-#GBM.predictors.Sig <- unlist(GBM.predictors.Sig)
+elastic.predictors.Sig <- unlist(elastic.predictors.Sig)
+
 library(VennDiagram)
-venn.data.predictors <- list(LVQ.predictors.Sig, SVM.predictors.Sig)
+venn.data.predictors <- list(LVQ.predictors.Sig, SVM.predictors.Sig, elastic.predictors.Sig)
 grid.newpage()
-venn.plot.predictors <- venn.diagram(x = list(LVQ.predictors.Sig=LVQ.predictors.Sig, SVM.predictors.Sig=SVM.predictors.Sig),
+venn.plot.predictors <- venn.diagram(x = list(LVQ.predictors.Sig=LVQ.predictors.Sig, SVM.predictors.Sig=SVM.predictors.Sig, elastic.predictors.Sig=elastic.predictors.Sig),
                                        filename=NULL, 
-                                       fill = c("red", "blue"),
+                                       fill = c("red", "blue", "green"),
                                        alpha = 0.50,
                                        col = "transparent")
 grid.draw(venn.plot.predictors)
 venn.intersect.predictors <- calculate.overlap(venn.data.predictors)
-print(venn.intersect.predictors$a3)
+print(venn.intersect.predictors$a5)
 
 #############################################################
-set.seed(233)
-elastic.ms <- train(Samples ~ ., 
-  data = df_alt, method = "glmnet",
-  trControl = trainControl("cv", number = 10),
-  tuneLength = 10)
-print(elastic.ms)
-print(elastic.ms$bestTune)
-coef(elastic.ms)
-
-
-#Correlation matrix
-library(caret)
-library(corrplot)
-set.seed(767)
-corr.sig <- cor(df_alt.num, df_alt.num, method = "spearman")
-corr.sig
-corrplot(corr.sig, type = "upper", method="number", is.corr=FALSE)
-
-library(randomForest)
-library(mlbench)
-set.seed(7658)
-control <- rfeControl(functions=rfFuncs, method="cv", number=10)
-results <- rfe(df_alt, df_alt, rfeControl=control)
-print(results)
-predictors(results)
-plot(results, type=c("g", "o"))
-
-######################################################
 
 library(parallel)
 library(pvclust)
@@ -187,7 +182,17 @@ sam.data <- SAM(sam.data.red,censoring.status=NULL,
             logged2 = FALSE)
 
 ########################################################################
-df_alt.num.mat <- as.matrix(df_alt.num)
+#Analysis of selected variables
+library(dplyr)
+library(ggpubr)
 
-heatmap(df_alt.num.mat)
+Samples <- df_alt$Samples
 
+#Features selected by all methods
+A4976.OSP.131.150 <- df_alt$A4976.OSP.131.150
+A4858.MOG.N.term <- df_alt$A4858.MOG.N.term
+A4910.MOBP.161.180 <- df_alt$A4910.MOBP.161.180
+
+var1 <- as.data.frame(cbind(Samples, A4976.OSP.131.150))
+var2 <- as.data.frame(cbind(Samples, A4858.MOG.N.term))
+var3 <- as.data.frame(cbind(Samples, A4910.MOBP.161.180))
