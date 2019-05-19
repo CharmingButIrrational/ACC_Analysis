@@ -257,6 +257,8 @@ LS8.AQP4.61.80 <- df_alt$LS8.AQP4.61.80
 A4887.MBP.150.171 <- df_alt$A4887.MBP.150.171         
 A4947.abCrys.11.30 <- df_alt$A4947.abCrys.11.30   
 
+A4889.MBP.170.191 <- df_alt$A4889.MBP.170.191                  
+
 var4 <- as.data.frame(cbind(Samples, A4943.CNPase.343.362.RM))
 var5 <- as.data.frame(cbind(Samples, A4963.OSP.1.20))
 var6 <- as.data.frame(cbind(Samples, A4874.MBP.31.50))
@@ -274,6 +276,8 @@ var17 <- as.data.frame(cbind(Samples, A4561.NaV.1.6L.113))
 var18 <- as.data.frame(cbind(Samples, LS8.AQP4.61.80))
 var19 <- as.data.frame(cbind(Samples, A4887.MBP.150.171))
 var20 <- as.data.frame(cbind(Samples, A4947.abCrys.11.30))
+
+var21 <- as.data.frame(cbind(Samples, A4889.MBP.170.191))
 
 #Variable 4 analysis
 group_by(var4, Samples) %>%
@@ -496,3 +500,17 @@ ggboxplot(var20, x = "Samples", y = "A4947.abCrys.11.30",
 Var20.test <- wilcox.test(Samples, A4947.abCrys.11.30, alternative = "two.sided")
 Var20.test
 
+#####################################################################
+
+#Variable 21 analysis
+group_by(var21, Samples) %>%
+  summarise(count = n(),
+            mean = mean(A4889.MBP.170.191, na.rm = TRUE),
+            sd = sd(A4889.MBP.170.191, na.rm = TRUE))
+ggboxplot(var21, x = "Samples", y = "A4889.MBP.170.191", 
+          color = "Samples",
+          order = c("1", "2"),
+          ylab = "A4889.MBP.170.191", xlab = "Samples")
+
+Var21.test <- wilcox.test(Samples, A4889.MBP.170.191, alternative = "two.sided")
+Var21.test
