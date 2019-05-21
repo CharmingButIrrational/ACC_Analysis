@@ -156,6 +156,30 @@ plot(cluster.fit.2) # dendogram with p values
 # add rectangles around groups highly supported by the data
 pvrect(cluster.fit.2, alpha=.99) 
 
+library(ComplexHeatmap)
+data.scaled = apply(df_alt[,-1], 2, scale)
+Heatmap(data.scaled, cluster_columns = cluster.fit$hclust, heatmap_legend_param = list(title = "Heatmap"))
+
+Heatmap(data.scaled, cluster_columns = cluster.fit.2$hclust, heatmap_legend_param = list(title = "Heatmap"))
+
+#############################################################
+
+cluster.dataset <- cbind(A4976.OSP.131.150, A4943.CNPase.343.362.RM, A4963.OSP.1.20, A4874.MBP.31.50, A4945.CNPase.369.388.RM, A4962.abCrys.161.176,  
+                        A4913.PLP.11.30, A4977.OSP.141.160, A4858.MOG.N.term, A4910.MOBP.161.180, A4545.MBP, A4607.Tubulin,                
+                        A4930.PLP.181.200, A4981.OSP.181.200, A4641.Tubulin, A4908.MOBP.141.160, A4561.NaV.1.6L.113,        
+                        LS8.AQP4.61.80, A4887.MBP.150.171, A4947.abCrys.11.30, A4889.MBP.170.191)          
+
+cluster.fit.3 <- parPvclust(cl, cluster.dataset, method.hclust="ward.D",
+                          method.dist="euclidean", nboot = 10000)
+plot(cluster.fit) 
+pvrect(cluster.fit, alpha=.95) 
+plot(cluster.fit) 
+pvrect(cluster.fit, alpha=.99) 
+
+data.scaled.2 = apply(cluster.dataset, 2, scale)
+
+Heatmap(data.scaled.2, cluster_columns = cluster.fit.3$hclust, heatmap_legend_param = list(title = "Heatmap"))
+
 #############################################################
 
 sam.data <- mydata
