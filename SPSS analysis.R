@@ -121,6 +121,8 @@ Ala <- alt.data$Ala
 var1 <- as.data.frame(cbind(class, H1))
 var2 <- as.data.frame(cbind(class, Ala))
 
+class <- as.numeric(alt.data$class)
+
 #Variable 1
 group_by(var1, class) %>%
   summarise(count = n(),
@@ -132,7 +134,7 @@ ggboxplot(var1, x = "class", y = "H1",
           order = c("1", "2"),
           ylab = "H1", xlab = "Class")
 
-Var1.test <- wilcox.test(Samples, H1, alternative = "two.sided")
+Var1.test <- wilcox.test(class, H1, alternative = "two.sided")
 Var1.test
 
 #Variable 2
@@ -146,10 +148,122 @@ ggboxplot(var2, x = "class", y = "Ala",
           order = c("1", "2"),
           ylab = "Ala", xlab = "Class")
 
-Var2.test <- wilcox.test(Samples, Ala, alternative = "two.sided")
+Var2.test <- wilcox.test(class, Ala, alternative = "two.sided")
 Var2.test
 
 ##################################################################
 #Variables selected from best model
 
+Gly <- alt.data$Gly           
+PC.aa.C34.1 <- alt.data$PC.aa.C34.1         
+Lys <- alt.data$Lys               
+Val <- alt.data$Val                
+Gln <- alt.data$Gln               
+PC.aa.C36.2 <- alt.data$PC.aa.C36.2  
+PC.aa.C34.2 <- alt.data$PC.aa.C34.2    
 
+var3 <- as.data.frame(cbind(class, Gly))
+var4 <- as.data.frame(cbind(class, PC.aa.C34.1))
+var5 <- as.data.frame(cbind(class, Lys))
+var6 <- as.data.frame(cbind(class, Val))
+var7 <- as.data.frame(cbind(class, Gln))
+var8 <- as.data.frame(cbind(class, PC.aa.C36.2))
+var9 <- as.data.frame(cbind(class, PC.aa.C34.2))
+
+#Variable 3
+group_by(var3, class) %>%
+  summarise(count = n(),
+            mean = mean(Gly, na.rm = TRUE),
+            sd = sd(Gly, na.rm = TRUE))
+
+ggboxplot(var1, x = "class", y = "Gly", 
+          color = "class", palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+          order = c("1", "2"),
+          ylab = "Gly", xlab = "Class")
+
+Var3.test <- wilcox.test(class, Gly, alternative = "two.sided")
+Var3.test
+
+#Variable 4
+group_by(var4, class) %>%
+  summarise(count = n(),
+            mean = mean(PC.aa.C34.1, na.rm = TRUE),
+            sd = sd(PC.aa.C34.1, na.rm = TRUE))
+
+ggboxplot(var4, x = "class", y = "PC.aa.C34.1", 
+          color = "class", palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+          order = c("1", "2"),
+          ylab = "PC.aa.C34.1", xlab = "Class")
+
+Var4.test <- wilcox.test(class, PC.aa.C34.1, alternative = "two.sided")
+Var4.test
+
+#Variable 5
+group_by(var5, class) %>%
+  summarise(count = n(),
+            mean = mean(Lys, na.rm = TRUE),
+            sd = sd(Lys, na.rm = TRUE))
+
+ggboxplot(var1, x = "class", y = "Lys", 
+          color = "class", palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+          order = c("1", "2"),
+          ylab = "Lys", xlab = "Class")
+
+Var5.test <- wilcox.test(class, Lys, alternative = "two.sided")
+Var5.test
+
+#Variable 6
+group_by(var6, class) %>%
+  summarise(count = n(),
+            mean = mean(Val, na.rm = TRUE),
+            sd = sd(Val, na.rm = TRUE))
+
+ggboxplot(var6, x = "class", y = "Val", 
+          color = "class", palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+          order = c("1", "2"),
+          ylab = "Val", xlab = "Class")
+
+Var6.test <- wilcox.test(class, Val, alternative = "two.sided")
+Var6.test
+
+#Variable 7
+group_by(var7, class) %>%
+  summarise(count = n(),
+            mean = mean(Gln, na.rm = TRUE),
+            sd = sd(Gln, na.rm = TRUE))
+
+ggboxplot(var7, x = "class", y = "Gln", 
+          color = "class", palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+          order = c("1", "2"),
+          ylab = "Gln", xlab = "Class")
+
+Var7.test <- wilcox.test(class, Gln, alternative = "two.sided")
+Var7.test
+
+#Variable 8
+group_by(var8, class) %>%
+  summarise(count = n(),
+            mean = mean(PC.aa.C36.2, na.rm = TRUE),
+            sd = sd(PC.aa.C36.2, na.rm = TRUE))
+
+ggboxplot(var8, x = "class", y = "PC.aa.C36.2", 
+          color = "class", palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+          order = c("1", "2"),
+          ylab = "PC.aa.C36.2", xlab = "Class")
+
+Var8.test <- wilcox.test(class, PC.aa.C36.2, alternative = "two.sided")
+Var8.test
+
+#Variable 9
+group_by(var9, class) %>%
+  summarise(count = n(),
+            mean = mean(PC.aa.C34.2, na.rm = TRUE),
+            sd = sd(PC.aa.C34.2, na.rm = TRUE))
+
+ggboxplot(var9, x = "class", y = "PC.aa.C34.2", 
+          color = "class", palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+          order = c("1", "2"),
+          ylab = "PC.aa.C34.2", xlab = "Class")
+
+Var9.test <- wilcox.test(class, PC.aa.C34.2, alternative = "two.sided")
+Var9.test
