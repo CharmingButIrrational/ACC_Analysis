@@ -176,7 +176,7 @@ group_by(var3, class) %>%
             mean = mean(Gly, na.rm = TRUE),
             sd = sd(Gly, na.rm = TRUE))
 
-ggboxplot(var1, x = "class", y = "Gly", 
+ggboxplot(var3, x = "class", y = "Gly", 
           color = "class", palette = c("#00AFBB", "#E7B800", "#FC4E07"),
           order = c("1", "2"),
           ylab = "Gly", xlab = "Class")
@@ -204,7 +204,7 @@ group_by(var5, class) %>%
             mean = mean(Lys, na.rm = TRUE),
             sd = sd(Lys, na.rm = TRUE))
 
-ggboxplot(var1, x = "class", y = "Lys", 
+ggboxplot(var5, x = "class", y = "Lys", 
           color = "class", palette = c("#00AFBB", "#E7B800", "#FC4E07"),
           order = c("1", "2"),
           ylab = "Lys", xlab = "Class")
