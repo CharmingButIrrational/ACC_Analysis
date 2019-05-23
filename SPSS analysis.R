@@ -10,10 +10,12 @@ alt.data <- mydata[,21:150]
 alt.data <- cbind(class, alt.data)
 
 library(gbm)
+library(glmnet)
 library(caret)
 
+
 #Elastic net using caret
-train.elastic <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
+train.elastic <- trainControl(method = "repeatedcv", number = 10, repeats = 5, search = "random")
 set.seed(233)
 elastic.spss <- train(class ~ ., 
                       data = alt.data, 
@@ -27,7 +29,7 @@ plot(importance.elastic, top = 20)
 
 
 #SVM
-train.svm <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
+train.svm <- trainControl(method = "repeatedcv", number = 10, repeats = 5, search = "random")
 set.seed(233)
 svm.spss <- train(class ~ ., 
                       data = alt.data, 
@@ -43,14 +45,17 @@ plot(importance.svm, top = 20)
 
 #GBM
 train.gbm <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
+caretGrid <- expand.grid(interaction.depth=c(1, 3, 5), n.trees = (0:50)*50,
+                         shrinkage=c(0.01, 0.001),
+                         n.minobsinnode=10)
 set.seed(233)
 gbm.spss <- train(class ~ ., 
                   data = alt.data, 
                   method = "gbm",
                   trControl = train.gbm,
                   preProc = c("center", "scale"),
+                  tuneGrid = caretGrid,
                   tuneLength = 10)
-
 importance.gbm <- varImp(gbm.spss, scale = FALSE)   #9 variables of importance
 print(importance.gbm)
 plot(importance.gbm, top = 20)
@@ -126,10 +131,9 @@ ggboxplot(var1, x = "class", y = "H1",
           color = "class", palette = c("#00AFBB", "#E7B800", "#FC4E07"),
           order = c("1", "2"),
           ylab = "H1", xlab = "Class")
-#Anova
-Var1.aov <- aov(H1 ~ class, data = var1)
-#Summary 
-summary(Var1.aov)
+
+Var1.test <- wilcox.test(Samples, H1, alternative = "two.sided")
+Var1.test
 
 #Variable 2
 group_by(var2, class) %>%
@@ -141,7 +145,11 @@ ggboxplot(var2, x = "class", y = "Ala",
           color = "class", palette = c("#00AFBB", "#E7B800", "#FC4E07"),
           order = c("1", "2"),
           ylab = "Ala", xlab = "Class")
-#Anova
-Var2.aov <- aov(Ala ~ class, data = var2)
-#Summary 
-summary(Var2.aov)
+
+Var2.test <- wilcox.test(Samples, Ala, alternative = "two.sided")
+Var2.test
+
+##################################################################
+#Variables selected from best model
+
+
