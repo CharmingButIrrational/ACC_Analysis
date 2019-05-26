@@ -127,6 +127,7 @@ class <- as.numeric(alt.data$class)
 group_by(var1, class) %>%
   summarise(count = n(),
             mean = mean(H1, na.rm = TRUE),
+            median = median(H1, na.rm = TRUE),
             sd = sd(H1, na.rm = TRUE))
 
 ggboxplot(var1, x = "class", y = "H1", 
@@ -134,13 +135,14 @@ ggboxplot(var1, x = "class", y = "H1",
           order = c("1", "2"),
           ylab = "H1", xlab = "Class")
 
-Var1.test <- wilcox.test(class, H1, alternative = "two.sided")
+Var1.test <- wilcox.test(H1, class, alternative = "two.sided")
 Var1.test
 
 #Variable 2
 group_by(var2, class) %>%
   summarise(count = n(),
             mean = mean(Ala, na.rm = TRUE),
+            median = median(Ala, na.rm = TRUE),
             sd = sd(Ala, na.rm = TRUE))
 
 ggboxplot(var2, x = "class", y = "Ala", 
@@ -148,7 +150,7 @@ ggboxplot(var2, x = "class", y = "Ala",
           order = c("1", "2"),
           ylab = "Ala", xlab = "Class")
 
-Var2.test <- wilcox.test(class, Ala, alternative = "two.sided")
+Var2.test <- wilcox.test(Ala, class, alternative = "two.sided")
 Var2.test
 
 ##################################################################
@@ -174,6 +176,7 @@ var9 <- as.data.frame(cbind(class, PC.aa.C34.2))
 group_by(var3, class) %>%
   summarise(count = n(),
             mean = mean(Gly, na.rm = TRUE),
+            median = median(Gly, na.rm = TRUE),
             sd = sd(Gly, na.rm = TRUE))
 
 ggboxplot(var3, x = "class", y = "Gly", 
@@ -181,13 +184,14 @@ ggboxplot(var3, x = "class", y = "Gly",
           order = c("1", "2"),
           ylab = "Gly", xlab = "Class")
 
-Var3.test <- wilcox.test(class, Gly, alternative = "two.sided")
+Var3.test <- wilcox.test(Gly, class, alternative = "two.sided")
 Var3.test
 
 #Variable 4
 group_by(var4, class) %>%
   summarise(count = n(),
             mean = mean(PC.aa.C34.1, na.rm = TRUE),
+            median = median(PC.aa.C34.1, na.rm = TRUE),
             sd = sd(PC.aa.C34.1, na.rm = TRUE))
 
 ggboxplot(var4, x = "class", y = "PC.aa.C34.1", 
@@ -195,13 +199,14 @@ ggboxplot(var4, x = "class", y = "PC.aa.C34.1",
           order = c("1", "2"),
           ylab = "PC.aa.C34.1", xlab = "Class")
 
-Var4.test <- wilcox.test(class, PC.aa.C34.1, alternative = "two.sided")
+Var4.test <- wilcox.test(PC.aa.C34.1, class, alternative = "two.sided")
 Var4.test
 
 #Variable 5
 group_by(var5, class) %>%
   summarise(count = n(),
             mean = mean(Lys, na.rm = TRUE),
+            median = median(Lys, na.rm = TRUE),
             sd = sd(Lys, na.rm = TRUE))
 
 ggboxplot(var1, x = "class", y = "Lys", 
@@ -209,13 +214,14 @@ ggboxplot(var1, x = "class", y = "Lys",
           order = c("1", "2"),
           ylab = "Lys", xlab = "Class")
 
-Var5.test <- wilcox.test(class, Lys, alternative = "two.sided")
+Var5.test <- wilcox.test(Lys, class, alternative = "two.sided")
 Var5.test
 
 #Variable 6
 group_by(var6, class) %>%
   summarise(count = n(),
             mean = mean(Val, na.rm = TRUE),
+            median = median(Val, na.rm = TRUE),
             sd = sd(Val, na.rm = TRUE))
 
 ggboxplot(var6, x = "class", y = "Val", 
@@ -223,13 +229,14 @@ ggboxplot(var6, x = "class", y = "Val",
           order = c("1", "2"),
           ylab = "Val", xlab = "Class")
 
-Var6.test <- wilcox.test(class, Val, alternative = "two.sided")
+Var6.test <- wilcox.test(Val, class, alternative = "two.sided")
 Var6.test
 
 #Variable 7
 group_by(var7, class) %>%
   summarise(count = n(),
             mean = mean(Gln, na.rm = TRUE),
+            median = median(Gln, na.rm = TRUE),
             sd = sd(Gln, na.rm = TRUE))
 
 ggboxplot(var7, x = "class", y = "Gln", 
@@ -237,13 +244,14 @@ ggboxplot(var7, x = "class", y = "Gln",
           order = c("1", "2"),
           ylab = "Gln", xlab = "Class")
 
-Var7.test <- wilcox.test(class, Gln, alternative = "two.sided")
+Var7.test <- wilcox.test(Gln, class, alternative = "two.sided")
 Var7.test
 
 #Variable 8
 group_by(var8, class) %>%
   summarise(count = n(),
             mean = mean(PC.aa.C36.2, na.rm = TRUE),
+            median = median(PC.aa.C36.2, na.rm = TRUE),
             sd = sd(PC.aa.C36.2, na.rm = TRUE))
 
 ggboxplot(var8, x = "class", y = "PC.aa.C36.2", 
@@ -251,13 +259,14 @@ ggboxplot(var8, x = "class", y = "PC.aa.C36.2",
           order = c("1", "2"),
           ylab = "PC.aa.C36.2", xlab = "Class")
 
-Var8.test <- wilcox.test(class, PC.aa.C36.2, alternative = "two.sided")
+Var8.test <- wilcox.test(PC.aa.C36.2, class, alternative = "two.sided")
 Var8.test
 
 #Variable 9
 group_by(var9, class) %>%
   summarise(count = n(),
             mean = mean(PC.aa.C34.2, na.rm = TRUE),
+            median = median(PC.aa.C34.2, na.rm = TRUE),
             sd = sd(PC.aa.C34.2, na.rm = TRUE))
 
 ggboxplot(var9, x = "class", y = "PC.aa.C34.2", 
@@ -265,5 +274,5 @@ ggboxplot(var9, x = "class", y = "PC.aa.C34.2",
           order = c("1", "2"),
           ylab = "PC.aa.C34.2", xlab = "Class")
 
-Var9.test <- wilcox.test(class, PC.aa.C34.2, alternative = "two.sided")
+Var9.test <- wilcox.test(PC.aa.C34.2, class, alternative = "two.sided")
 Var9.test

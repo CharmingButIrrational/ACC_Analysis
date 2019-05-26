@@ -101,6 +101,7 @@ var9 <- as.data.frame(cbind(diagnosis, Gln))
 group_by(var1, diagnosis) %>%
   summarise(count = n(),
             mean = mean(H1, na.rm = TRUE),
+            median = median(Ala, na.rm = TRUE),
             sd = sd(H1, na.rm = TRUE))
 
 ggboxplot(var1, x = "diagnosis", y = "H1", 
@@ -115,6 +116,7 @@ Var1.test
 group_by(var2, diagnosis) %>%
   summarise(count = n(),
             mean = mean(Gly, na.rm = TRUE),
+            median = median(Gly, na.rm = TRUE),
             sd = sd(Gly, na.rm = TRUE))
 
 ggboxplot(var2, x = "diagnosis", y = "Gly", 
@@ -128,7 +130,8 @@ Var2.test
 #Variable 3
 group_by(var3, diagnosis) %>%
   summarise(count = n(),
-            mean = mean(Ala, na.rm = TRUE),
+            mean = mean(Ala, na.rm = TRUE),#
+            median = median(Ala, na.rm = TRUE),
             sd = sd(Ala, na.rm = TRUE))
 
 ggboxplot(var3, x = "diagnosis", y = "Ala", 
@@ -143,6 +146,7 @@ Var3.test
 group_by(var4, diagnosis) %>%
   summarise(count = n(),
             mean = mean(PC.aa.C34.2, na.rm = TRUE),
+            median = median(PC.aa.C34.2, na.rm = TRUE),
             sd = sd(PC.aa.C34.2, na.rm = TRUE))
 
 ggboxplot(var4, x = "diagnosis", y = "PC.aa.C34.2", 
@@ -157,6 +161,7 @@ Var4.test
 group_by(var5, diagnosis) %>%
   summarise(count = n(),
             mean = mean(Val, na.rm = TRUE),
+            median = median(Val, na.rm = TRUE),
             sd = sd(Val, na.rm = TRUE))
 
 ggboxplot(var5, x = "diagnosis", y = "Val", 
@@ -171,6 +176,7 @@ Var5.test
 group_by(var6, diagnosis) %>%
   summarise(count = n(),
             mean = mean(Lys, na.rm = TRUE),
+            median = median(Lys, na.rm = TRUE),
             sd = sd(Lys, na.rm = TRUE))
 
 ggboxplot(var6, x = "diagnosis", y = "Lys", 
@@ -185,6 +191,7 @@ Var6.test
 group_by(var7, diagnosis) %>%
   summarise(count = n(),
             mean = mean(PC.aa.C34.1, na.rm = TRUE),
+            median = median(PC.aa.C34.1, na.rm = TRUE),
             sd = sd(PC.aa.C34.1, na.rm = TRUE))
 
 ggboxplot(var7, x = "diagnosis", y = "PC.aa.C34.1", 
@@ -199,6 +206,7 @@ Var7.test
 group_by(var8, diagnosis) %>%
   summarise(count = n(),
             mean = mean(PC.aa.C36.2, na.rm = TRUE),
+            median = median(PC.aa.C36.2, na.rm = TRUE),
             sd = sd(PC.aa.C36.2, na.rm = TRUE))
 
 ggboxplot(var8, x = "diagnosis", y = "PC.aa.C36.2", 
@@ -213,6 +221,7 @@ Var8.test
 group_by(var9, diagnosis) %>%
   summarise(count = n(),
             mean = mean(Gln, na.rm = TRUE),
+            median = median(Gln, na.rm = TRUE),
             sd = sd(Gln, na.rm = TRUE))
 
 ggboxplot(var9, x = "diagnosis", y = "Gln", 
