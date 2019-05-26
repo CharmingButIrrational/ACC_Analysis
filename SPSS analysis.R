@@ -204,7 +204,7 @@ group_by(var5, class) %>%
             mean = mean(Lys, na.rm = TRUE),
             sd = sd(Lys, na.rm = TRUE))
 
-ggboxplot(var5, x = "class", y = "Lys", 
+ggboxplot(var1, x = "class", y = "Lys", 
           color = "class", palette = c("#00AFBB", "#E7B800", "#FC4E07"),
           order = c("1", "2"),
           ylab = "Lys", xlab = "Class")
