@@ -7,7 +7,7 @@ malignancy <- as.factor(mydata$malignancy)
 
 alt.data <- mydata[,21:150]
 
-alt.data <- cbind(phenotype, alt.data)
+alt.data <- cbind(malignancy, alt.data)
 
 library(gbm)
 library(glmnet)
