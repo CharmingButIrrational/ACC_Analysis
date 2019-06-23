@@ -56,9 +56,26 @@ gbm.spss <- train(class ~ .,
                   preProc = c("center", "scale"),
                   tuneGrid = caretGrid,
                   tuneLength = 10)
-importance.gbm <- varImp(gbm.spss, scale = FALSE)   #9 variables of importance
+importance.gbm <- varImp(gbm.spss, scale = T)   #9 variables of importance
 print(importance.gbm)
-plot(importance.gbm, top = 20)
+plot(importance.gbm, top = 9)
+
+#GBM
+train.gbm2 <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
+caretGrid2 <- expand.grid(interaction.depth=c(1, 3, 5), n.trees = (0:50)*50,
+                         shrinkage=c(0.01, 0.0001),
+                         n.minobsinnode=10)
+set.seed(233)
+gbm.spss2 <- train(class ~ ., 
+                  data = alt.data, 
+                  method = "gbm",
+                  trControl = train.gbm2,
+                  preProc = c("center", "scale"),
+                  tuneGrid = caretGrid2,
+                  tuneLength = 10)
+importance.gbm2 <- varImp(gbm.spss2, scale = FALSE)   #9 variables of importance
+print(importance.gbm2)
+plot(importance.gbm2, top = 20)
 
 ##################################################################
 #Compare models
