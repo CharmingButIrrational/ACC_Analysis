@@ -293,3 +293,19 @@ ggboxplot(var9, x = "class", y = "PC.aa.C34.2",
 
 Var9.test <- wilcox.test(PC.aa.C34.2, class, alternative = "two.sided")
 Var9.test
+
+
+###########################################################
+#Printing the ROC curve 
+
+#ROC plot for elastic net
+selectedglmnet <- elastic.spss$pred$ == 2
+# Plot:
+plot.roc(elastic.spss$pred$obs[selectedglmnet],
+         elastic.spss$pred$M[selectedglmnet])
+
+#ROC plot for SVM
+selectedSVM <- svm.spss$pred == 2
+# Plot:
+plot.roc(svm.spss$pred$obs[selectedSVM],
+         svm.spss$pred$M[selectedSVM])
