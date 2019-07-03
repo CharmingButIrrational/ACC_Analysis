@@ -14,6 +14,8 @@ library(glmnet)
 library(caret)
 library(pROC)
 library(ROCR)
+library(MASS)
+library(SDMTools)
 
 
 smp_size <- floor(0.8 * nrow(alt.data))
@@ -38,11 +40,7 @@ importance.elastic <- varImp(elastic.spss.whole, scale = FALSE)
 print(importance.elastic)
 plot(importance.elastic, top = 20)
 
-#ROC plot for elastic net
-selectedglmnet <- elastic.spss.whole$pred$pred == 2
-# Plot:
-plot.roc(elastic.spss.whole$pred[selectedglmnet],
-         elastic.spss.whole$pred[selectedglmnet])
+
 
 ############################################################################################
 
@@ -61,18 +59,20 @@ plot(importance.elastic, top = 20)
 
 elastic.pred <- predict(elastic.spss, test)
 
-confusion.elastic <- confusionMatrix(elastic.pred, test$class)
+confusion.elastic <- confusionMatrix(elastic.pred, test$class, positive = "1")
 confusion.elastic
-#Plotting ROC graph
-ROC.elastic <- performance(elastic.pred, "tpr", "fpr")
-plot(ROC.elastic)
-plot(ROC.elastic, add = TRUE, col = "green")
-legend("right", legend = c("rf"), col = c("green"), lty = 1:2, cex = 0.6)
 
-#Calculating AUC
-AUC.elastic <- performance(elastic.pred, "AUC")
-AUC.elastic <- as.numeric(AUC.elastic@y.values)
-AUC.elastic
+elastic.outcome <- test$class
+
+### create the ROC curve ###
+pred.elastic <- prediction(as.numeric(elastic.pred), as.numeric(elastic.outcome))
+perf.elastic <- performance(pred.elastic, "tpr", "fpr")
+plot(perf.elastic, col = "red", lwd = 2)
+abline(0, 1, lty = 2)
+
+### create AUC value ###
+auc.perf.elastic = performance(pred.elastic, measure = "auc")
+auc.perf.elastic@y.values
 
 
 #SVM
@@ -88,6 +88,24 @@ svm.spss <- train(class ~ .,
 importance.svm <- varImp(svm.spss, scale = FALSE)
 print(importance.svm)
 plot(importance.svm, top = 20)
+
+svm.pred <- predict(svm.spss, test)
+
+confusion.svm <- confusionMatrix(svm.pred, test$class)
+confusion.svm
+
+svm.outcome <- test$class
+
+### create the ROC curve ###
+pred.svm <- prediction(as.numeric(svm.pred), as.numeric(svm.outcome))
+perf.svm <- performance(pred.svm, "tpr", "fpr")
+plot(perf.svm, col = "red", lwd = 2)
+abline(0, 1, lty = 2)
+
+### create AUC value ###
+auc.perf.svm = performance(pred.svm, measure = "auc")
+auc.perf.svm@y.values
+
 
 #GBM
 train.gbm <- trainControl(method = "repeatedcv", number = 10, repeats = 5, savePredictions = TRUE)
@@ -105,3 +123,72 @@ gbm.spss <- train(class ~ .,
 importance.gbm <- varImp(gbm.spss, scale = T)   #9 variables of importance
 print(importance.gbm)
 plot(importance.gbm, top = 9)
+
+gbm.pred <- predict(gbm.spss, test)
+
+confusion.gbm <- confusionMatrix(gbm.pred, test$class)
+confusion.gbm
+
+gbm.outcome <- test$class
+
+### create the ROC curve ###
+pred.gbm <- prediction(as.numeric(gbm.pred), as.numeric(gbm.outcome))
+perf.gbm <- performance(pred.gbm, "tpr", "fpr")
+plot(perf.gbm, col = "red", lwd = 2)
+abline(0, 1, lty = 2)
+
+### create AUC value ###
+auc.perf.gbm = performance(pred.gbm, measure = "auc")
+auc.perf.gbm@y.values
+
+
+##################################################################
+#Compare models
+results <- resamples(list(ELA=elastic.spss, GBM=gbm.spss, SVM=svm.spss))
+summary(results)
+bwplot(results)
+
+#In this dataset GBM has greater accuracy and kappa values
+##################################################################
+
+library(data.table)
+
+#Common predictors
+elast.predictors <- importance.elastic$importance
+SVM.predictors <- importance.svm$importance
+GBM.predictors <- importance.gbm$importance
+#Remove dupicate column
+all(SVM.predictors$X0 == SVM.predictors$X1)
+SVM.predictors$X1 <- NULL
+colnames(SVM.predictors)[1] <- "Overall"
+elastic.predictors <- setDT(elast.predictors, keep.rownames = TRUE)[]
+SVM.predictors <- setDT(SVM.predictors, keep.rownames = TRUE)[]
+GBM.predictors <- setDT(GBM.predictors, keep.rownames = TRUE)[]
+elastic.predictors <- elastic.predictors[order(-elastic.predictors$Overall),]
+SVM.predictors <- SVM.predictors[order(-SVM.predictors$Overall),]
+GBM.predictors <- GBM.predictors[order(-GBM.predictors$Overall),]
+elastic.predictors.Sig <- head(elastic.predictors, 20)
+SVM.predictors.Sig <- head(SVM.predictors, 20)
+#Adjust GBM selection based on printed variables
+GBM.predictors.Sig <- head(GBM.predictors, 9)
+elastic.predictors.Sig$Overall <- NULL
+SVM.predictors.Sig$Overall <- NULL
+GBM.predictors.Sig$Overall <- NULL
+#The data need to be in a vector. As.vector doesn't work, but unlist reduces data to simple
+elastic.predictors.Sig <- unlist(elastic.predictors.Sig)
+SVM.predictors.Sig <- unlist(SVM.predictors.Sig)
+GBM.predictors.Sig <- unlist(GBM.predictors.Sig)
+
+library(VennDiagram)
+venn.data.predictors <- list(elastic.predictors.Sig, SVM.predictors.Sig, GBM.predictors.Sig)
+grid.newpage()
+venn.plot.predictors <- venn.diagram(x = list(elastic.predictors.Sig=elastic.predictors.Sig, SVM.predictors.Sig=SVM.predictors.Sig, GBM.predictors.Sig=GBM.predictors.Sig),
+                                     filename=NULL, 
+                                     fill = c("red", "blue", "green"),
+                                     alpha = 0.50,
+                                     col = "transparent")
+grid.draw(venn.plot.predictors)
+venn.intersect.predictors <- calculate.overlap(venn.data.predictors)
+print(venn.intersect.predictors$a5) #Variables selected by all models
+
+###################################################################
