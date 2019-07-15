@@ -1,7 +1,7 @@
 #Pheochromocytoma analysis
 
 #Load data
-mydata <- read.csv("C:/Users/oisin/Desktop/Analysis Data/SPSS.csv", sep = ";", header = T)
+mydata <- read.csv("C:/Users/oisin/Desktop/Analysis Data/Phenochromacytoma/SPSS.csv", sep = ";", header = T)
 
 class <- as.factor(mydata$class)
 
@@ -152,8 +152,9 @@ ggboxplot(var1, x = "class", y = "H1",
           order = c("1", "2"),
           ylab = "H1", xlab = "Class")
 
-Var1.test <- wilcox.test(H1, class, alternative = "two.sided")
+Var1.test <- wilcox.test(H1 ~ class, alternative = "two.sided")
 Var1.test
+
 
 #Variable 2
 group_by(var2, class) %>%
@@ -167,7 +168,7 @@ ggboxplot(var2, x = "class", y = "Ala",
           order = c("1", "2"),
           ylab = "Ala", xlab = "Class")
 
-Var2.test <- wilcox.test(Ala, class, alternative = "two.sided")
+Var2.test <- wilcox.test(Ala ~ class, alternative = "two.sided")
 Var2.test
 
 ##################################################################
@@ -201,7 +202,7 @@ ggboxplot(var3, x = "class", y = "Gly",
           order = c("1", "2"),
           ylab = "Gly", xlab = "Class")
 
-Var3.test <- wilcox.test(Gly, class, alternative = "two.sided")
+Var3.test <- wilcox.test(Gly ~ class, alternative = "two.sided")
 Var3.test
 
 #Variable 4
@@ -216,7 +217,7 @@ ggboxplot(var4, x = "class", y = "PC.aa.C34.1",
           order = c("1", "2"),
           ylab = "PC.aa.C34.1", xlab = "Class")
 
-Var4.test <- wilcox.test(PC.aa.C34.1, class, alternative = "two.sided")
+Var4.test <- wilcox.test(PC.aa.C34.1 ~ class, alternative = "two.sided")
 Var4.test
 
 #Variable 5
@@ -231,7 +232,7 @@ ggboxplot(var1, x = "class", y = "Lys",
           order = c("1", "2"),
           ylab = "Lys", xlab = "Class")
 
-Var5.test <- wilcox.test(Lys, class, alternative = "two.sided")
+Var5.test <- wilcox.test(Lys ~ class, alternative = "two.sided")
 Var5.test
 
 #Variable 6
@@ -246,7 +247,7 @@ ggboxplot(var6, x = "class", y = "Val",
           order = c("1", "2"),
           ylab = "Val", xlab = "Class")
 
-Var6.test <- wilcox.test(Val, class, alternative = "two.sided")
+Var6.test <- wilcox.test(Val ~ class, alternative = "two.sided")
 Var6.test
 
 #Variable 7
@@ -261,7 +262,7 @@ ggboxplot(var7, x = "class", y = "Gln",
           order = c("1", "2"),
           ylab = "Gln", xlab = "Class")
 
-Var7.test <- wilcox.test(Gln, class, alternative = "two.sided")
+Var7.test <- wilcox.test(Gln ~ class, alternative = "two.sided")
 Var7.test
 
 #Variable 8
@@ -276,7 +277,7 @@ ggboxplot(var8, x = "class", y = "PC.aa.C36.2",
           order = c("1", "2"),
           ylab = "PC.aa.C36.2", xlab = "Class")
 
-Var8.test <- wilcox.test(PC.aa.C36.2, class, alternative = "two.sided")
+Var8.test <- wilcox.test(PC.aa.C36.2 ~ class, alternative = "two.sided")
 Var8.test
 
 #Variable 9
@@ -291,7 +292,7 @@ ggboxplot(var9, x = "class", y = "PC.aa.C34.2",
           order = c("1", "2"),
           ylab = "PC.aa.C34.2", xlab = "Class")
 
-Var9.test <- wilcox.test(PC.aa.C34.2, class, alternative = "two.sided")
+Var9.test <- wilcox.test(PC.aa.C34.2 ~ class, alternative = "two.sided")
 Var9.test
 
 
