@@ -73,7 +73,7 @@ write.table(res, file = "C:/Users/oisin/Desktop/Analysis Data/cyTOF/CyTOF sample
 
 # subsampling (required due to runtime)
 
-n_sub <- 20
+n_sub <- 2000
 
 set.seed(1234)
 ix <- sample(1:length(labels), n_sub)
@@ -100,8 +100,8 @@ dim(data_Rtsne)
 # (i.e. not thousands, which may be the case in other domains)
 
 set.seed(1234)
-out_Rtsne <- Rtsne(data_Rtsne,  dims = 3, perplexity = 6, pca = FALSE, verbose = TRUE)
-                                          #perplexity 1:6 work, 7 is too large
+out_Rtsne <- Rtsne(data_Rtsne,  dims = 3, perplexity = 40, pca = FALSE, verbose = TRUE)
+                                         
 
 # load cluster labels (if not still loaded)
 
@@ -134,7 +134,6 @@ ggplot(data_plot, aes(x = tSNE_1, y = tSNE_2, color = cluster)) +
   ggtitle("t-SNE projection with FlowSOM clustering") + 
   theme_bw()
 
-ggsave("plots/FlowSOM_Rtsne_plot.pdf", height = 6, width = 7)
 
 
 
