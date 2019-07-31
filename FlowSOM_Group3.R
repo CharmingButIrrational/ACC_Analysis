@@ -15,7 +15,7 @@ dim(group3)
 
 marker_cols <- c(1,2,3,4,5,6,8,10,11,12,13,14,15,16,17,18,19,22,23,24,25,27,28,29,30,32,33,34,35,36,37,38,39,40,42,43,44,45,46,47,48,49,50,51,52,54,56,57,58,59,60,61,62,63,64,65,66,67,68,69)
 
-plot_cols <- c(11,12,13,14,17,18,22,25,27,32,35,37,39,40,49,56,59,61,62,65,66,67,68,69)
+plot_cols <- c(12,13,14,15,18,19,24,27,29,34,37,39,41,42,51,58,61,63,64,67,68,69,70,71)
 
 #apply arcsinh transformation
 #with standard factor 5 for cyTOF data
@@ -41,6 +41,7 @@ out <- FlowSOM::BuildMST(out)
 
 #Visualisation
 FlowSOM::PlotStars(out)
+PlotStars(out, view = "tSNE")
 
 #Plot the different markers
 PlotMarker(out,"Dy162Di")
