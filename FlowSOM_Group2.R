@@ -5,11 +5,11 @@ library(Rtsne)
 
 #import data
 
-group1 <- flowCore::exprs(flowCore::read.FCS("C:/Users/oisin/Desktop/Analysis Data/cyTOF/CyTOF samples/Group 1.fcs",
+group2 <- flowCore::exprs(flowCore::read.FCS("C:/Users/oisin/Desktop/Analysis Data/cyTOF/CyTOF samples/Group 2.fcs",
                                              transformation = FALSE,
                                              truncate_max_range = FALSE))
-head(group1)
-dim(group1)
+head(group2)
+dim(group2)
 
 #select marker columns to use for clustering
 
@@ -21,13 +21,13 @@ plot_cols <- c(11,12,13,14,17,18,22,25,27,32,35,37,39,40,49,56,59,61,62,65,66,67
 #with standard factor 5 for cyTOF data
 
 asinh_scale <- 5
-group1[, marker_cols] <- asinh(group1[, marker_cols] / asinh_scale)
+group2[, marker_cols] <- asinh(group2[, marker_cols] / asinh_scale)
 
-summary(group1)
+summary(group2)
 
 #create flowFrame object (required for FlowSOM) from data matrix
 
-group1_FlowSOM <- flowCore::flowFrame(group1)
+group2_FlowSOM <- flowCore::flowFrame(group2)
 
 #run FlowSOM
 #set seed for reproducibility
@@ -35,7 +35,7 @@ set.seed(1234)
 
 #initial step prior to meta-clustering
 
-out <- FlowSOM::ReadInput(group1_FlowSOM, transform = FALSE, scale = FALSE)
+out <- FlowSOM::ReadInput(group2_FlowSOM, transform = FALSE, scale = FALSE)
 out <- FlowSOM::BuildSOM(out, colsToUse = plot_cols)
 out <- FlowSOM::BuildMST(out)
 
@@ -73,9 +73,9 @@ PlotMarker(out,"Yb176Di")
 labels_pre <- out$map$mapping[, 1]
 
 #run meta clustering
-k <- 20
+k <- 6
 seed <- 4356456
-                    
+
 out <- ConsensusClusterPlus::ConsensusClusterPlus(t(out$map$codes), maxK = k, seed = seed)
 out <- out[[k]]$consensusClass
 
@@ -107,7 +107,7 @@ ix <- sample(1:length(labels), n_sub)
 
 # prepare data for Rtsne (matrix format required)
 
-data_Rtsne <- group1[ix, marker_cols]
+data_Rtsne <- group2[ix, marker_cols]
 data_Rtsne <- as.matrix(data_Rtsne)
 
 head(data_Rtsne)
@@ -128,7 +128,7 @@ dim(data_Rtsne)
 
 set.seed(1234)
 out_Rtsne <- Rtsne(data_Rtsne,  dims = 3, perplexity = 40, pca = FALSE, verbose = TRUE)
-                                         
+
 
 # load cluster labels (if not still loaded)
 
@@ -161,6 +161,5 @@ ggplot(data_plot, aes(x = tSNE_1, y = tSNE_2, color = cluster)) +
   ggtitle("t-SNE projection with FlowSOM clustering") + 
   theme_bw()
 
-
-
+ggsave("plots/FlowSOM_Rtsne_plot.pdf", height = 6, width = 7)
 
