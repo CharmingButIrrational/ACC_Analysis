@@ -17,6 +17,8 @@ marker_cols <- c(1,2,3,4,5,6,8,10,11,12,13,14,15,16,17,18,19,22,23,24,25,27,28,2
 
 plot_cols <- c(11,12,13,14,17,18,22,25,27,32,35,37,39,40,49,56,59,61,62,65,66,67,68,69)
 
+phenotype <- c(10,11,12,13,14,15,16,17,18,22,23,25,27,32,35,37,38,39,40,49,56,57,58,59,61,62,65,66,67,68,69) 
+
 #apply arcsinh transformation
 #with standard factor 5 for cyTOF data
 
@@ -43,8 +45,8 @@ out <- FlowSOM::BuildMST(out)
 FlowSOM::PlotStars(out)
 PlotStars(out, view = "grid")
 
-PlotStars(out, markers = marker_cols)
-PlotStars(out, markers = marker_cols, view = "grid")
+PlotStars(out, markers = phenotype)
+PlotStars(out, markers = phenotype, view = "grid")
 
 #Plot the different markers
 PlotMarker(out,"Bi209Di")
