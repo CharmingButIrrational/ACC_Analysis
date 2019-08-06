@@ -12,6 +12,8 @@ group1 <- flowCore::exprs(flowCore::read.FCS("C:/Users/oisin/Desktop/Analysis Da
 #select marker columns to use for clustering
 marker_cols <- c(1,2,3,4,5,6,8,10,11,12,13,14,15,16,17,18,19,22,23,24,25,27,28,29,30,32,33,34,35,36,37,38,39,40,42,43,44,45,46,47,48,49,50,51,52,54,56,57,58,59,60,61,62,63,64,65,66,67,68,69)
 
+plot_cols <- c(11,12,13,14,17,18,22,25,27,32,35,37,39,40,49,56,59,61,62,65,66,67,68,69)
+
 #Transform data
 asinh_scale <- 5
 group1[, marker_cols] <- asinh(group1[, marker_cols] / asinh_scale)
@@ -19,7 +21,6 @@ group1[, marker_cols] <- asinh(group1[, marker_cols] / asinh_scale)
 #create flowFrame object 
 group1_FlowSOM <- flowCore::flowFrame(group1)
 
-plot_cols <- c(11,12,13,14,17,18,22,25,27,32,35,37,39,40,49,56,59,61,62,65,66,67,68,69)
 #run FlowSOM
 set.seed(1234)
 
@@ -28,18 +29,14 @@ out <- FlowSOM::ReadInput(group1_FlowSOM, transform = FALSE, scale = FALSE)
 out <- FlowSOM::BuildSOM(out, colsToUse = plot_cols)
 out <- FlowSOM::BuildMST(out)
 
-#BuildingMST using selected markers
-example <- FlowSOM::ReadInput(group1_FlowSOM, transform = FALSE, scale = FALSE)
-example <- FlowSOM::BuildSOM(example, colsToUse = marker_cols)
-example <- FlowSOM::BuildMST(example)
-
 #Number the nodes
 PlotNumbers(UpdateNodeSize(out,reset=TRUE))
 
 #Plot the SOM
 PlotStars(out)  #May be difficult to view the central area
 
-PlotStars(example)
+PlotStars(out, markers = marker_cols)
+PlotStars(out, markers = marker_cols, view = "grid")
 
 #Alternate methods of visualisation 
 PlotStars(out, view = "grid")
@@ -51,22 +48,31 @@ PlotStars(out, view = "tSNE")
 print(colnames(out$map$medianValues))
 
 #Plot the different markers
+PlotMarker(out,"Bi209Di")
+PlotMarker(out,"Dy161Di")
 PlotMarker(out,"Dy162Di")
 PlotMarker(out,"Dy163Di")
 PlotMarker(out,"Dy164Di")
 PlotMarker(out,"Er166Di")
+PlotMarker(out,"Er167Di")
+PlotMarker(out,"Er168Di")
 PlotMarker(out,"Er170Di")
 PlotMarker(out,"Eu151Di")
+PlotMarker(out,"Eu153Di")
 PlotMarker(out,"Gd155Di")
+PlotMarker(out,"Gd156Di")
 PlotMarker(out,"Gd160Di")
 PlotMarker(out,"Ho165Di")
 PlotMarker(out,"Lu175Di")
 PlotMarker(out,"Nd143Di")
 PlotMarker(out,"Nd145Di")
+PlotMarker(out,"Nd146Di")
 PlotMarker(out,"Nd148Di")
 PlotMarker(out,"Nd150Di")
 PlotMarker(out,"Pr141Di")
 PlotMarker(out,"Sm147Di")
+PlotMarker(out,"Sm149Di")
+PlotMarker(out,"Sm152Di")
 PlotMarker(out,"Sm154Di")
 PlotMarker(out,"Tb159Di")
 PlotMarker(out,"Tm169Di")
@@ -80,6 +86,17 @@ PlotMarker(out,"Yb176Di")
 PlotNumbers(UpdateNodeSize(out,reset=TRUE))
 #Select clusters and markers e.g Podoplanin and Drp1 
 PlotClusters2D(out,"Gd160Di","Yb171Di",c(99,1,34))
+
+
+
+
+metacl <- MetaClustering(out$map$codes,
+                         "metaClustering_consensus",max=10)
+
+flowSOM.clustering <- metacl[out$map$mapping[,1]]
+
+
+##################################################################
 
 #Extract cellular labels before meta-clusteringt
 labels_pre <- out$map$mapping[, 1]

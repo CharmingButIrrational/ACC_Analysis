@@ -41,8 +41,11 @@ out <- FlowSOM::BuildMST(out)
 
 #Visualisation
 FlowSOM::PlotStars(out)
+PlotStars(out, view = "grid")
 
-PlotStars(out, view = "tSNE")
+PlotStars(out, markers = marker_cols)
+PlotStars(out, markers = marker_cols, view = "grid")
+
 #Plot the different markers
 PlotMarker(out,"Bi209Di")
 PlotMarker(out,"Dy161Di")
