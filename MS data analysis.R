@@ -210,7 +210,7 @@ sam.data <- SAM(sam.data.red,censoring.status=NULL,
 library(dplyr)
 library(ggpubr)
 
-Samples <- as.numeric(df_alt$Samples)
+Samples <- as.factor(df_alt$Samples)
 
 
 #Features selected by all methods
@@ -235,6 +235,9 @@ ggboxplot(var1, x = "Samples", y = "A4976.OSP.131.150",
 Var1.test <- wilcox.test(Samples ~ A4976.OSP.131.150, alternative = "two.sided")
 Var1.test
 
+Var1.test <- wilcox.test(A4976.OSP.131.150 ~ Samples , alternative = "two.sided")
+Var1.test
+
 #Variable 2 analysis
 group_by(var2, Samples) %>%
   summarise(count = n(),
@@ -245,7 +248,7 @@ ggboxplot(var2, x = "Samples", y = "A4858.MOG.N.term",
           order = c("1", "2"),
           ylab = "A4858.MOG.N.term", xlab = "Samples")
 
-Var2.test <- wilcox.test(Samples ~ A4858.MOG.N.term, alternative = "two.sided")
+Var2.test <- wilcox.test(A4858.MOG.N.term ~ Samples, alternative = "two.sided")
 Var2.test
 
 #Variable 3 analysis
@@ -258,11 +261,10 @@ ggboxplot(var3, x = "Samples", y = "A4910.MOBP.161.180",
           order = c("1", "2"),
           ylab = "A4910.MOBP.161.180", xlab = "Samples")
 
-Var3.test <- wilcox.test(Samples ~ A4910.MOBP.161.180, alternative = "two.sided")
+Var3.test <- wilcox.test(A4910.MOBP.161.180 ~ Samples, alternative = "two.sided")
 Var3.test
 
 #Variables selected by best preforming method (LVQ)
-
 A4943.CNPase.343.362.RM <- df_alt$A4943.CNPase.343.362.RM
 A4963.OSP.1.20 <- df_alt$A4963.OSP.1.20
 A4874.MBP.31.50 <- df_alt$A4874.MBP.31.50            
@@ -313,7 +315,7 @@ ggboxplot(var4, x = "Samples", y = "A4943.CNPase.343.362.RM",
           order = c("1", "2"),
           ylab = "A4943.CNPase.343.362.RM", xlab = "Samples")
 
-Var4.test <- wilcox.test(Samples ~ A4943.CNPase.343.362.RM, alternative = "two.sided")
+Var4.test <- wilcox.test(A4943.CNPase.343.362.RM ~ Samples, alternative = "two.sided")
 Var4.test
 
 #Variable 5 analysis
@@ -326,7 +328,7 @@ ggboxplot(var5, x = "Samples", y = "A4963.OSP.1.20",
           order = c("1", "2"),
           ylab = "A4963.OSP.1.20", xlab = "Samples")
 
-Var5.test <- wilcox.test(Samples ~ A4963.OSP.1.20, alternative = "two.sided")
+Var5.test <- wilcox.test(A4963.OSP.1.20 ~ Samples, alternative = "two.sided")
 Var5.test
 
 #Variable 6 analysis
@@ -339,7 +341,7 @@ ggboxplot(var6, x = "Samples", y = "A4874.MBP.31.50",
           order = c("1", "2"),
           ylab = "A4874.MBP.31.50", xlab = "Samples")
 
-Var6.test <- wilcox.test(Samples, A4874.MBP.31.50, alternative = "two.sided")
+Var6.test <- wilcox.test(A4874.MBP.31.50 ~ Samples, alternative = "two.sided")
 Var6.test
 
 #Variable 7 analysis
@@ -352,7 +354,7 @@ ggboxplot(var7, x = "Samples", y = "A4945.CNPase.369.388.RM",
           order = c("1", "2"),
           ylab = "A4945.CNPase.369.388.RM", xlab = "Samples")
 
-Var7.test <- wilcox.test(Samples ~ A4945.CNPase.369.388.RM, alternative = "two.sided")
+Var7.test <- wilcox.test(A4945.CNPase.369.388.RM ~ Samples, alternative = "two.sided")
 Var7.test
 
 #Variable 8 analysis
@@ -365,7 +367,7 @@ ggboxplot(var8, x = "Samples", y = "A4962.abCrys.161.176",
           order = c("1", "2"),
           ylab = "A4962.abCrys.161.176", xlab = "Samples")
 
-Var8.test <- wilcox.test(Samples, A4962.abCrys.161.176, alternative = "two.sided")
+Var8.test <- wilcox.test(A4962.abCrys.161.176 ~ Samples, alternative = "two.sided")
 Var8.test
 
 #Variable 9 analysis
@@ -378,7 +380,7 @@ ggboxplot(var9, x = "Samples", y = "A4913.PLP.11.30",
           order = c("1", "2"),
           ylab = "A4913.PLP.11.30", xlab = "Samples")
 
-Var9.test <- wilcox.test(Samples ~ A4913.PLP.11.30, alternative = "two.sided")
+Var9.test <- wilcox.test(A4913.PLP.11.30 ~ Samples, alternative = "two.sided")
 Var9.test
 
 #Variable 10 analysis
@@ -391,7 +393,7 @@ ggboxplot(var10, x = "Samples", y = "A4977.OSP.141.160",
           order = c("1", "2"),
           ylab = "A4977.OSP.141.160", xlab = "Samples")
 
-Var10.test <- wilcox.test(Samples, A4977.OSP.141.160, alternative = "two.sided")
+Var10.test <- wilcox.test(A4977.OSP.141.160 ~ Samples, alternative = "two.sided")
 Var10.test
 
 #Variable 11 analysis
@@ -404,7 +406,7 @@ ggboxplot(var11, x = "Samples", y = "A4545.MBP",
           order = c("1", "2"),
           ylab = "A4545.MBP", xlab = "Samples")
 
-Var11.test <- wilcox.test(Samples ~ A4545.MBP, alternative = "two.sided")
+Var11.test <- wilcox.test(A4545.MBP ~ Samples, alternative = "two.sided")
 Var11.test
 
 #Variable 12 analysis
@@ -417,7 +419,7 @@ ggboxplot(var12, x = "Samples", y = "A4607.Tubulin",
           order = c("1", "2"),
           ylab = "A4607.Tubulin", xlab = "Samples")
 
-Var12.test <- wilcox.test(Samples ~ A4607.Tubulin, alternative = "two.sided")
+Var12.test <- wilcox.test(A4607.Tubulin ~ Samples, alternative = "two.sided")
 Var12.test
 
 #Variable 13 analysis
@@ -430,7 +432,7 @@ ggboxplot(var13, x = "Samples", y = "A4930.PLP.181.200",
           order = c("1", "2"),
           ylab = "A4930.PLP.181.200", xlab = "Samples")
 
-Var13.test <- wilcox.test(Samples ~ A4930.PLP.181.200, alternative = "two.sided")
+Var13.test <- wilcox.test(A4930.PLP.181.200 ~ Samples, alternative = "two.sided")
 Var13.test
 
 #Variable 14 analysis
@@ -443,7 +445,7 @@ ggboxplot(var14, x = "Samples", y = "A4981.OSP.181.200",
           order = c("1", "2"),
           ylab = "A4981.OSP.181.200", xlab = "Samples")
 
-Var14.test <- wilcox.test(Samples ~ A4981.OSP.181.200, alternative = "two.sided")
+Var14.test <- wilcox.test(A4981.OSP.181.200 ~ Samples, alternative = "two.sided")
 Var14.test
 
 #Variable 15 analysis
@@ -456,7 +458,7 @@ ggboxplot(var15, x = "Samples", y = "A4641.Tubulin",
           order = c("1", "2"),
           ylab = "A4641.Tubulin", xlab = "Samples")
 
-Var15.test <- wilcox.test(Samples ~ A4641.Tubulin, alternative = "two.sided")
+Var15.test <- wilcox.test(A4641.Tubulin ~ Samples, alternative = "two.sided")
 Var15.test
 
 #Variable 16 analysis
@@ -469,7 +471,7 @@ ggboxplot(var16, x = "Samples", y = "A4908.MOBP.141.160",
           order = c("1", "2"),
           ylab = "A4908.MOBP.141.160", xlab = "Samples")
 
-Var16.test <- wilcox.test(Samples ~ A4908.MOBP.141.160, alternative = "two.sided")
+Var16.test <- wilcox.test(A4908.MOBP.141.160 ~ Samples, alternative = "two.sided")
 Var16.test
 
 #Variable 17 analysis
@@ -482,7 +484,7 @@ ggboxplot(var17, x = "Samples", y = "A4561.NaV.1.6L.113",
           order = c("1", "2"),
           ylab = "A4561.NaV.1.6L.113", xlab = "Samples")
 
-Var17.test <- wilcox.test(Samples ~ A4561.NaV.1.6L.113, alternative = "two.sided")
+Var17.test <- wilcox.test(A4561.NaV.1.6L.113 ~ Samples, alternative = "two.sided")
 Var17.test
 
 #Variable 18 analysis
@@ -495,7 +497,7 @@ ggboxplot(var18, x = "Samples", y = "LS8.AQP4.61.80",
           order = c("1", "2"),
           ylab = "LS8.AQP4.61.80", xlab = "Samples")
 
-Var18.test <- wilcox.test(Samples ~ LS8.AQP4.61.80, alternative = "two.sided")
+Var18.test <- wilcox.test(LS8.AQP4.61.80 ~ Samples, alternative = "two.sided")
 Var18.test
 
 #Variable 19 analysis
@@ -508,7 +510,7 @@ ggboxplot(var19, x = "Samples", y = "A4887.MBP.150.171",
           order = c("1", "2"),
           ylab = "A4887.MBP.150.171", xlab = "Samples")
 
-Var19.test <- wilcox.test(Samples ~ A4887.MBP.150.171, alternative = "two.sided")
+Var19.test <- wilcox.test(A4887.MBP.150.171 ~ Samples, alternative = "two.sided")
 Var19.test
 
 #Variable 20 analysis
@@ -521,7 +523,7 @@ ggboxplot(var20, x = "Samples", y = "A4947.abCrys.11.30",
           order = c("1", "2"),
           ylab = "A4947.abCrys.11.30", xlab = "Samples")
 
-Var20.test <- wilcox.test(Samples ~ A4947.abCrys.11.30, alternative = "two.sided")
+Var20.test <- wilcox.test(A4947.abCrys.11.30 ~ Samples, alternative = "two.sided")
 Var20.test
 
 #####################################################################
@@ -536,5 +538,5 @@ ggboxplot(var21, x = "Samples", y = "A4889.MBP.170.191",
           order = c("1", "2"),
           ylab = "A4889.MBP.170.191", xlab = "Samples")
 
-Var21.test <- wilcox.test(Samples ~ A4889.MBP.170.191, alternative = "two.sided")
+Var21.test <- wilcox.test(A4889.MBP.170.191 ~ Samples, alternative = "two.sided")
 Var21.test
