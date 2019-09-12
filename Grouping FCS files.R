@@ -88,6 +88,7 @@ dim(ComData)
 
 #Select the columns used for clustering
 ClusterCols <- c(9,10,11,12,15,16,18,21,22,26,29,31,33,34,42,47,50,52,53,56,57,58,59,60)
+SampleCols <- c(61,62,63,64,65)
 
 #Build flowframe object
 ComFlowSOM <- flowCore::flowFrame(ComData)
@@ -101,11 +102,10 @@ out <- FlowSOM::BuildSOM(out, colsToUse = ClusterCols)
 out <- FlowSOM::BuildMST(out)
 
 #Visualisation of the distribution of the different groups
-PlotStars(out, markers = "Sample1")
-PlotStars(out, markers = "Sample2")
-PlotStars(out, markers = "Sample3")
-PlotStars(out, markers = "Sample4")
-PlotStars(out, markers = "Sample5")
+PlotStars(out, markers = SampleCols)
+PlotStars(out, markers = SampleCols, view = "grid")
+
+PlotStars(out, "Sample1")
 
 #Plot the different markers
 PlotMarker(out,"Bi209Di")
