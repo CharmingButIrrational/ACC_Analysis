@@ -17,11 +17,11 @@ colnames(df_transpose) <- as.character(unlist(df_transpose[1,]))
 #Remove names and extra columns
 df_subset <- df_transpose[-c(1,131,132),]
 #Rename the status column
-names(df_subset)[1]<-paste("Antigen")
+names(df_subset)[1]<-paste("Therapy")
 #Convert variables to numeric
 df_subset[] <- lapply(df_subset, function(x) as.numeric(as.character(x)))
 #Convert target to factor
-df_subset$Antigen <- as.factor(df_subset$Antigen)
+df_subset$Therapy <- as.factor(df_subset$Therapy)
 
 #Check the data for structure and duplicate colnames 
 str(df_subset)
@@ -36,10 +36,10 @@ names(df_subset)[258]<-paste("P_AQP4 141-160_B")
 any(duplicated(names(df_subset)))
 
 #Split the dataset 
-Therapy1.2 <- split(df_subset, df_subset$Antigen) 
+Therapy1.2 <- split(df_subset, df_subset$Therapy) 
 #Create df for Copaxone reponders and non-responders
 response <- rbind(Therapy1.2$`1`, Therapy1.2$`2`)
-response$Antigen <- factor(response$Antigen)
+response$Therapy <- factor(response$Therapy)
 #Split data into testing and training sets
 smp_size <- floor(0.8 * nrow(response))
 set.seed(345)
@@ -49,13 +49,13 @@ train <- response[train_ind, ]
 test <- response[-train_ind, ]
 
 #Drop factor levels which don't occur
-train$Antigen <- factor(train$Antigen)
-test$Antigen <- factor(test$Antigen)
+train$Therapy <- factor(train$Therapy)
+test$Therapy <- factor(test$Therapy)
 
 #Elastic net 
 train.elastic <- trainControl(method = "repeatedcv", number = 10, repeats = 5, savePredictions = TRUE, search = "random")
 set.seed(233)
-elastic <- train(Antigen ~ ., 
+elastic <- train(Therapy ~ ., 
                       data = train, 
                       method = "glmnet",
                       trControl = train.elastic,
@@ -67,10 +67,10 @@ plot(importance.elastic, top = 12)
 
 elastic.pred <- predict(elastic, test)
 
-confusion.elastic <- confusionMatrix(elastic.pred, test$Antigen, positive = "1")
+confusion.elastic <- confusionMatrix(elastic.pred, test$Therapy, positive = "1")
 confusion.elastic
 
-elastic.outcome <- test$Antigen
+elastic.outcome <- test$Therapy
 
 #Create the ROC curve 
 pred.elastic <- prediction(as.numeric(elastic.pred), as.numeric(elastic.outcome))
@@ -86,7 +86,7 @@ auc.perf.elastic@y.values
 #SVM
 train.svm <- trainControl(method = "repeatedcv", number = 10, repeats = 5, savePredictions = TRUE, search = "random")
 set.seed(233)
-svm <- train(Antigen ~ ., 
+svm <- train(Therapy ~ ., 
                   data = train, 
                   method = "svmLinear",
                   trControl = train.svm,
@@ -99,10 +99,10 @@ plot(importance.svm, top = 20)
 
 svm.pred <- predict(svm, test)
 
-confusion.svm <- confusionMatrix(svm.pred, test$Antigen)
+confusion.svm <- confusionMatrix(svm.pred, test$Therapy)
 confusion.svm
 
-svm.outcome <- test$Antigen
+svm.outcome <- test$Therapy
 
 #Create the ROC curve
 pred.svm <- prediction(as.numeric(svm.pred), as.numeric(svm.outcome))
@@ -121,7 +121,7 @@ caretGrid <- expand.grid(interaction.depth=c(1, 3, 5), n.trees = (0:50)*50,
                          shrinkage=c(0.01, 0.001),
                          n.minobsinnode=10)
 set.seed(233)
-gbm <- train(Antigen ~ ., 
+gbm <- train(Therapy ~ ., 
                   data = train, 
                   method = "gbm",
                   trControl = train.gbm,
@@ -134,10 +134,10 @@ plot(importance.gbm, top = 9)
 
 gbm.pred <- predict(gbm, test)
 
-confusion.gbm <- confusionMatrix(gbm.pred, test$Antigen)
+confusion.gbm <- confusionMatrix(gbm.pred, test$Therapy)
 confusion.gbm
 
-gbm.outcome <- test$Antigen
+gbm.outcome <- test$Therapy
 
 #Create the ROC curve
 pred.gbm <- prediction(as.numeric(gbm.pred), as.numeric(gbm.outcome))
