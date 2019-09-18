@@ -1,7 +1,7 @@
 #Pheochromocytoma analysis
 
 #Load data
-mydata <- read.csv("C:/Users/oisin/Desktop/Analysis Data/SPSS.csv", sep = ";", header = T)
+mydata <- read.csv("C:/Users/oisin/Desktop/Analysis Data/Phenochromacytoma/SPSS.csv", sep = ";", header = T)
 
 class <- as.factor(mydata$class)
 

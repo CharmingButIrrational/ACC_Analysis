@@ -64,13 +64,6 @@ group3_sub <- apply(group3_sub, MARGIN = 2, FUN = function(X) (X - min(X))/diff(
 group4_sub <- apply(group4_sub, MARGIN = 2, FUN = function(X) (X - min(X))/diff(range(X)))
 group5_sub <- apply(group5_sub, MARGIN = 2, FUN = function(X) (X - min(X))/diff(range(X)))
 
-#Labelling each of the samples 
-group1_sub <- cbind(group1_sub, Sample1 = 1, Sample2 = 1, Sample3 = 1, Sample4 = 1, Sample5 = 1)
-group2_sub <- cbind(group2_sub, Sample1 = 1, Sample2 = 1, Sample3 = 1, Sample4 = 1, Sample5 = 1 )
-group3_sub <- cbind(group3_sub, Sample1 = 1, Sample2 = 1, Sample3 = 1, Sample4 = 1, Sample5 = 1 )
-group4_sub <- cbind(group4_sub, Sample1 = 1, Sample2 = 1, Sample3 = 1, Sample4 = 1, Sample5 = 1 )
-group5_sub <- cbind(group5_sub, Sample1 = 1, Sample2 = 1, Sample3 = 1, Sample4 = 1, Sample5 = 1 )
-
 dim(group1_sub)
 dim(group2_sub)
 dim(group3_sub)
@@ -81,63 +74,46 @@ dim(group5_sub)
 length(unique(lapply(list(group1_sub, group2_sub, group3_sub, group4_sub, group5_sub), dimnames))) == 1 
     #If FALSE then at least 1 set of dimnames is different 
 
-#Use cbind to join the matrixes together
+#Use rbind to join the matrixes together
 ComData <- rbind(group1_sub, group2_sub, group3_sub, group4_sub, group5_sub)
 
 dim(ComData)
 
 #Select the columns used for clustering
 ClusterCols <- c(9,10,11,12,15,16,18,21,22,26,29,31,33,34,42,47,50,52,53,56,57,58,59,60)
-SampleCols <- c(61,62,63,64,65)
 
-#Build flowframe object
+#Build flowframe object for combind data
 ComFlowSOM <- flowCore::flowFrame(ComData)
 
-#Run FlowSOM
-set.seed(234)
+#Build flowframe objects for the individual groups
+group1_FlowSOM <- flowCore::flowFrame(group1_sub)
+group2_FlowSOM <- flowCore::flowFrame(group2_sub)
+group3_FlowSOM <- flowCore::flowFrame(group3_sub)
+group4_FlowSOM <- flowCore::flowFrame(group4_sub)
+group5_FlowSOM <- flowCore::flowFrame(group5_sub)
 
-#Initial step prior to meta-clustering
+#Run FlowSOM ComData
+set.seed(234)
 out <- FlowSOM::ReadInput(ComFlowSOM, transform = FALSE, scale = FALSE)
 out <- FlowSOM::BuildSOM(out, colsToUse = ClusterCols)
 out <- FlowSOM::BuildMST(out)
 
-#Visualisation of the distribution of the different groups
-PlotStars(out, markers = SampleCols)
-PlotStars(out, markers = SampleCols, view = "grid")
+#Visualisation of the combined groups 
+PlotStars(out)
 
-PlotStars(out, "Sample1")
+#Mapping the indivual groups onto the combine SOM structure 
+Group1_remap <- NewData(out, group1_FlowSOM)
 
-#Plot the different markers
-PlotMarker(out,"Bi209Di")
-PlotMarker(out,"Dy161Di")
-PlotMarker(out,"Dy162Di")
-PlotMarker(out,"Dy163Di")
-PlotMarker(out,"Dy164Di")
-PlotMarker(out,"Er166Di")
-PlotMarker(out,"Er167Di")
-PlotMarker(out,"Er168Di")
-PlotMarker(out,"Er170Di")
-PlotMarker(out,"Eu151Di")
-PlotMarker(out,"Eu153Di")
-PlotMarker(out,"Gd155Di")
-PlotMarker(out,"Gd156Di")
-PlotMarker(out,"Gd160Di")
-PlotMarker(out,"Ho165Di")
-PlotMarker(out,"Lu175Di")
-PlotMarker(out,"Nd143Di")
-PlotMarker(out,"Nd145Di")
-PlotMarker(out,"Nd146Di")
-PlotMarker(out,"Nd148Di")
-PlotMarker(out,"Nd150Di")
-PlotMarker(out,"Pr141Di")
-PlotMarker(out,"Sm147Di")
-PlotMarker(out,"Sm149Di")
-PlotMarker(out,"Sm152Di")
-PlotMarker(out,"Sm154Di")
-PlotMarker(out,"Tb159Di")
-PlotMarker(out,"Tm169Di")
-PlotMarker(out,"Yb171Di")
-PlotMarker(out,"Yb172Di")
-PlotMarker(out,"Yb173Di")
-PlotMarker(out,"Yb174Di")
-PlotMarker(out,"Yb176Di")
+Group2_remap <- NewData(out, group2_FlowSOM)
+
+Group3_remap <- NewData(out, group3_FlowSOM)
+
+Group4_remap <- NewData(out, group4_FlowSOM)
+
+Group5_remap <- NewData(out, group5_FlowSOM)
+
+PlotStars(Group1_remap)
+PlotStars(Group2_remap)
+PlotStars(Group3_remap)
+PlotStars(Group4_remap)
+PlotStars(Group5_remap)

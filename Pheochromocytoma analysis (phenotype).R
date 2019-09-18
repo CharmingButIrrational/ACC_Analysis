@@ -1,7 +1,7 @@
 #Pheochromocytoma analysis (phenotype)
 
 #Load data
-mydata <- read.csv("C:/Users/oisin/Desktop/Analysis Data/SPSS.csv", sep = ";", header = T)
+mydata <- read.csv("C:/Users/oisin/Desktop/Analysis Data/Phenochromacytoma/SPSS.csv", sep = ";", header = T)
 
 phenotype <- as.factor(mydata$phenotype)
 
@@ -75,7 +75,7 @@ bwplot(results)
 library(dplyr)
 library(ggpubr)
 
-phenotype <- as.numeric(mydata$phenotype)
+phenotype <- as.factor(mydata$phenotype)
 
 H1 <- alt.data$H1                  
 Gly <- alt.data$Gly                 
@@ -111,6 +111,12 @@ ggboxplot(var1, x = "phenotype", y = "H1",
 
 Var1.test <- pairwise.wilcox.test(var1$H1, var1$phenotype, p.adjust.method = "BH")
 Var1.test
+##Proof of wilcox test
+#temp <- split(var1, var1$phenotype)
+#x1 <- temp$`1`
+#x2 <- temp$`2`
+#x3 <- temp$`3`
+#wilcox.test(x1$H1,x2$H1)
 
 #Variable 2
 group_by(var2, phenotype) %>%
@@ -128,7 +134,7 @@ Var2.test <- pairwise.wilcox.test(var2$Gly, var2$phenotype, p.adjust.method = "B
 Var2.test
 
 #Variable 3
-group_by(var3, phenotype) %>%
+group_by(var3 ~ phenotype) %>%
   summarise(count = n(),
             mean = mean(Ala, na.rm = TRUE),
             median = median(Ala, na.rm = TRUE),
@@ -143,7 +149,7 @@ Var3.test <- pairwise.wilcox.test(var3$Ala, var3$phenotype, p.adjust.method = "B
 Var3.test
 
 #Variable 4
-group_by(var4, phenotype) %>%
+group_by(var4 ~ phenotype) %>%
   summarise(count = n(),
             mean = mean(PC.aa.C34.2, na.rm = TRUE),
             median = median(PC.aa.C34.2, na.rm = TRUE),
@@ -158,7 +164,7 @@ Var4.test <- pairwise.wilcox.test(var4$PC.aa.C34.2, var4$phenotype, p.adjust.met
 Var4.test
 
 #Variable 5
-group_by(var5, phenotype) %>%
+group_by(var5 ~ phenotype) %>%
   summarise(count = n(),
             mean = mean(Val, na.rm = TRUE),
             median = median(Val, na.rm = TRUE),
@@ -173,7 +179,7 @@ Var5.test <- pairwise.wilcox.test(var5$Val, var5$phenotype, p.adjust.method = "B
 Var5.test
 
 #Variable 6
-group_by(var6, phenotype) %>%
+group_by(var6 ~ phenotype) %>%
   summarise(count = n(),
             mean = mean(Lys, na.rm = TRUE),
             median = median(Lys, na.rm = TRUE),
@@ -188,7 +194,7 @@ Var6.test <- pairwise.wilcox.test(var6$Lys, var6$phenotype, p.adjust.method = "B
 Var6.test
 
 #Variable 7
-group_by(var7, phenotype) %>%
+group_by(var7 ~ phenotype) %>%
   summarise(count = n(),
             mean = mean(PC.aa.C34.1, na.rm = TRUE),
             median = median(PC.aa.C34.1, na.rm = TRUE),
@@ -203,7 +209,7 @@ Var7.test <- pairwise.wilcox.test(var7$PC.aa.C34.1, var7$phenotype, p.adjust.met
 Var7.test
 
 #Variable 8
-group_by(var8, phenotype) %>%
+group_by(var8 ~ phenotype) %>%
   summarise(count = n(),
             mean = mean(PC.aa.C36.2, na.rm = TRUE),
             median = median(PC.aa.C36.2, na.rm = TRUE),
@@ -218,7 +224,7 @@ Var8.test <- pairwise.wilcox.test(var8$PC.aa.C36.2, var8$phenotype, p.adjust.met
 Var8.test
 
 #Variable 9
-group_by(var9, phenotype) %>%
+group_by(var9 ~ phenotype) %>%
   summarise(count = n(),
             mean = mean(Gln, na.rm = TRUE),
             median = median(Gln, na.rm = TRUE),
