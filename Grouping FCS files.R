@@ -2,6 +2,7 @@
 library(flowCore)
 library(FlowSOM)
 library(matrixStats)
+library(ConsensusClusterPlus)
 
 #Import data Group 1
 group1 <- flowCore::exprs(flowCore::read.FCS("C:/Users/oisin/Desktop/Analysis Data/cyTOF/CyTOF samples/Group 1.fcs",
@@ -20,7 +21,7 @@ group4 <- flowCore::exprs(flowCore::read.FCS("C:/Users/oisin/Desktop/Analysis Da
                                              transformation = FALSE,
                                              truncate_max_range = FALSE))
 #Import data Group 5
-group5 <- flowCore::exprs(flowCore::read.FCS("C:/Users/oisin/Desktop/Analysis Data/cyTOF/CyTOF samples/Group 5.fcs",
+group5 <- flowCore::exprs(flowCore::read.FCS("C:/Users/oisin/Desktop/Analysis Data/cyTOF/CyTOF samples/Group 5 minus 20.fcs",
                                              transformation = FALSE,
                                              truncate_max_range = FALSE))
 
@@ -103,14 +104,30 @@ PlotStars(out)
 
 #Mapping the indivual groups onto the combine SOM structure 
 Group1_remap <- NewData(out, group1_FlowSOM)
-
 Group2_remap <- NewData(out, group2_FlowSOM)
-
 Group3_remap <- NewData(out, group3_FlowSOM)
-
 Group4_remap <- NewData(out, group4_FlowSOM)
-
 Group5_remap <- NewData(out, group5_FlowSOM)
+
+##############################################################
+#################    Meta clustering    ######################
+##############################################################
+#Meta clustering
+metaClusteringOut <- metaClustering_consensus(out$map$codes,k=10)
+metaClusteringG1 <- metaClustering_consensus(Group1_remap$map$codes,k=10)
+metaClusteringG2 <- metaClustering_consensus(Group2_remap$map$codes,k=10)
+metaClusteringG3 <- metaClustering_consensus(Group3_remap$map$codes,k=10)
+metaClusteringG4 <- metaClustering_consensus(Group4_remap$map$codes,k=10)
+metaClusteringG5 <- metaClustering_consensus(Group5_remap$map$codes,k=10)
+
+#Get metaclustering per cell
+flowSOM.clusteringAll <- metaClusteringOut[out$map$mapping[,1]]
+
+
+#Plot the metaclustering
+PlotPies(out, cellTypes = out$map$mapping[,1], backgroundValues = as.factor(metaClusteringOut))
+
+##############################################################
 
 #Plot group 1 markers
 PlotStars(Group1_remap)
@@ -296,3 +313,66 @@ PlotMarker(Group5_remap,"Yb172Di")
 PlotMarker(Group5_remap,"Yb173Di")
 PlotMarker(Group5_remap,"Yb174Di")
 PlotMarker(Group5_remap,"Yb176Di")
+
+
+###################################################################################################
+#Attempt to change MST plot
+#layout.reingold.tilford gives an interesting tree
+BuildMST <- function(fsom, silent=FALSE, tSNE=FALSE){
+  
+  fsom$MST <- list()
+  if(!silent) message("Building MST\n")
+  
+  adjacency <- stats::dist(fsom$map$codes, method = "euclidean")
+  fullGraph <- igraph::graph.adjacency(as.matrix(adjacency), 
+                                       mode = "undirected", 
+                                       weighted = TRUE)
+  fsom$MST$graph <- igraph::minimum.spanning.tree(fullGraph)
+  fsom$MST$l <- igraph::layout.kamada.kawai(fsom$MST$graph)    
+  
+  if(tSNE){
+    fsom$MST$l2 <- tsne(fsom$map$codes)   
+    #library(RDRToolbox)
+    #fsom$MST$l2 <- Isomap(fsom$map$codes,dims=2,k=3)[[1]]
+  }
+  
+  UpdateNodeSize(fsom)
+}
+
+#Run FlowSOM ComData
+set.seed(234)
+out2 <- FlowSOM::ReadInput(ComFlowSOM, transform = FALSE, scale = FALSE)
+out2 <- FlowSOM::BuildSOM(out2, colsToUse = ClusterCols)
+out2 <- BuildMST(out2)
+
+PlotStars(out2)
+
+
+######################
+#custom attempt
+BuildMST <- function(fsom, silent=FALSE, tSNE=FALSE){
+  
+  fsom$MST <- list()
+  if(!silent) message("Building MST\n")
+  
+  adjacency <- stats::dist(fsom$map$codes, method = "euclidean")
+  fullGraph <- igraph::graph.adjacency(as.matrix(adjacency), 
+                                       mode = "undirected", 
+                                       weighted = TRUE)
+  fsom$MST$graph <- igraph::minimum.spanning.tree(fullGraph)
+  fsom$MST$l <- igraph::layout.kamada.kawai(fsom$MST$graph)    
+  UpdateNodeSize(fsom)
+}
+
+
+
+
+
+set.seed(234)
+out2 <- FlowSOM::ReadInput(ComFlowSOM, transform = FALSE, scale = FALSE)
+out2 <- FlowSOM::BuildSOM(out2, colsToUse = ClusterCols)
+out2 <- 
+  
+  PlotStars(out2)
+
+###################################################################################################
