@@ -120,12 +120,10 @@ metaClusteringG3 <- metaClustering_consensus(Group3_remap$map$codes,k=10)
 metaClusteringG4 <- metaClustering_consensus(Group4_remap$map$codes,k=10)
 metaClusteringG5 <- metaClustering_consensus(Group5_remap$map$codes,k=10)
 
-#Get metaclustering per cell
-flowSOM.clusteringAll <- metaClusteringOut[out$map$mapping[,1]]
-
-
 #Plot the metaclustering
 PlotPies(out, cellTypes = out$map$mapping[,1], backgroundValues = as.factor(metaClusteringOut))
+PlotPies(out, cellTypes = out$map$mapping[,1], backgroundValues = as.factor(metaClusteringOut), view = "grid")
+
 
 ##############################################################
 
